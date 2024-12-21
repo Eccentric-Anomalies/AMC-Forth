@@ -117,6 +117,7 @@ namespace Forth.Core
         public TwoStore TwoStore;
         public TwoSwap TwoSwap;
         public Core.Type Type;
+        public UDot UDot;
         public UmSlashMod UmSlashMod;
         public UmStar UmStar;
         public Unloop Unloop;
@@ -235,6 +236,7 @@ namespace Forth.Core
             TwoStore = new(_forth, Wordset);
             TwoSwap = new(_forth, Wordset);
             Type = new(_forth, Wordset);
+            UDot = new(_forth, Wordset);
             UmSlashMod = new(_forth, Wordset);
             UmStar = new(_forth, Wordset);
             Unloop = new(_forth, Wordset);
