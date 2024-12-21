@@ -2,7 +2,7 @@
 Return true if and only if the double precision value d is less than zero.
 * ( d - flag )
 * [Source Code](../words/double/DZeroLess.cs)
-* Execution Tokens: 1588797085 (interpreted) and 1051926173 (compiled)
+* Execution Tokens: 1267194517 (interpreted) and 730323605 (compiled)
 
 
 [BACK](builtins.md#DZeroLess)

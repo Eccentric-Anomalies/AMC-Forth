@@ -2,7 +2,7 @@
 Return a true value, a single-cell value with all bits set.
 * ( - flag )
 * [Source Code](../words/core_ext/True.cs)
-* Execution Tokens: 1314448787 (interpreted) and 777577875 (compiled)
+* Execution Tokens: 1552713573 (interpreted) and 1015842661 (compiled)
 
 
 [BACK](builtins.md#True)
