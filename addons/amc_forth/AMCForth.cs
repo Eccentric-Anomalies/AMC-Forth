@@ -1160,7 +1160,7 @@ public partial class AMCForth : Godot.RefCounted
             "res://addons/amc_forth/docs/builtins.md",
             Godot.FileAccess.ModeFlags.Write
         );
-        file.StoreLine($"# AMC Forth Built-In Words (Ver. {ForthVersion.Ver})");
+        file.StoreLine($"# AMC Forth Built-In Words (Ver. {Forth.Version.Ver})");
         var WordSetSet = new SortedSet<string>();
         var WordsSet = new SortedSet<Words>();
         foreach (string name in Words.AllNames)
@@ -1207,7 +1207,7 @@ public partial class AMCForth : Godot.RefCounted
     // AMC Forth name with version
     protected static string GetBanner()
     {
-        return Banner + " " + "Ver. " + ForthVersion.Ver;
+        return Banner + " " + "Ver. " + Forth.Version.Ver;
     }
 
     protected void InputThread()
