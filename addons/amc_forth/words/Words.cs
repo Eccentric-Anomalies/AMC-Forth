@@ -37,6 +37,7 @@ namespace Forth
         public int XtX; // built-in compiled execution token
 
         private string _name;
+        protected string Salt = ""; // define BEFORE Name in overriding classes (if collision).
         static Dictionary<string, Words> _nameDict = new();
         static Dictionary<int, Words> _xtDict = new();
 
@@ -53,8 +54,9 @@ namespace Forth
 
         private void AssignXt()
         {
-            Xt = (int)(AMCForth.BuiltInXtMask + (AMCForth.BuiltInMask & _name.GetHashCode()));
-            XtX = (int)(AMCForth.BuiltInXtXMask + (AMCForth.BuiltInMask & _name.GetHashCode()));
+            var salted = Salt + _name;
+            Xt = (int)(AMCForth.BuiltInXtMask + (AMCForth.BuiltInMask & salted.Hash()));
+            XtX = (int)(AMCForth.BuiltInXtXMask + (AMCForth.BuiltInMask & salted.Hash()));
             if (_xtDict.ContainsKey(Xt) || _xtDict.ContainsKey(XtX))
             {
                 throw new InvalidOperationException(
