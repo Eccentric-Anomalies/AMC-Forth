@@ -23,8 +23,8 @@ namespace Forth.CoreExt
                 // copy the execution token
                 Forth.Ram.SetInt(Forth.DictTopP, XtX);
                 // store the dict_p value in the next cell
-                Forth.Ram.SetInt(Forth.DictTopP + ForthRAM.CellSize, Forth.DictP);
-                Forth.DictTopP += ForthRAM.DCellSize;
+                Forth.Ram.SetInt(Forth.DictTopP + RAM.CellSize, Forth.DictP);
+                Forth.DictTopP += RAM.DCellSize;
                 Forth.SaveDictTop(); // preserve the state
             }
         }
@@ -33,7 +33,7 @@ namespace Forth.CoreExt
         {
             // execution time functionality of marker
             // set dict_p to the previous entry
-            Forth.DictTopP = Forth.Ram.GetInt(Forth.DictIp + ForthRAM.CellSize);
+            Forth.DictTopP = Forth.Ram.GetInt(Forth.DictIp + RAM.CellSize);
             Forth.DictP = Forth.Ram.GetInt(Forth.DictTopP);
             Forth.SaveDictTop();
             Forth.SaveDictP();

@@ -16,9 +16,9 @@ namespace Forth.Core
         public override void Call()
         {
             var a = Forth.Pop();
-            if (a % ForthRAM.CellSize != 0)
+            if (a % RAM.CellSize != 0)
             {
-                a = (a / ForthRAM.CellSize + 1) * ForthRAM.CellSize;
+                a = (a / RAM.CellSize + 1) * RAM.CellSize;
             }
             Forth.Push(a);
         }

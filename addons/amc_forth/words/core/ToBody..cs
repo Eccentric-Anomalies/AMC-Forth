@@ -22,7 +22,7 @@ namespace Forth.Core
             var xt = Forth.Pop();
             if (xt >= AMCForth.DictStart && xt < AMCForth.DictTop)
             {
-                Forth.Push(xt + ForthRAM.CellSize);
+                Forth.Push(xt + RAM.CellSize);
             }
             else
             {

@@ -23,8 +23,8 @@ namespace Forth.CoreExt
                 // copy the execution token
                 Forth.Ram.SetInt(Forth.DictTopP, XtX);
                 // store the initial value
-                Forth.Ram.SetInt(Forth.DictTopP + ForthRAM.CellSize, init_val);
-                Forth.DictTopP += ForthRAM.DCellSize;
+                Forth.Ram.SetInt(Forth.DictTopP + RAM.CellSize, init_val);
+                Forth.DictTopP += RAM.DCellSize;
                 Forth.SaveDictTop(); // preserve the state
             }
         }
@@ -33,8 +33,8 @@ namespace Forth.CoreExt
         {
             // execution time functionality of value
             // return contents of the cell after the execution token
-            Forth.Push(Forth.Ram.GetInt(Forth.DictIp + ForthRAM.CellSize));
-            Forth.DictIp += ForthRAM.CellSize;
+            Forth.Push(Forth.Ram.GetInt(Forth.DictIp + RAM.CellSize));
+            Forth.DictIp += RAM.CellSize;
         }
     }
 }

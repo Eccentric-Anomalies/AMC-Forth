@@ -39,7 +39,7 @@ namespace Forth.AMCExt
                 {
                     // only if non-zero and nothing already there
                     Forth.Ram.SetInt(addr, ms);
-                    Forth.Ram.SetInt(addr + ForthRAM.CellSize, xt);
+                    Forth.Ram.SetInt(addr + RAM.CellSize, xt);
                     Forth.StartPeriodicTimer(id, ms, xt);
                 }
             }
@@ -56,7 +56,7 @@ namespace Forth.AMCExt
             // Utility to accept timer id and leave the start address of
             // its msec, xt pair
             // ( id - addr )
-            Forth.Push(ForthRAM.CellSize);
+            Forth.Push(RAM.CellSize);
             Forth.CoreWords.TwoStar.Call();
             Forth.CoreWords.Star.Call();
             Forth.Push(AMCForth.PeriodicStart);

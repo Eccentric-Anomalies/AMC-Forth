@@ -20,7 +20,7 @@ namespace Forth.Core
         {
             var a = Forth.Pop();
             Forth.Ram.SetInt(a, Forth.Pop());
-            Forth.Ram.SetInt(a + ForthRAM.CellSize, Forth.Pop());
+            Forth.Ram.SetInt(a + RAM.CellSize, Forth.Pop());
         }
     }
 }

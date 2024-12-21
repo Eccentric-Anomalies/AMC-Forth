@@ -24,7 +24,7 @@ namespace Forth.Core
                 Forth.CoreExtWords.ParseName.Call(); // get c-addr u
                 Forth.CoreWords.Drop.Call(); // ignore length
                 Forth.Ram.SetInt(Forth.DictTopP, XtX); // Store the exec token
-                Forth.DictTopP += ForthRAM.CellSize;
+                Forth.DictTopP += RAM.CellSize;
                 Forth.Push(Forth.Ram.GetByte(Forth.Pop())); // get first character byte
                 Forth.CoreWords.CComma.Call(); // store it
                 Forth.CoreWords.Align.Call();
@@ -35,8 +35,8 @@ namespace Forth.Core
         public override void CallExec()
         {
             // return LSB byte contents of cell after execution token
-            Forth.Push(Forth.Ram.GetByte(Forth.DictIp + ForthRAM.CellSize));
-            Forth.DictIp += ForthRAM.CellSize;
+            Forth.Push(Forth.Ram.GetByte(Forth.DictIp + RAM.CellSize));
+            Forth.DictIp += RAM.CellSize;
         }
     }
 }

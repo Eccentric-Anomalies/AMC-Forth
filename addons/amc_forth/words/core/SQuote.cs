@@ -25,7 +25,7 @@ namespace Forth.Core
             if (Forth.State) // different compilation behavior
             {
                 Forth.Ram.SetInt(Forth.DictTopP, XtX);
-                Forth.DictTopP += ForthRAM.CellSize; // store the value
+                Forth.DictTopP += RAM.CellSize; // store the value
                 Forth.Ram.SetByte(Forth.DictTopP, l); // store the length
                 Forth.DictTopP += 1; // beginning of string characters
                 // compile the string into the dictionary
@@ -50,11 +50,11 @@ namespace Forth.Core
 
         public override void CallExec()
         {
-            var l = Forth.Ram.GetByte(Forth.DictIp + ForthRAM.CellSize);
-            Forth.Push(Forth.DictIp + ForthRAM.CellSize + 1); // address of the string start
+            var l = Forth.Ram.GetByte(Forth.DictIp + RAM.CellSize);
+            Forth.Push(Forth.DictIp + RAM.CellSize + 1); // address of the string start
             Forth.Push(l); // length of the string
             // moves to string cell for l in 0..3, then one cell past for l in 4..7, etc.
-            Forth.DictIp += ((l / ForthRAM.CellSize) + 1) * ForthRAM.CellSize;
+            Forth.DictIp += ((l / RAM.CellSize) + 1) * RAM.CellSize;
         }
     }
 }

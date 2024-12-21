@@ -19,7 +19,7 @@ namespace Forth.Core
         public override void Call()
         {
             var a = Forth.Pop();
-            Forth.Push(Forth.Ram.GetInt(a + ForthRAM.CellSize));
+            Forth.Push(Forth.Ram.GetInt(a + RAM.CellSize));
             Forth.Push(Forth.Ram.GetInt(a));
         }
     }

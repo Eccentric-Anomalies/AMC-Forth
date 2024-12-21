@@ -20,7 +20,7 @@ namespace Forth.Core
             if (Forth.CreateDictEntryName() != 0)
             {
                 Forth.Ram.SetInt(Forth.DictTopP, XtX);
-                Forth.DictTopP += ForthRAM.CellSize;
+                Forth.DictTopP += RAM.CellSize;
                 Forth.SaveDictTop(); // preserve dictionary state
             }
         }
@@ -28,8 +28,8 @@ namespace Forth.Core
         public override void CallExec()
         {
             // return address of cell after execution token
-            Forth.Push(Forth.DictIp + ForthRAM.CellSize);
-            Forth.DictIp += ForthRAM.CellSize;
+            Forth.Push(Forth.DictIp + RAM.CellSize);
+            Forth.DictIp += RAM.CellSize;
         }
     }
 }

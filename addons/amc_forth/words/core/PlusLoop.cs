@@ -24,11 +24,11 @@ namespace Forth.Core
             while (!Forth.LcfIsEmpty())
             {
                 // destination is on top of the back link
-                Forth.Ram.SetInt(Forth.LcfPop(), Forth.DictTopP + ForthRAM.CellSize);
+                Forth.Ram.SetInt(Forth.LcfPop(), Forth.DictTopP + RAM.CellSize);
             }
             // The link back
-            Forth.Ram.SetInt(Forth.DictTopP + ForthRAM.CellSize, Forth.CfPopDest());
-            Forth.DictTopP += ForthRAM.DCellSize;
+            Forth.Ram.SetInt(Forth.DictTopP + RAM.CellSize, Forth.CfPopDest());
+            Forth.DictTopP += RAM.DCellSize;
             // two cells up and done
             Forth.SaveDictTop(); // preserve dictionary state
         }
@@ -46,7 +46,7 @@ namespace Forth.Core
             if (above_before != above_after)
             {
                 // loop is satisfied
-                Forth.DictIp += ForthRAM.CellSize;
+                Forth.DictIp += RAM.CellSize;
             }
             else
             {
@@ -57,7 +57,7 @@ namespace Forth.Core
                 // new index
                 // Branch back. The DO or ?DO exec will push the values
                 // back on the return stack
-                Forth.DictIp = Forth.Ram.GetInt(Forth.DictIp + ForthRAM.CellSize);
+                Forth.DictIp = Forth.Ram.GetInt(Forth.DictIp + RAM.CellSize);
             }
         }
     }

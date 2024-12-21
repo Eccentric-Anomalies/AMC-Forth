@@ -17,10 +17,10 @@ namespace Forth.AMCExt
         {
             var p = Forth.Pop(); // port number
             Forth.Push(0);
-            Forth.Push(AMCForth.IoInMapStart + p * 2 * ForthRAM.CellSize); // address of xt
+            Forth.Push(AMCForth.IoInMapStart + p * 2 * RAM.CellSize); // address of xt
             Forth.CoreWords.Store.Call(); // store the XT
             Forth.Push(0);
-            Forth.Push(AMCForth.IoInMapStart + ForthRAM.CellSize * (p * 2 + 1)); // address of q mode
+            Forth.Push(AMCForth.IoInMapStart + RAM.CellSize * (p * 2 + 1)); // address of q mode
             Forth.CoreWords.Store.Call(); // store the Q mode
         }
     }

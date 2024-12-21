@@ -20,8 +20,8 @@ namespace Forth.Double
             {
                 Forth.Ram.SetInt(Forth.DictTopP, XtX); // copy the execution token
                 // store the constant
-                Forth.Ram.SetDword(Forth.DictTopP + ForthRAM.CellSize, init_val);
-                Forth.DictTopP += ForthRAM.CellSize + ForthRAM.DCellSize;
+                Forth.Ram.SetDword(Forth.DictTopP + RAM.CellSize, init_val);
+                Forth.DictTopP += RAM.CellSize + RAM.DCellSize;
 
                 // preserve dictionary state
                 Forth.SaveDictTop();
@@ -31,7 +31,7 @@ namespace Forth.Double
         public override void CallExec()
         {
             // return contents of double cell after execution token
-            Forth.PushDword(Forth.Ram.GetDword(Forth.DictIp + ForthRAM.CellSize));
+            Forth.PushDword(Forth.Ram.GetDword(Forth.DictIp + RAM.CellSize));
         }
     }
 }

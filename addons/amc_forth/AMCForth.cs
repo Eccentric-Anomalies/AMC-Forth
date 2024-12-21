@@ -69,10 +69,10 @@ public partial class AMCForth : Godot.RefCounted
     public const int FileBuffIdOffset = 0;
 
     // offset in buffer to fileid
-    public const int FileBuffPtrOffset = ForthRAM.CellSize;
+    public const int FileBuffPtrOffset = RAM.CellSize;
 
     // location of pointer
-    public const int FileBuffDataOffset = ForthRAM.CellSize * 2;
+    public const int FileBuffDataOffset = RAM.CellSize * 2;
 
     // location of buff data
     public const int FileBuffSize = 0x0100;
@@ -84,7 +84,7 @@ public partial class AMCForth : Godot.RefCounted
 
     // Pointer to the parse position in the TERMINAL buffer
     public const int BuffToIn = FileBuffTop;
-    public const int BuffToInTop = BuffToIn + ForthRAM.CellSize;
+    public const int BuffToInTop = BuffToIn + RAM.CellSize;
 
     // Temporary word storage (used by WORD)
     public const int WordBuffSize = 0x0100;
@@ -95,22 +95,22 @@ public partial class AMCForth : Godot.RefCounted
     public const int Base = WordBuffTop;
 
     // DICT_TOP_PTR cell
-    public const int DictTopPtr = Base + ForthRAM.CellSize;
+    public const int DictTopPtr = Base + RAM.CellSize;
 
     // DICT_PTR
-    public const int DictPtr = DictTopPtr + ForthRAM.CellSize;
+    public const int DictPtr = DictTopPtr + RAM.CellSize;
 
     // IO SPACE - cell-sized ports identified by port # ranging from 0 to 255
     public const int IoOutPortQty = 0x0100;
     public const int IoOutTop = RamSize;
-    public const int IoOutStart = IoOutTop - IoOutPortQty * ForthRAM.CellSize;
+    public const int IoOutStart = IoOutTop - IoOutPortQty * RAM.CellSize;
     public const int IoInPortQty = 0x0100;
     public const int IoInTop = IoOutStart;
-    public const int IoInStart = IoInTop - IoInPortQty * ForthRAM.CellSize;
+    public const int IoInStart = IoInTop - IoInPortQty * RAM.CellSize;
     public const int IoInMapTop = IoInStart;
 
     // (xt, QueueMode) for every port that is being listened on (double cell entries)
-    public const int IoInMapStart = IoInMapTop - IoInPortQty * 2 * ForthRAM.CellSize;
+    public const int IoInMapStart = IoInMapTop - IoInPortQty * 2 * RAM.CellSize;
 
     // PERIODIC TIMER SPACE
     public const int PeriodicTimerQty = 0x080;
@@ -118,7 +118,7 @@ public partial class AMCForth : Godot.RefCounted
     // Timer IDs 0-127, stored as @addr: msec, xt
     public const int PeriodicTop = IoInStart;
 
-    public const int PeriodicStart = (PeriodicTop - PeriodicTimerQty * ForthRAM.CellSize * 2);
+    public const int PeriodicStart = (PeriodicTop - PeriodicTimerQty * RAM.CellSize * 2);
 
     // Add more pointers here
     public const int True = -1;
@@ -152,7 +152,7 @@ public partial class AMCForth : Godot.RefCounted
     public const int MaxNameLength = 0x3f;
 
     // Reference to the physical memory and utilities
-    public ForthRAM Ram;
+    public RAM Ram;
     public ForthUtil Util;
 
     // Forth Word Classes
@@ -580,7 +580,7 @@ public partial class AMCForth : Godot.RefCounted
         {
             Push(DictBuffStart); // c-addr
             CoreWords.Count.Call(); // search word in addr  # addr n
-            Push(p + ForthRAM.CellSize); // entry name  # addr n c-addr
+            Push(p + RAM.CellSize); // entry name  # addr n c-addr
             CoreWords.Count.Call(); // candidate word in addr			# addr n addr n
             var n_raw_length = Pop(); // addr n addr
             var n_length = n_raw_length & ~(SmudgeBitMask | ImmediateBitMask);
@@ -593,7 +593,7 @@ public partial class AMCForth : Godot.RefCounted
                 if (Pop() == 0)
                 {
                     // found it. Link address + link size + string length byte + string, aligned
-                    Push(p + ForthRAM.CellSize + 1 + n_length); // n
+                    Push(p + RAM.CellSize + 1 + n_length); // n
                     CoreWords.Aligned.Call(); // a
                     return new(Pop(), (n_raw_length & ImmediateBitMask) != 0);
                 }
@@ -637,7 +637,7 @@ public partial class AMCForth : Godot.RefCounted
             // move the top link
             DictP = DictTopP;
             SaveDictP();
-            DictTopP += ForthRAM.CellSize;
+            DictTopP += RAM.CellSize;
             // poke the name length, with a smudge bit if needed
             var smudge_bit = (smudge ? SmudgeBitMask : 0);
             Ram.SetByte(DictTopP, len | smudge_bit);
@@ -694,7 +694,7 @@ public partial class AMCForth : Godot.RefCounted
     // Utility function to add an input event to the queue
     public void InputEvent(int port, int value)
     {
-        var q = (QueueMode)Ram.GetInt(IoInMapStart + ForthRAM.CellSize * (2 * port + 1));
+        var q = (QueueMode)Ram.GetInt(IoInMapStart + RAM.CellSize * (2 * port + 1));
         var item = new PortEvent(port, value);
         bool enqueue = false;
         int i;
@@ -727,7 +727,7 @@ public partial class AMCForth : Godot.RefCounted
                 }
             }
             InputPortMutex.Unlock();
-            if (i < 0 && Ram.GetInt(IoInStart + port * ForthRAM.CellSize) != value)
+            if (i < 0 && Ram.GetInt(IoInStart + port * RAM.CellSize) != value)
             {
                 // exhausted the entire queue without a matching port, and the new
                 // value is different from the value currently stored. Enqueue it!
@@ -803,9 +803,9 @@ public partial class AMCForth : Godot.RefCounted
     {
         for (int id = 0; id < PeriodicTimerQty; id++)
         {
-            var addr = PeriodicStart + ForthRAM.CellSize * 2 * id;
+            var addr = PeriodicStart + RAM.CellSize * 2 * id;
             var msec = Ram.GetInt(addr);
-            var xt = Ram.GetInt(addr + ForthRAM.CellSize);
+            var xt = Ram.GetInt(addr + RAM.CellSize);
             if (xt != 0)
             {
                 StartPeriodicTimer(id, msec, xt);
@@ -834,14 +834,14 @@ public partial class AMCForth : Godot.RefCounted
 
     public void PushDint(long val)
     {
-        var t = ForthRAM.Split64(val);
+        var t = RAM.Split64(val);
         Push(t.Lo);
         Push(t.Hi);
     }
 
     public long PopDint()
     {
-        return ForthRAM.Combine64(Pop(), Pop());
+        return RAM.Combine64(Pop(), Pop());
     }
 
     // Forth Return Stack Push and Pop Routines
@@ -865,52 +865,52 @@ public partial class AMCForth : Godot.RefCounted
 
     public void RPushDint(long val)
     {
-        var t = ForthRAM.Split64(val);
+        var t = RAM.Split64(val);
         RPush(t.Lo);
         RPush(t.Hi);
     }
 
     public long RPopDint()
     {
-        return ForthRAM.Combine64(RPop(), RPop());
+        return RAM.Combine64(RPop(), RPop());
     }
 
     // top of stack is 0, next dint is at 2, etc.
     public long GetDint(int index)
     {
-        return ForthRAM.Combine64(DataStack[DsP + index], DataStack[DsP + index + 1]);
+        return RAM.Combine64(DataStack[DsP + index], DataStack[DsP + index + 1]);
     }
 
     public void SetDint(int index, long value)
     {
-        var s = ForthRAM.Split64(value);
+        var s = RAM.Split64(value);
         DataStack[DsP + index] = s.Hi;
         DataStack[DsP + index + 1] = s.Lo;
     }
 
     public void PushDword(ulong value)
     {
-        var s = ForthRAM.Split64((long)value);
+        var s = RAM.Split64((long)value);
         Push(s.Lo);
         Push(s.Hi);
     }
 
     public void SetDword(int index, ulong value)
     {
-        var s = ForthRAM.Split64((int)value);
+        var s = RAM.Split64((int)value);
         DataStack[DsP + index] = s.Hi;
         DataStack[DsP + index + 1] = s.Lo;
     }
 
     public ulong PopDword()
     {
-        return (ulong)ForthRAM.Combine64(Pop(), Pop());
+        return (ulong)RAM.Combine64(Pop(), Pop());
     }
 
     // top of stack is -1, next dint is at -3, etc.
     public ulong GetDword(int index)
     {
-        return (ulong)ForthRAM.Combine64(DataStack[DsP + index], DataStack[DsP + index + 1]);
+        return (ulong)RAM.Combine64(DataStack[DsP + index], DataStack[DsP + index + 1]);
     }
 
     // save the internal top of dict pointer to RAM
@@ -1228,10 +1228,10 @@ public partial class AMCForth : Godot.RefCounted
                 InputPortMutex.Unlock();
 
                 // save the input value to the correct memory address
-                Ram.SetInt(IoInStart + evt.Port * ForthRAM.CellSize, evt.Value);
+                Ram.SetInt(IoInStart + evt.Port * RAM.CellSize, evt.Value);
 
                 // only execute handler if there is a Forth execution token
-                int xt = Ram.GetInt(IoInMapStart + evt.Port * 2 * ForthRAM.CellSize);
+                int xt = Ram.GetInt(IoInMapStart + evt.Port * 2 * RAM.CellSize);
                 if (xt != 0)
                 {
                     Push(evt.Value); // store the value
@@ -1245,7 +1245,7 @@ public partial class AMCForth : Godot.RefCounted
                 var id = TimerEvents.Dequeue();
 
                 // only execute if Forth is still listening on this id
-                var xt = Ram.GetInt(PeriodicStart + (id * 2 + 1) * ForthRAM.CellSize);
+                var xt = Ram.GetInt(PeriodicStart + (id * 2 + 1) * RAM.CellSize);
                 if (xt != 0)
                 {
                     Push(xt);

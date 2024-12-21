@@ -23,10 +23,10 @@ namespace Forth.AMCExt
             var q = Forth.Pop(); // queue mode
             var p = Forth.Pop(); // port number
             Forth.CoreWords.Tick.Call(); // retrieve XT for the handler (on stack)
-            Forth.Push(AMCForth.IoInMapStart + p * 2 * ForthRAM.CellSize); // address of xt
+            Forth.Push(AMCForth.IoInMapStart + p * 2 * RAM.CellSize); // address of xt
             Forth.CoreWords.Store.Call(); // store the XT
             Forth.Push(q); // q mode
-            Forth.Push(AMCForth.IoInMapStart + ForthRAM.CellSize * (p * 2 + 1)); // address of q mode
+            Forth.Push(AMCForth.IoInMapStart + RAM.CellSize * (p * 2 + 1)); // address of q mode
             Forth.CoreWords.Store.Call(); // store the Q mode
         }
     }

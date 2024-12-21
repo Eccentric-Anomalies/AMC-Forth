@@ -20,7 +20,7 @@ namespace Forth.Core
             if (Forth.DictP != Forth.DictTopP)
             {
                 // dictionary is not empty, get the length of the top entry name
-                var length_byte_addr = Forth.DictP + ForthRAM.CellSize;
+                var length_byte_addr = Forth.DictP + RAM.CellSize;
                 // set the immediate bit in the length byte
                 Forth.Ram.SetByte(
                     length_byte_addr,

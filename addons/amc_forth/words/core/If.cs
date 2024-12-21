@@ -18,8 +18,8 @@ namespace Forth.Core
         {
             Forth.Ram.SetInt(Forth.DictTopP, XtX);
             // leave link address on the control stack
-            Forth.CfPushOrig(Forth.DictTopP + ForthRAM.CellSize);
-            Forth.DictTopP += ForthRAM.DCellSize; // move up to finish
+            Forth.CfPushOrig(Forth.DictTopP + RAM.CellSize);
+            Forth.DictTopP += RAM.DCellSize; // move up to finish
             Forth.SaveDictTop(); // preserve dictionary state
         }
 
@@ -29,12 +29,12 @@ namespace Forth.Core
             // ( x - )
             if (Forth.Pop() == 0)
             {
-                Forth.DictIp = Forth.Ram.GetInt(Forth.DictIp + ForthRAM.CellSize);
+                Forth.DictIp = Forth.Ram.GetInt(Forth.DictIp + RAM.CellSize);
             }
             else
             {
                 // TRUE, so skip over the link and continue executing
-                Forth.DictIp += ForthRAM.CellSize;
+                Forth.DictIp += RAM.CellSize;
             }
         }
     }

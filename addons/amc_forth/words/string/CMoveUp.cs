@@ -25,9 +25,9 @@ namespace Forth.String
             // move in descending order a1 -> a2, fast, then slow
             while (i > 0)
             {
-                if (i >= ForthRAM.DCellSize)
+                if (i >= RAM.DCellSize)
                 {
-                    i -= ForthRAM.DCellSize;
+                    i -= RAM.DCellSize;
                     Forth.Ram.SetDword(a2 + i, Forth.Ram.GetDword(a1 + i));
                 }
                 else

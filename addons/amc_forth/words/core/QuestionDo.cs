@@ -20,10 +20,10 @@ namespace Forth.Core
         {
             Forth.Ram.SetInt(Forth.DictTopP, XtX);
             // mark PREV cell as a destination for a backward branch
-            Forth.CfPushDest(Forth.DictTopP - ForthRAM.CellSize);
+            Forth.CfPushDest(Forth.DictTopP - RAM.CellSize);
             // leave link address on the control stack
-            Forth.CfPushOrig(Forth.DictTopP + ForthRAM.CellSize);
-            Forth.DictTopP += ForthRAM.DCellSize; // move up to finish
+            Forth.CfPushOrig(Forth.DictTopP + RAM.CellSize);
+            Forth.DictTopP += RAM.DCellSize; // move up to finish
             Forth.SaveDictTop(); // preserve dictionary state
         }
 
@@ -35,12 +35,12 @@ namespace Forth.Core
             {
                 Forth.CoreWords.TwoDrop.Call(); // already satisfied. remove the saved parameters
                 // Skip ahead to the address in the next cell
-                Forth.DictIp = Forth.Ram.GetInt(Forth.DictIp + ForthRAM.CellSize);
+                Forth.DictIp = Forth.Ram.GetInt(Forth.DictIp + RAM.CellSize);
             }
             else
             {
                 Forth.CoreExtWords.TwoToR.Call(); // move limit and count to return stack
-                Forth.DictIp += ForthRAM.CellSize; // SKip over the forward reference
+                Forth.DictIp += RAM.CellSize; // SKip over the forward reference
             }
         }
     }

@@ -26,7 +26,7 @@ namespace Forth.Tools
                 var p = Forth.DictP;
                 while (p != -1) // dictionary is not empty
                 {
-                    Forth.Push(p + ForthRAM.CellSize);
+                    Forth.Push(p + RAM.CellSize);
                     Forth.CoreWords.Count.Call();
                     // search word in addr, n format
                     Forth.CoreWords.Dup.Call();

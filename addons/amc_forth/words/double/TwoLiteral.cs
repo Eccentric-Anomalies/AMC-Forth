@@ -23,9 +23,9 @@ namespace Forth.Double
             // copy the execution token
             Forth.Ram.SetInt(Forth.DictTopP, XtX);
             // store the value
-            Forth.Ram.SetInt(Forth.DictTopP + ForthRAM.CellSize, literal_val1);
-            Forth.Ram.SetInt(Forth.DictTopP + ForthRAM.DCellSize, literal_val2);
-            Forth.DictTopP += ForthRAM.CellSize * 3; // three cells up
+            Forth.Ram.SetInt(Forth.DictTopP + RAM.CellSize, literal_val1);
+            Forth.Ram.SetInt(Forth.DictTopP + RAM.DCellSize, literal_val2);
+            Forth.DictTopP += RAM.CellSize * 3; // three cells up
             // preserve dictionary state
             Forth.SaveDictTop();
         }
@@ -34,10 +34,10 @@ namespace Forth.Double
         {
             // execution time functionality of literal
             // return contents of cell after execution token
-            Forth.Push(Forth.Ram.GetInt(Forth.DictIp + ForthRAM.DCellSize)); // low order
-            Forth.Push(Forth.Ram.GetInt(Forth.DictIp + ForthRAM.CellSize)); // high order
+            Forth.Push(Forth.Ram.GetInt(Forth.DictIp + RAM.DCellSize)); // low order
+            Forth.Push(Forth.Ram.GetInt(Forth.DictIp + RAM.CellSize)); // high order
             // advance the instruction pointer by two to skip over the data
-            Forth.DictIp += ForthRAM.DCellSize;
+            Forth.DictIp += RAM.DCellSize;
         }
     }
 }
