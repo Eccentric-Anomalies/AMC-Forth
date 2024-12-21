@@ -153,7 +153,7 @@ public partial class AMCForth : Godot.RefCounted
 
     // Reference to the physical memory and utilities
     public RAM Ram;
-    public ForthUtil Util;
+    public Util Util;
 
     // Forth Word Classes
     public Forth.AMCExt.AMCExtSet AMCExtWords;
