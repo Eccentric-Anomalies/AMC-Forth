@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class RShift : Forth.Words
     {
-        public RShift(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public RShift(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "RSHIFT";
             Description =
@@ -17,8 +17,8 @@ namespace Forth.Core
 
         public override void Call()
         {
-            var u = Forth.Pop();
-            Forth.DataStack[Forth.DsP] = (int)(((uint)Forth.DataStack[Forth.DsP]) >> u);
+            var u = Stack.Pop();
+            Stack.DataStack[Stack.DsP] = (int)(((uint)Stack.DataStack[Stack.DsP]) >> u);
         }
     }
 }

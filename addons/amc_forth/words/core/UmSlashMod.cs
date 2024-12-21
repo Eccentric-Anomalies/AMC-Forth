@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class UmSlashMod : Forth.Words
     {
-        public UmSlashMod(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public UmSlashMod(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "UM/MOD";
             Description =
@@ -17,10 +17,10 @@ namespace Forth.Core
 
         public override void Call()
         {
-            var u1 = (uint)Forth.Pop();
-            var ud = Forth.PopDword();
-            Forth.Push((int)(ud % u1));
-            Forth.Push((int)(ud / u1));
+            var u1 = (uint)Stack.Pop();
+            var ud = Stack.PopDword();
+            Stack.Push((int)(ud % u1));
+            Stack.Push((int)(ud / u1));
         }
     }
 }

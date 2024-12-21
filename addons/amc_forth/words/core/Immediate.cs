@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Immediate : Forth.Words
     {
-        public Immediate(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public Immediate(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "IMMEDIATE";
             Description =

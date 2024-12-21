@@ -5,8 +5,8 @@ namespace Forth.File
     [GlobalClass]
     public partial class CloseFile : Forth.Words
     {
-        public CloseFile(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public CloseFile(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "CLOSE-FILE";
             Description =
@@ -17,8 +17,8 @@ namespace Forth.File
 
         public override void Call()
         {
-            Forth.FreeFileId(Forth.Pop());
-            Forth.Push(0);
+            Forth.FreeFileId(Stack.Pop());
+            Stack.Push(0);
         }
     }
 }

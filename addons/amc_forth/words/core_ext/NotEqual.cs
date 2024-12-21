@@ -5,8 +5,8 @@ namespace Forth.CoreExt
     [GlobalClass]
     public partial class NotEqual : Forth.Words
     {
-        public NotEqual(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public NotEqual(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "<>";
             Description = "Return true if and only if n1 is not equal to n2.";
@@ -15,14 +15,14 @@ namespace Forth.CoreExt
 
         public override void Call()
         {
-            var t = Forth.Pop();
-            if (t != Forth.Pop())
+            var t = Stack.Pop();
+            if (t != Stack.Pop())
             {
-                Forth.Push(AMCForth.True);
+                Stack.Push(AMCForth.True);
             }
             else
             {
-                Forth.Push(AMCForth.False);
+                Stack.Push(AMCForth.False);
             }
         }
     }

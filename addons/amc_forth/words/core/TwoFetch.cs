@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class TwoFetch : Forth.Words
     {
-        public TwoFetch(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public TwoFetch(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "2@";
             Description =
@@ -18,9 +18,9 @@ namespace Forth.Core
 
         public override void Call()
         {
-            var a = Forth.Pop();
-            Forth.Push(Forth.Ram.GetInt(a + RAM.CellSize));
-            Forth.Push(Forth.Ram.GetInt(a));
+            var a = Stack.Pop();
+            Stack.Push(Forth.Ram.GetInt(a + RAM.CellSize));
+            Stack.Push(Forth.Ram.GetInt(a));
         }
     }
 }

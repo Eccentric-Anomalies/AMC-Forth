@@ -7,8 +7,8 @@ namespace Forth.Core
     {
         public int SmudgeAddress;
 
-        public Colon(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public Colon(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = ":";
             Description = "Create a definition for <name> and enter compilation state.";
@@ -35,7 +35,7 @@ namespace Forth.Core
             while (!Forth.ExitFlag)
             {
                 Forth.DictIp += RAM.CellSize; // Step to the next item
-                Forth.Push(Forth.Ram.GetInt(Forth.DictIp)); // get the next execution token
+                Stack.Push(Forth.Ram.GetInt(Forth.DictIp)); // get the next execution token
                 Forth.CoreWords.Execute.Call(); // and do what it says to do!
             }
             Forth.ExitFlag = false; // We are exiting. Reset the flag.

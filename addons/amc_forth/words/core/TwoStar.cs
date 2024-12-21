@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class TwoStar : Forth.Words
     {
-        public TwoStar(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public TwoStar(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "2*";
             Description =
@@ -17,7 +17,7 @@ namespace Forth.Core
 
         public override void Call()
         {
-            Forth.Push(Forth.Pop() << 1);
+            Stack.Push(Stack.Pop() << 1);
         }
     }
 }

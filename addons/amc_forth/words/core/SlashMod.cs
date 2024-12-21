@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class SlashMod : Forth.Words
     {
-        public SlashMod(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public SlashMod(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "/MOD";
             Description = "Divide n1 by n2, leaving the remainder n3 and quotient n4.";
@@ -15,10 +15,10 @@ namespace Forth.Core
 
         public override void Call()
         {
-            var div = Forth.Pop();
-            var d = Forth.Pop();
-            Forth.Push(d % div);
-            Forth.Push(d / div);
+            var div = Stack.Pop();
+            var d = Stack.Pop();
+            Stack.Push(d % div);
+            Stack.Push(d / div);
         }
     }
 }

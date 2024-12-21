@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class QuestionDup : Forth.Words
     {
-        public QuestionDup(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public QuestionDup(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "?DUP";
             Description =
@@ -16,10 +16,10 @@ namespace Forth.Core
 
         public override void Call()
         {
-            var n = Forth.DataStack[Forth.DsP];
+            var n = Stack.DataStack[Stack.DsP];
             if (n != 0)
             {
-                Forth.Push(n);
+                Stack.Push(n);
             }
         }
     }

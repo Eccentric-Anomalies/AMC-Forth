@@ -5,8 +5,8 @@ namespace Forth.Double
     [GlobalClass]
     public partial class MPlus : Forth.Words
     {
-        public MPlus(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public MPlus(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "M+";
             Description = "Add n to d1 leaving the sum d2.";
@@ -15,8 +15,8 @@ namespace Forth.Double
 
         public override void Call()
         {
-            var n = Forth.Pop();
-            Forth.PushDint(Forth.PopDint() * n);
+            var n = Stack.Pop();
+            Stack.PushDint(Stack.PopDint() * n);
         }
     }
 }

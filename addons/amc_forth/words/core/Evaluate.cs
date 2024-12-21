@@ -6,8 +6,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Evaluate : Forth.Words
     {
-        public Evaluate(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public Evaluate(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "EVALUATE";
             Description = "Use c-addr, u as the buffer start and interpret as Forth source.";
@@ -18,16 +18,16 @@ namespace Forth.Core
         {
             // we can discard the buffer location, since we use the source_id
             // to identify the buffer
-            Forth.Pop();
-            Forth.Pop();
+            Stack.Pop();
+            Stack.Pop();
 
             // buffer pointer is based on source-id
             Forth.ResetBuffToIn();
             while (true)
             {
                 Forth.CoreExtWords.ParseName.Call();
-                var len = Forth.Pop(); // length of word
-                var caddr = Forth.Pop(); // start of word
+                var len = Stack.Pop(); // length of word
+                var caddr = Stack.Pop(); // start of word
                 if (len == 0) // out of tokens?
                 {
                     break;
@@ -51,7 +51,7 @@ namespace Forth.Core
                 }
                 if (xt_immediate.Addr != 0) // an execution token exists
                 {
-                    Forth.Push(xt_immediate.Addr);
+                    Stack.Push(xt_immediate.Addr);
                     // check if it is a built-in immediate or dictionary immediate before storing
                     if (
                         Forth.State
@@ -71,10 +71,10 @@ namespace Forth.Core
                 else // no valid token, so maybe valid numeric value (double first)
                 {
                     // check for a number
-                    Forth.Push(caddr);
-                    Forth.Push(len);
+                    Stack.Push(caddr);
+                    Stack.Push(len);
                     Forth.CommonUseWords.NumberQuestion.Call();
-                    var type = Forth.Pop();
+                    var type = Stack.Pop();
                     if (type == 2 && Forth.State)
                     {
                         Forth.DoubleWords.TwoLiteral.Call();
@@ -93,17 +93,17 @@ namespace Forth.Core
                         // not ok
                     }
                 } // check the stack at each step..
-                if (Forth.DsP < 0)
+                if (Stack.DsP < 0)
                 {
                     Forth.Util.RprintTerm(" Data stack overflow");
-                    Forth.DsP = AMCForth.DataStackSize;
+                    Stack.DsP = Stack.DataStackSize;
                     break;
                 }
                 // not ok
-                if (Forth.DsP > AMCForth.DataStackSize)
+                if (Stack.DsP > Stack.DataStackSize)
                 {
                     Forth.Util.RprintTerm(" Data stack underflow");
-                    Forth.DsP = AMCForth.DataStackSize;
+                    Stack.DsP = Stack.DataStackSize;
                     break;
                 }
             }

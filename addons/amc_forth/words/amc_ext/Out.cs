@@ -5,8 +5,8 @@ namespace Forth.AMCExt
     [GlobalClass]
     public partial class Out : Forth.Words
     {
-        public Out(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public Out(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "OUT";
             Description = "Save value x to I/O port p, possibly triggering Godot signal.";
@@ -16,16 +16,16 @@ namespace Forth.AMCExt
         public override void Call()
         {
             Forth.CoreWords.Dup.Call();
-            var port = Forth.Pop();
+            var port = Stack.Pop();
             Forth.CoreWords.Cells.Call();
             // offset in bytes
-            Forth.Push(Map.IoOutStart);
+            Stack.Push(Map.IoOutStart);
             // address of output block
             Forth.CoreWords.Plus.Call();
             // output address
             Forth.CoreWords.Over.Call();
             // copy value
-            var value = Forth.Pop();
+            var value = Stack.Pop();
             Forth.CoreWords.Store.Call();
             if (Forth.OutputPortMap.ContainsKey(port))
             {

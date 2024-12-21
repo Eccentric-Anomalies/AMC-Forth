@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Dup : Forth.Words
     {
-        public Dup(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public Dup(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "DUP";
             Description = "Duplicate the top entry on the stack.";
@@ -15,7 +15,7 @@ namespace Forth.Core
 
         public override void Call()
         {
-            Forth.Push(Forth.DataStack[Forth.DsP]);
+            Stack.Push(Stack.DataStack[Stack.DsP]);
         }
     }
 }

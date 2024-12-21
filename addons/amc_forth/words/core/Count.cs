@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Count : Forth.Words
     {
-        public Count(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public Count(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "COUNT";
             Description =
@@ -16,9 +16,9 @@ namespace Forth.Core
 
         public override void Call()
         {
-            var addr = Forth.Pop();
-            Forth.Push(addr + 1);
-            Forth.Push(Forth.Ram.GetByte(addr));
+            var addr = Stack.Pop();
+            Stack.Push(addr + 1);
+            Stack.Push(Forth.Ram.GetByte(addr));
         }
     }
 }

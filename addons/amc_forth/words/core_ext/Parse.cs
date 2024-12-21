@@ -5,8 +5,8 @@ namespace Forth.CoreExt
     [GlobalClass]
     public partial class Parse : Forth.Words
     {
-        public Parse(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public Parse(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "PARSE";
             Description =
@@ -20,13 +20,13 @@ namespace Forth.CoreExt
         {
             var count = 0;
             var ptr = Map.WordBuffStart + 1;
-            var delim = Forth.Pop();
+            var delim = Stack.Pop();
             Forth.CoreWords.Source.Call();
-            var source_size = Forth.Pop();
-            var source_start = Forth.Pop();
+            var source_size = Stack.Pop();
+            var source_start = Stack.Pop();
             Forth.CoreWords.ToIn.Call();
-            var ptraddr = Forth.Pop();
-            Forth.Push(ptr);
+            var ptraddr = Stack.Pop();
+            Stack.Push(ptr);
             // parsed text begins here
             while (true)
             {
@@ -48,7 +48,7 @@ namespace Forth.CoreExt
                     break;
                 }
             }
-            Forth.Push(count);
+            Stack.Push(count);
         }
     }
 }

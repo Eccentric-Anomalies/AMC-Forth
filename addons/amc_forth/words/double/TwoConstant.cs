@@ -5,8 +5,8 @@ namespace Forth.Double
     [GlobalClass]
     public partial class TwoConstant : Forth.Words
     {
-        public TwoConstant(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public TwoConstant(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "2CONSTANT";
             Description = "Create a dictionary entry for name, associated with constant double d.";
@@ -15,7 +15,7 @@ namespace Forth.Double
 
         public override void Call()
         {
-            var init_val = Forth.PopDword();
+            var init_val = Stack.PopDword();
             if (Forth.CreateDictEntryName() != 0)
             {
                 Forth.Ram.SetInt(Forth.DictTopP, XtX); // copy the execution token
@@ -31,7 +31,7 @@ namespace Forth.Double
         public override void CallExec()
         {
             // return contents of double cell after execution token
-            Forth.PushDword(Forth.Ram.GetDword(Forth.DictIp + RAM.CellSize));
+            Stack.PushDword(Forth.Ram.GetDword(Forth.DictIp + RAM.CellSize));
         }
     }
 }

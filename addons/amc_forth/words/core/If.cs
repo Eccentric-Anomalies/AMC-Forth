@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class If : Forth.Words
     {
-        public If(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public If(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "IF";
             Description = "Place forward reference origin on the control flow stack.";
@@ -27,7 +27,7 @@ namespace Forth.Core
         {
             // Branch to ELSE if top of stack not TRUE
             // ( x - )
-            if (Forth.Pop() == 0)
+            if (Stack.Pop() == 0)
             {
                 Forth.DictIp = Forth.Ram.GetInt(Forth.DictIp + RAM.CellSize);
             }

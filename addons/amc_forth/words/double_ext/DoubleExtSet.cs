@@ -10,9 +10,9 @@ namespace Forth.DoubleExt
         public TwoRot TwoRot;
         private const string Wordset = "DOUBLE EXT";
 
-        public DoubleExtSet(AMCForth _forth)
+        public DoubleExtSet(AMCForth _forth, Stack stack)
         {
-            TwoRot = new(_forth, Wordset);
+            TwoRot = new(_forth, stack, Wordset);
         }
     }
 }

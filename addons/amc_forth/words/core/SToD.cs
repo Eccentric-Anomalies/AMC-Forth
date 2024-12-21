@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class SToD : Forth.Words
     {
-        public SToD(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public SToD(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "S>D";
             Description = "Convert a single cell number n to its double equivalent d.";
@@ -15,7 +15,7 @@ namespace Forth.Core
 
         public override void Call()
         {
-            Forth.PushDint(Forth.Pop());
+            Stack.PushDint(Stack.Pop());
         }
     }
 }

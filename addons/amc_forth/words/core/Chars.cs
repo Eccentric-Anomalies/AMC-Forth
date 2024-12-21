@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Chars : Forth.Words
     {
-        public Chars(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public Chars(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "CHARS";
             Description = "Return n2, the size in bytes of n1 characters. May be a no-op.";

@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Cells : Forth.Words
     {
-        public Cells(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public Cells(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "CELLS";
             Description = "Return n2, the size in bytes of n1 cells.";
@@ -15,7 +15,7 @@ namespace Forth.Core
 
         public override void Call()
         {
-            Forth.Push(RAM.CellSize);
+            Stack.Push(RAM.CellSize);
             Forth.CoreWords.Star.Call();
         }
     }

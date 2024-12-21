@@ -13,6 +13,7 @@ namespace Forth
     public partial class Words : Godot.RefCounted, IComparable<Words>
     {
         public AMCForth Forth;
+        public Stack Stack;
         public bool Immediate;
         public string Name
         {
@@ -41,9 +42,10 @@ namespace Forth
         static Dictionary<string, Words> _nameDict = new();
         static Dictionary<int, Words> _xtDict = new();
 
-        public Words(AMCForth forth, string wordset)
+        public Words(AMCForth forth, Stack stack, string wordset)
         {
             Forth = forth;
+            Stack = stack;
             Immediate = false;
             WordSet = wordset;
         }

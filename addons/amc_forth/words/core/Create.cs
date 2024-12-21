@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Create : Forth.Words
     {
-        public Create(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public Create(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "CREATE";
             Description =
@@ -28,7 +28,7 @@ namespace Forth.Core
         public override void CallExec()
         {
             // return address of cell after execution token
-            Forth.Push(Forth.DictIp + RAM.CellSize);
+            Stack.Push(Forth.DictIp + RAM.CellSize);
             Forth.DictIp += RAM.CellSize;
         }
     }

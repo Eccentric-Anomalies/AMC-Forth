@@ -5,8 +5,8 @@ namespace Forth.Double
     [GlobalClass]
     public partial class DMax : Forth.Words
     {
-        public DMax(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public DMax(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "DMAX";
             Description = "Return d3, the greater of d1 and d2.";
@@ -15,10 +15,10 @@ namespace Forth.Double
 
         public override void Call()
         {
-            var d2 = Forth.PopDint();
-            if (d2 > Forth.GetDint(0))
+            var d2 = Stack.PopDint();
+            if (d2 > Stack.GetDint(0))
             {
-                Forth.SetDint(0, d2);
+                Stack.SetDint(0, d2);
             }
         }
     }

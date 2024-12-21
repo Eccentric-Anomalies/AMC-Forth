@@ -5,8 +5,8 @@ namespace Forth.CoreExt
     [GlobalClass]
     public partial class TwoRFetch : Forth.Words
     {
-        public TwoRFetch(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public TwoRFetch(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "2R@";
             Description = "Push a copy of the top two return stack cells onto the data stack.";
@@ -15,9 +15,9 @@ namespace Forth.CoreExt
 
         public override void Call()
         {
-            var t = Forth.RPopDint();
-            Forth.PushDint(t);
-            Forth.RPushDint(t);
+            var t = Stack.RPopDint();
+            Stack.PushDint(t);
+            Stack.RPushDint(t);
         }
     }
 }

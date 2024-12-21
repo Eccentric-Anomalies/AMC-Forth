@@ -5,8 +5,8 @@ namespace Forth.CoreExt
     [GlobalClass]
     public partial class TwoRFrom : Forth.Words
     {
-        public TwoRFrom(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public TwoRFrom(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "2R>";
             Description =
@@ -17,7 +17,7 @@ namespace Forth.CoreExt
 
         public override void Call()
         {
-            Forth.PushDint(Forth.RPopDint());
+            Stack.PushDint(Stack.RPopDint());
         }
     }
 }

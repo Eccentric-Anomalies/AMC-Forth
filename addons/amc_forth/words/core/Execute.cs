@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Execute : Forth.Words
     {
-        public Execute(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public Execute(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "EXECUTE";
             Description =
@@ -16,7 +16,7 @@ namespace Forth.Core
 
         public override void Call()
         {
-            var xt = Forth.Pop();
+            var xt = Stack.Pop();
             if (IsBuiltInXt(xt))
             {
                 // this xt identifies a built-in function
@@ -30,7 +30,7 @@ namespace Forth.Core
                 // this is a physical address of an xt
                 Forth.DictIp = xt;
                 // push the xt
-                Forth.Push(Forth.Ram.GetInt(xt));
+                Stack.Push(Forth.Ram.GetInt(xt));
                 // recurse down a layer
                 Call();
                 // restore our ip

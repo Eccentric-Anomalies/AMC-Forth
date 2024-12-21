@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Abs : Forth.Words
     {
-        public Abs(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public Abs(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "ABS";
             Description = "Replace the top stack item with its absolute value.";
@@ -16,9 +16,9 @@ namespace Forth.Core
         public override void Call()
         {
             // Absolute value of MAX-INT+1 is a noop
-            if (Forth.DataStack[Forth.DsP] != int.MinValue)
+            if (Stack.DataStack[Stack.DsP] != int.MinValue)
             {
-                Forth.DataStack[Forth.DsP] = System.Math.Abs(Forth.DataStack[Forth.DsP]);
+                Stack.DataStack[Stack.DsP] = System.Math.Abs(Stack.DataStack[Stack.DsP]);
             }
         }
     }

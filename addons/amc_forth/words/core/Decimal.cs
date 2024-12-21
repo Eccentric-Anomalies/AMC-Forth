@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Decimal : Forth.Words
     {
-        public Decimal(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public Decimal(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "DECIMAL";
             Description = "Sets BASE to 10.";
@@ -15,7 +15,7 @@ namespace Forth.Core
 
         public override void Call()
         {
-            Forth.Push(10);
+            Stack.Push(10);
             Forth.CoreWords.Base.Call();
             Forth.CoreWords.Store.Call();
         }

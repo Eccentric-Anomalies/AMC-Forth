@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Rot : Forth.Words
     {
-        public Rot(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public Rot(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "ROT";
             Description = "Rotate the top three items on the stack.";
@@ -15,10 +15,10 @@ namespace Forth.Core
 
         public override void Call()
         {
-            var t = Forth.DataStack[Forth.DsP + 2];
-            Forth.DataStack[Forth.DsP + 2] = Forth.DataStack[Forth.DsP + 1];
-            Forth.DataStack[Forth.DsP + 1] = Forth.DataStack[Forth.DsP];
-            Forth.DataStack[Forth.DsP] = t;
+            var t = Stack.DataStack[Stack.DsP + 2];
+            Stack.DataStack[Stack.DsP + 2] = Stack.DataStack[Stack.DsP + 1];
+            Stack.DataStack[Stack.DsP + 1] = Stack.DataStack[Stack.DsP];
+            Stack.DataStack[Stack.DsP] = t;
         }
     }
 }

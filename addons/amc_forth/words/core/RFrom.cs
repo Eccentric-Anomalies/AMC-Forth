@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class RFrom : Forth.Words
     {
-        public RFrom(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public RFrom(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "R>";
             Description =
@@ -16,7 +16,7 @@ namespace Forth.Core
 
         public override void Call()
         {
-            Forth.Push(Forth.RPop());
+            Stack.Push(Stack.RPop());
         }
     }
 }

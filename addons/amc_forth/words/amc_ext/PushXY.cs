@@ -5,8 +5,8 @@ namespace Forth.AMCExt
     [GlobalClass]
     public partial class PushXY : Forth.Words
     {
-        public PushXY(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public PushXY(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "PUSH-XY";
             Description =

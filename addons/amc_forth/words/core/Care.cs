@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Care : Forth.Words
     {
-        public Care(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public Care(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "CHAR";
             Description =
@@ -19,7 +19,7 @@ namespace Forth.Core
         {
             Forth.CoreExtWords.ParseName.Call(); // get c-addr u
             Forth.CoreWords.Drop.Call();
-            Forth.Push(Forth.Ram.GetByte(Forth.Pop())); // the first character byte
+            Stack.Push(Forth.Ram.GetByte(Stack.Pop())); // the first character byte
         }
     }
 }

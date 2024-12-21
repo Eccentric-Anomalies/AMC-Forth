@@ -11,10 +11,10 @@ namespace Forth.Facility
         public Page Page;
         private const string Wordset = "FACILITY";
 
-        public FacilitySet(AMCForth _forth)
+        public FacilitySet(AMCForth _forth, Stack stack)
         {
-            AtXY = new(_forth, Wordset);
-            Page = new(_forth, Wordset);
+            AtXY = new(_forth, stack, Wordset);
+            Page = new(_forth, stack, Wordset);
         }
     }
 }

@@ -6,8 +6,8 @@ namespace Forth.AMCExt
     [GlobalClass]
     public partial class Help : Forth.Words
     {
-        public Help(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public Help(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "HELP";
             Description = "Display the description for the following Forth built-in word.";
@@ -30,9 +30,9 @@ namespace Forth.AMCExt
         {
             // retrieve the name token
             Forth.CoreExtWords.ParseName.Call();
-            var len = Forth.Pop();
+            var len = Stack.Pop();
             // length
-            var caddr = Forth.Pop();
+            var caddr = Stack.Pop();
             // start
             return Forth.Util.StrFromAddrN(caddr, len);
         }

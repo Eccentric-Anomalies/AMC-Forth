@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Literal : Forth.Words
     {
-        public Literal(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public Literal(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "LITERAL";
             Description =
@@ -19,7 +19,7 @@ namespace Forth.Core
 
         public override void Call()
         {
-            var literal_val = Forth.Pop();
+            var literal_val = Stack.Pop();
             // copy the execution token
             Forth.Ram.SetInt(Forth.DictTopP, XtX);
             // store the value
@@ -34,7 +34,7 @@ namespace Forth.Core
         {
             // execution time functionality of literal
             // return contents of cell after execution token
-            Forth.Push(Forth.Ram.GetInt(Forth.DictIp + RAM.CellSize));
+            Stack.Push(Forth.Ram.GetInt(Forth.DictIp + RAM.CellSize));
             // advance the instruction pointer by one to skip over the data
             Forth.DictIp += RAM.CellSize;
         }

@@ -5,8 +5,8 @@ namespace Forth.AMCExt
     [GlobalClass]
     public partial class LoadSnap : Forth.Words
     {
-        public LoadSnap(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public LoadSnap(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "LOAD-SNAP";
             Description = "Restore the Forth system RAM from backup file.";

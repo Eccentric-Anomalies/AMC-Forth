@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class ToIn : Forth.Words
     {
-        public ToIn(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public ToIn(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = ">IN";
             Description =
@@ -21,12 +21,12 @@ namespace Forth.Core
             // terminal pointer or...
             if (Forth.SourceId == -1)
             {
-                Forth.Push(Map.BuffToIn);
+                Stack.Push(Map.BuffToIn);
             }
             // file buffer pointer
             else if (Forth.SourceId != 0)
             {
-                Forth.Push(Forth.SourceId + Map.FileBuffPtrOffset);
+                Stack.Push(Forth.SourceId + Map.FileBuffPtrOffset);
             }
         }
     }

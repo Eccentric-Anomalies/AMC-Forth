@@ -5,8 +5,8 @@ namespace Forth.Double
     [GlobalClass]
     public partial class DZeroEqual : Forth.Words
     {
-        public DZeroEqual(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public DZeroEqual(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "D0=";
             Description =
@@ -16,13 +16,13 @@ namespace Forth.Double
 
         public override void Call()
         {
-            if (Forth.PopDint() == 0)
+            if (Stack.PopDint() == 0)
             {
-                Forth.Push(AMCForth.True);
+                Stack.Push(AMCForth.True);
             }
             else
             {
-                Forth.Push(AMCForth.False);
+                Stack.Push(AMCForth.False);
             }
         }
     }

@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Constant : Forth.Words
     {
-        public Constant(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public Constant(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "CONSTANT";
             Description =
@@ -18,7 +18,7 @@ namespace Forth.Core
 
         public override void Call()
         {
-            var init_val = Forth.Pop();
+            var init_val = Stack.Pop();
             if (Forth.CreateDictEntryName() != 0)
             {
                 Forth.Ram.SetInt(Forth.DictTopP, XtX); // copy the execution token
@@ -34,7 +34,7 @@ namespace Forth.Core
         public override void CallExec()
         {
             // return contents of cell after execution token
-            Forth.Push(Forth.Ram.GetInt(Forth.DictIp + RAM.CellSize));
+            Stack.Push(Forth.Ram.GetInt(Forth.DictIp + RAM.CellSize));
         }
     }
 }

@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Begin : Forth.Words
     {
-        public Begin(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public Begin(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "BEGIN";
             Description = "Mark the destination of a backward branch.";

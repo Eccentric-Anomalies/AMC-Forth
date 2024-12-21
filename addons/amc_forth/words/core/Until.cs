@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Until : Forth.Words
     {
-        public Until(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public Until(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "UNTIL";
             Description =
@@ -27,7 +27,7 @@ namespace Forth.Core
         public override void CallExec()
         {
             // ( x - )
-            if (Forth.Pop() == 0) // Conditional branch
+            if (Stack.Pop() == 0) // Conditional branch
             {
                 Forth.DictIp = Forth.Ram.GetInt(Forth.DictIp + RAM.CellSize);
             }

@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Source : Forth.Words
     {
-        public Source(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public Source(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "SOURCE";
             Description = "Return the address and length of the input buffer.";
@@ -17,13 +17,13 @@ namespace Forth.Core
         {
             if (Forth.SourceId == -1)
             {
-                Forth.Push(Map.BuffSourceStart);
-                Forth.Push(Map.BuffSourceSize);
+                Stack.Push(Map.BuffSourceStart);
+                Stack.Push(Map.BuffSourceSize);
             }
             else if (Forth.SourceId != 0)
             {
-                Forth.Push(Forth.SourceId + Map.FileBuffDataOffset);
-                Forth.Push(Map.FileBuffDataSize);
+                Stack.Push(Forth.SourceId + Map.FileBuffDataOffset);
+                Stack.Push(Map.FileBuffDataSize);
             }
         }
     }

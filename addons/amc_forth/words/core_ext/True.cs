@@ -5,8 +5,8 @@ namespace Forth.CoreExt
     [GlobalClass]
     public partial class True : Forth.Words
     {
-        public True(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public True(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "TRUE";
             Description = "Return a true value, a single-cell value with all bits set.";
@@ -15,7 +15,7 @@ namespace Forth.CoreExt
 
         public override void Call()
         {
-            Forth.Push(AMCForth.True);
+            Stack.Push(AMCForth.True);
         }
     }
 }

@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class LeftBracket : Forth.Words
     {
-        public LeftBracket(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public LeftBracket(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "[";
             Description = "Enter interpretation state.";

@@ -5,8 +5,8 @@ namespace Forth.AMCExt
     [GlobalClass]
     public partial class PStop : Forth.Words
     {
-        public PStop(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public PStop(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "P-STOP";
             Description = "Stop periodic timer with id i.";
@@ -17,7 +17,7 @@ namespace Forth.AMCExt
         {
             Forth.AMCExtWords.PTimer.GetTimerAddress();
             // ( i - addr )
-            var addr = Forth.Pop();
+            var addr = Stack.Pop();
             // ( addr - )
             // clear the entries for the given timer id
             Forth.Ram.SetInt(addr, 0);

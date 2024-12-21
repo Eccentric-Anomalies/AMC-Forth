@@ -12,11 +12,11 @@ namespace Forth.Tools
         public Tools.Words Words;
         private const string Wordset = "TOOLS";
 
-        public ToolsSet(AMCForth _forth)
+        public ToolsSet(AMCForth _forth, Stack stack)
         {
-            Question = new(_forth, Wordset);
-            DotS = new(_forth, Wordset);
-            Words = new(_forth, Wordset);
+            Question = new(_forth, stack, Wordset);
+            DotS = new(_forth, stack, Wordset);
+            Words = new(_forth, stack, Wordset);
         }
     }
 }

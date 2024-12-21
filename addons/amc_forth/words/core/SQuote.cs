@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class SQuote : Forth.Words
     {
-        public SQuote(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public SQuote(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "S\"";
             Description =
@@ -18,10 +18,10 @@ namespace Forth.Core
 
         public override void Call()
         {
-            Forth.Push("\"".ToAsciiBuffer()[0]);
+            Stack.Push("\"".ToAsciiBuffer()[0]);
             Forth.CoreExtWords.Parse.Call();
-            var l = Forth.Pop();
-            var src = Forth.Pop();
+            var l = Stack.Pop();
+            var src = Stack.Pop();
             if (Forth.State) // different compilation behavior
             {
                 Forth.Ram.SetInt(Forth.DictTopP, XtX);
@@ -43,16 +43,16 @@ namespace Forth.Core
                     Forth.Ram.SetByte(Forth.DictTopP + i, Forth.Ram.GetByte(src + i));
                 }
                 // push the return values back on
-                Forth.Push(Forth.DictTopP);
-                Forth.Push(l);
+                Stack.Push(Forth.DictTopP);
+                Stack.Push(l);
             }
         }
 
         public override void CallExec()
         {
             var l = Forth.Ram.GetByte(Forth.DictIp + RAM.CellSize);
-            Forth.Push(Forth.DictIp + RAM.CellSize + 1); // address of the string start
-            Forth.Push(l); // length of the string
+            Stack.Push(Forth.DictIp + RAM.CellSize + 1); // address of the string start
+            Stack.Push(l); // length of the string
             // moves to string cell for l in 0..3, then one cell past for l in 4..7, etc.
             Forth.DictIp += ((l / RAM.CellSize) + 1) * RAM.CellSize;
         }

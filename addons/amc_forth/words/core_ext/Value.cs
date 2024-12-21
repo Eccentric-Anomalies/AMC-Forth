@@ -5,8 +5,8 @@ namespace Forth.CoreExt
     [GlobalClass]
     public partial class Value : Forth.Words
     {
-        public Value(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public Value(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "VALUE";
             Description =
@@ -17,7 +17,7 @@ namespace Forth.CoreExt
 
         public override void Call()
         {
-            var init_val = Forth.Pop();
+            var init_val = Stack.Pop();
             if (Forth.CreateDictEntryName() != 0)
             {
                 // copy the execution token
@@ -33,7 +33,7 @@ namespace Forth.CoreExt
         {
             // execution time functionality of value
             // return contents of the cell after the execution token
-            Forth.Push(Forth.Ram.GetInt(Forth.DictIp + RAM.CellSize));
+            Stack.Push(Forth.Ram.GetInt(Forth.DictIp + RAM.CellSize));
             Forth.DictIp += RAM.CellSize;
         }
     }

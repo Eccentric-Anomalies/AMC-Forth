@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class QuestionDo : Forth.Words
     {
-        public QuestionDo(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public QuestionDo(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "?DO";
             Description =
@@ -31,7 +31,7 @@ namespace Forth.Core
         {
             Forth.CoreWords.TwoDup.Call(); // make a copy of the parameters
             Forth.CoreWords.Equal.Call();
-            if (Forth.Pop() == AMCForth.True)
+            if (Stack.Pop() == AMCForth.True)
             {
                 Forth.CoreWords.TwoDrop.Call(); // already satisfied. remove the saved parameters
                 // Skip ahead to the address in the next cell

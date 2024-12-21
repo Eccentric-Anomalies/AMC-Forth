@@ -5,8 +5,8 @@ namespace Forth.File
     [GlobalClass]
     public partial class WO : Forth.Words
     {
-        public WO(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public WO(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "W/O";
             Description = "Return the write-only file access method.";
@@ -15,7 +15,7 @@ namespace Forth.File
 
         public override void Call()
         {
-            Forth.Push((int)FileAccess.ModeFlags.Write);
+            Stack.Push((int)FileAccess.ModeFlags.Write);
         }
     }
 }

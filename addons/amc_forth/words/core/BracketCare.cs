@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class BracketCare : Forth.Words
     {
-        public BracketCare(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public BracketCare(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "[CHAR]";
             Description =
@@ -25,7 +25,7 @@ namespace Forth.Core
                 Forth.CoreWords.Drop.Call(); // ignore length
                 Forth.Ram.SetInt(Forth.DictTopP, XtX); // Store the exec token
                 Forth.DictTopP += RAM.CellSize;
-                Forth.Push(Forth.Ram.GetByte(Forth.Pop())); // get first character byte
+                Stack.Push(Forth.Ram.GetByte(Stack.Pop())); // get first character byte
                 Forth.CoreWords.CComma.Call(); // store it
                 Forth.CoreWords.Align.Call();
                 Forth.SaveDictTop(); // preserve dictionary state
@@ -35,7 +35,7 @@ namespace Forth.Core
         public override void CallExec()
         {
             // return LSB byte contents of cell after execution token
-            Forth.Push(Forth.Ram.GetByte(Forth.DictIp + RAM.CellSize));
+            Stack.Push(Forth.Ram.GetByte(Forth.DictIp + RAM.CellSize));
             Forth.DictIp += RAM.CellSize;
         }
     }

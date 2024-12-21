@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Type : Forth.Words
     {
-        public Type(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public Type(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "TYPE";
             Description = "Output the character string at c-addr, length u.";
@@ -15,11 +15,11 @@ namespace Forth.Core
 
         public override void Call()
         {
-            var l = Forth.Pop();
-            var s = Forth.Pop();
+            var l = Stack.Pop();
+            var s = Stack.Pop();
             for (int i = 0; i < l; i++)
             {
-                Forth.Push(Forth.Ram.GetByte(s + i));
+                Stack.Push(Forth.Ram.GetByte(s + i));
                 Forth.CoreWords.Emit.Call();
             }
         }

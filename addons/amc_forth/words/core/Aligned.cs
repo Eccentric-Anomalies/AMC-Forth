@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Aligned : Forth.Words
     {
-        public Aligned(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public Aligned(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "ALIGNED";
             Description = "Return a-addr, the first aligned address greater than or equal to addr.";
@@ -15,12 +15,12 @@ namespace Forth.Core
 
         public override void Call()
         {
-            var a = Forth.Pop();
+            var a = Stack.Pop();
             if (a % RAM.CellSize != 0)
             {
                 a = (a / RAM.CellSize + 1) * RAM.CellSize;
             }
-            Forth.Push(a);
+            Stack.Push(a);
         }
     }
 }

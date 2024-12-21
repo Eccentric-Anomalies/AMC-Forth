@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Move : Forth.Words
     {
-        public Move(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public Move(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "MOVE";
             Description =
@@ -17,9 +17,9 @@ namespace Forth.Core
 
         public override void Call()
         {
-            var a1 = Forth.DataStack[Forth.DsP + 2];
-            var a2 = Forth.DataStack[Forth.DsP + 1];
-            var u = Forth.DataStack[Forth.DsP];
+            var a1 = Stack.DataStack[Stack.DsP + 2];
+            var a2 = Stack.DataStack[Stack.DsP + 1];
+            var u = Stack.DataStack[Stack.DsP];
             if (a1 == a2 || u == 0)
             {
                 // string doesn't need to move. Clean the stack and return.

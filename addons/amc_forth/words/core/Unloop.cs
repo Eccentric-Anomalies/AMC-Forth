@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Unloop : Forth.Words
     {
-        public Unloop(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public Unloop(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "UNLOOP";
             Description = "Discard the loop parameters for the current nesting level.";
@@ -15,7 +15,7 @@ namespace Forth.Core
 
         public override void Call()
         {
-            Forth.RPopDint();
+            Stack.RPopDint();
         }
     }
 }

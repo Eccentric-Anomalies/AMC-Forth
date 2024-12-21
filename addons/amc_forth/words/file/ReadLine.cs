@@ -5,8 +5,8 @@ namespace Forth.File
     [GlobalClass]
     public partial class ReadLine : Forth.Words
     {
-        public ReadLine(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public ReadLine(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "READ-LINE";
             Description =
@@ -18,9 +18,9 @@ namespace Forth.File
 
         public override void Call()
         {
-            var file = Forth.GetFileFromId(Forth.Pop());
-            var u1 = Forth.Pop();
-            var c_addr = Forth.Pop();
+            var file = Forth.GetFileFromId(Stack.Pop());
+            var u1 = Stack.Pop();
+            var c_addr = Stack.Pop();
             var u2 = 0;
             var flag = AMCForth.False;
             var ior = 0;
@@ -33,9 +33,9 @@ namespace Forth.File
                 Forth.Util.StringFromStr(c_addr, u1, line); // copy incoming string to buffer
                 Forth.Ram.SetByte(c_addr + u2, 0); // null terminate
             }
-            Forth.Push(u2);
-            Forth.Push(flag);
-            Forth.Push(ior);
+            Stack.Push(u2);
+            Stack.Push(flag);
+            Stack.Push(ior);
         }
     }
 }

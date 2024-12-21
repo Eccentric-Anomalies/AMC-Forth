@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Then : Forth.Words
     {
-        public Then(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public Then(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "THEN";
             Description = "Place a reference to the this address at the address on the cf stack.";

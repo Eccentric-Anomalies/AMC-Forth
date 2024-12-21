@@ -5,8 +5,8 @@ namespace Forth.Double
     [GlobalClass]
     public partial class TwoVariable : Forth.Words
     {
-        public TwoVariable(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public TwoVariable(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "2VARIABLE";
             Description =

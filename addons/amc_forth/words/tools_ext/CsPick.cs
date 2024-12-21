@@ -6,8 +6,8 @@ namespace Forth.ToolsExt
     [GlobalClass]
     public partial class CsPick : Forth.Words
     {
-        public CsPick(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public CsPick(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "CS-PICK";
             Description = "Place copy of the uth CS entry on top of the CS stack.";
@@ -17,7 +17,7 @@ namespace Forth.ToolsExt
 
         public override void Call()
         {
-            Forth.CfStackPick(Forth.Pop());
+            Forth.CfStackPick(Stack.Pop());
         }
     }
 }

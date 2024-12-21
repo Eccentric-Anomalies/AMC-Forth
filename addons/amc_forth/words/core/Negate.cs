@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Negate : Forth.Words
     {
-        public Negate(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public Negate(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "NEGATE";
             Description = "Change the sign of the top stack value.";
@@ -15,7 +15,7 @@ namespace Forth.Core
 
         public override void Call()
         {
-            Forth.DataStack[Forth.DsP] = -Forth.DataStack[Forth.DsP];
+            Stack.DataStack[Stack.DsP] = -Stack.DataStack[Stack.DsP];
         }
     }
 }

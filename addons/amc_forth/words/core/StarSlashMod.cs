@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class StarSlashMod : Forth.Words
     {
-        public StarSlashMod(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public StarSlashMod(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "*/MOD";
             Description =
@@ -18,10 +18,10 @@ namespace Forth.Core
 
         public override void Call()
         {
-            var n3 = Forth.Pop();
-            var d = (double)Forth.Pop() * Forth.Pop();
-            Forth.Push((int)(d % n3));
-            Forth.Push((int)(d / n3));
+            var n3 = Stack.Pop();
+            var d = (double)Stack.Pop() * Stack.Pop();
+            Stack.Push((int)(d % n3));
+            Stack.Push((int)(d / n3));
         }
     }
 }

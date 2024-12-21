@@ -6,8 +6,8 @@ namespace Forth.ToolsExt
     [GlobalClass]
     public partial class Ahead : Forth.Words
     {
-        public Ahead(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public Ahead(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "AHEAD";
             Description = "Place forward reference origin on the control flow stack.";

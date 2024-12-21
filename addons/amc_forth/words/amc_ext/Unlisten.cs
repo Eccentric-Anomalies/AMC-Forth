@@ -5,8 +5,8 @@ namespace Forth.AMCExt
     [GlobalClass]
     public partial class Unlisten : Forth.Words
     {
-        public Unlisten(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public Unlisten(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "UNLISTEN";
             Description = "Remove a lookup entry for the IO port p.";
@@ -15,12 +15,12 @@ namespace Forth.AMCExt
 
         public override void Call()
         {
-            var p = Forth.Pop(); // port number
-            Forth.Push(0);
-            Forth.Push(Map.IoInMapStart + p * 2 * RAM.CellSize); // address of xt
+            var p = Stack.Pop(); // port number
+            Stack.Push(0);
+            Stack.Push(Map.IoInMapStart + p * 2 * RAM.CellSize); // address of xt
             Forth.CoreWords.Store.Call(); // store the XT
-            Forth.Push(0);
-            Forth.Push(Map.IoInMapStart + RAM.CellSize * (p * 2 + 1)); // address of q mode
+            Stack.Push(0);
+            Stack.Push(Map.IoInMapStart + RAM.CellSize * (p * 2 + 1)); // address of q mode
             Forth.CoreWords.Store.Call(); // store the Q mode
         }
     }

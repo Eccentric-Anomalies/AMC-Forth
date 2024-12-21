@@ -5,8 +5,8 @@ namespace Forth.AMCExt
     [GlobalClass]
     public partial class InAddr : Words
     {
-        public InAddr(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public InAddr(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "IN-ADDR";
             Description = "Return memory addr from input port p.";
@@ -15,7 +15,7 @@ namespace Forth.AMCExt
 
         public override void Call()
         {
-            Forth.Push(Forth.Pop() * RAM.CellSize + Map.IoInStart);
+            Stack.Push(Stack.Pop() * RAM.CellSize + Map.IoInStart);
         }
     }
 }

@@ -5,8 +5,8 @@ namespace Forth.FileExt
     [GlobalClass]
     public partial class Include : Forth.Words
     {
-        public Include(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public Include(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "INCLUDE";
             Description = "Parse the following word and use as file name with INCLUDED.";

@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class ZeroLessThan : Forth.Words
     {
-        public ZeroLessThan(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public ZeroLessThan(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "0<";
             Description = "Return true if and only if n is less than zero.";
@@ -15,13 +15,13 @@ namespace Forth.Core
 
         public override void Call()
         {
-            if (Forth.Pop() < 0)
+            if (Stack.Pop() < 0)
             {
-                Forth.Push(AMCForth.True);
+                Stack.Push(AMCForth.True);
             }
             else
             {
-                Forth.Push(AMCForth.False);
+                Stack.Push(AMCForth.False);
             }
         }
     }

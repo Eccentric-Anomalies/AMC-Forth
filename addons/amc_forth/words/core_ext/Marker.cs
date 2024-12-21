@@ -5,8 +5,8 @@ namespace Forth.CoreExt
     [GlobalClass]
     public partial class Marker : Forth.Words
     {
-        public Marker(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public Marker(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "MARKER";
             Description =

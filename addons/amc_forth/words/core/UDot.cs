@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class UDot : Forth.Words
     {
-        public UDot(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public UDot(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Salt = "UDot";
             Name = "U.";
@@ -17,7 +17,7 @@ namespace Forth.Core
         public override void Call()
         {
             var fmt = Forth.Ram.GetInt(Map.Base) == 10 ? "F0" : "X";
-            var num = (uint)Forth.Pop();
+            var num = (uint)Stack.Pop();
             Forth.Util.PrintTerm(" " + num.ToString(fmt));
         }
     }

@@ -5,8 +5,8 @@ namespace Forth.File
     [GlobalClass]
     public partial class OpenFile : Forth.Words
     {
-        public OpenFile(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public OpenFile(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "OPEN-FILE";
             Description =
@@ -19,10 +19,10 @@ namespace Forth.File
         public override void Call()
         {
             var ior = -1;
-            var fam = Forth.Pop();
-            var u = Forth.Pop();
+            var fam = Stack.Pop();
+            var u = Stack.Pop();
             var fileid = 0;
-            var fname = Forth.Util.StrFromAddrN(Forth.Pop(), u);
+            var fname = Forth.Util.StrFromAddrN(Stack.Pop(), u);
             var file = FileAccess.Open("user://" + fname, (FileAccess.ModeFlags)fam);
             file ??= FileAccess.Open("res://" + fname, (FileAccess.ModeFlags)fam);
             if (file != null)
@@ -37,8 +37,8 @@ namespace Forth.File
                     Forth.Util.RprintTerm("File buffers exhausted"); // failed to allocate a buffer
                 }
             }
-            Forth.Push(fileid);
-            Forth.Push(ior);
+            Stack.Push(fileid);
+            Stack.Push(ior);
         }
     }
 }

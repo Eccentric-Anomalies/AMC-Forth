@@ -5,8 +5,8 @@ namespace Forth.Double
     [GlobalClass]
     public partial class TwoLiteral : Forth.Words
     {
-        public TwoLiteral(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public TwoLiteral(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "2LITERAL";
             Description =
@@ -18,8 +18,8 @@ namespace Forth.Double
 
         public override void Call()
         {
-            var literal_val1 = Forth.Pop(); // high order, low address
-            var literal_val2 = Forth.Pop(); // low order, high address
+            var literal_val1 = Stack.Pop(); // high order, low address
+            var literal_val2 = Stack.Pop(); // low order, high address
             // copy the execution token
             Forth.Ram.SetInt(Forth.DictTopP, XtX);
             // store the value
@@ -34,8 +34,8 @@ namespace Forth.Double
         {
             // execution time functionality of literal
             // return contents of cell after execution token
-            Forth.Push(Forth.Ram.GetInt(Forth.DictIp + RAM.DCellSize)); // low order
-            Forth.Push(Forth.Ram.GetInt(Forth.DictIp + RAM.CellSize)); // high order
+            Stack.Push(Forth.Ram.GetInt(Forth.DictIp + RAM.DCellSize)); // low order
+            Stack.Push(Forth.Ram.GetInt(Forth.DictIp + RAM.CellSize)); // high order
             // advance the instruction pointer by two to skip over the data
             Forth.DictIp += RAM.DCellSize;
         }

@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Loop : Forth.Words
     {
-        public Loop(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public Loop(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "LOOP";
             Description =
@@ -40,7 +40,7 @@ namespace Forth.Core
             Forth.CoreWords.OnePlus.Call(); // Increment the count
             Forth.CoreWords.TwoDup.Call(); // Duplicate them
             Forth.CoreWords.Equal.Call(); // Check for equal
-            if (Forth.Pop() == 0)
+            if (Stack.Pop() == 0)
             {
                 // not matched, branch back. The DO exec will push the values
                 // back on the return stack.

@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class RightBracket : Forth.Words
     {
-        public RightBracket(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public RightBracket(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "]";
             Description = "Enter compilation state.";

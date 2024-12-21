@@ -5,8 +5,8 @@ namespace Forth.CommonUse
     [GlobalClass]
     public partial class NumberQuestion : Forth.Words
     {
-        public NumberQuestion(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public NumberQuestion(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "NUMBER?";
             Description =
@@ -19,29 +19,29 @@ namespace Forth.CommonUse
         public override void Call()
         {
             var radix = Forth.Ram.GetInt(Map.Base);
-            var len = Forth.Pop();
+            var len = Stack.Pop();
             // length of word
-            var caddr = Forth.Pop();
+            var caddr = Stack.Pop();
             // start of word
             var t = Forth.Util.StrFromAddrN(caddr, len);
             if (t.Contains(".") && AMCForth.IsValidLong(t.Replace(".", ""), radix))
             {
                 var t_strip = t.Replace(".", "");
                 var temp = AMCForth.ToLong(t_strip, radix);
-                Forth.PushDint(temp);
-                Forth.Push(2);
+                Stack.PushDint(temp);
+                Stack.Push(2);
             }
             else if (AMCForth.IsValidInt(t, radix))
             {
                 var temp = AMCForth.ToInt(t, radix);
 
                 // single-precision
-                Forth.Push(temp);
-                Forth.Push(1);
+                Stack.Push(temp);
+                Stack.Push(1);
             }
             else // nothing we recognize
             {
-                Forth.Push(0);
+                Stack.Push(0);
             }
         }
     }

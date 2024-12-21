@@ -5,8 +5,8 @@ namespace Forth.CoreExt
     [GlobalClass]
     public partial class Unused : Forth.Words
     {
-        public Unused(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public Unused(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "UNUSED";
             Description =
@@ -17,7 +17,7 @@ namespace Forth.CoreExt
 
         public override void Call()
         {
-            Forth.Push(Map.DictTop - Forth.DictTopP);
+            Stack.Push(Map.DictTop - Forth.DictTopP);
         }
     }
 }

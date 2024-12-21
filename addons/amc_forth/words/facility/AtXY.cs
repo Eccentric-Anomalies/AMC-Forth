@@ -5,8 +5,8 @@ namespace Forth.Facility
     [GlobalClass]
     public partial class AtXY : Forth.Words
     {
-        public AtXY(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public AtXY(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "AT-XY";
             Description =
@@ -17,8 +17,8 @@ namespace Forth.Facility
 
         public override void Call()
         {
-            var u2 = Forth.Pop();
-            var u1 = Forth.Pop();
+            var u2 = Stack.Pop();
+            var u1 = Stack.Pop();
             Forth.Util.PrintTerm(Terminal.ESC + System.String.Format("[{0};{1}H", u1, u2));
         }
     }

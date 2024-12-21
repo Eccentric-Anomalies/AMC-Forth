@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class DotQuote : Forth.Words
     {
-        public DotQuote(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public DotQuote(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = ".\"";
             Description = "Type the string when the containing word is executed.";
@@ -19,12 +19,12 @@ namespace Forth.Core
             // compilation behavior
             if (Forth.State)
             {
-                Forth.Push("\"".ToAsciiBuffer()[0]);
+                Stack.Push("\"".ToAsciiBuffer()[0]);
                 Forth.CoreExtWords.Parse.Call();
                 // copy the execution token
                 Forth.Ram.SetInt(Forth.DictTopP, XtX);
-                var l = Forth.Pop();
-                var src = Forth.Pop();
+                var l = Stack.Pop();
+                var src = Stack.Pop();
                 Forth.DictTopP += RAM.CellSize;
                 Forth.Ram.SetByte(Forth.DictTopP, l); // store the length
                 Forth.DictTopP += 1;
@@ -42,9 +42,9 @@ namespace Forth.Core
         public override void CallExec()
         {
             var l = Forth.Ram.GetByte(Forth.DictIp + RAM.CellSize);
-            Forth.Push(Forth.DictIp + RAM.CellSize + 1);
+            Stack.Push(Forth.DictIp + RAM.CellSize + 1);
             // address of the string start
-            Forth.Push(l);
+            Stack.Push(l);
             // length of the string
             // send to the terminal
             Forth.CoreWords.Type.Call();

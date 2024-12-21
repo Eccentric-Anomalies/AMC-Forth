@@ -5,8 +5,8 @@ namespace Forth.Facility
     [GlobalClass]
     public partial class Page : Forth.Words
     {
-        public Page(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public Page(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "PAGE";
             Description =
@@ -17,7 +17,7 @@ namespace Forth.Facility
         public override void Call()
         {
             Forth.Util.PrintTerm(Terminal.CLRSCR);
-            Forth.Push(1);
+            Stack.Push(1);
             Forth.CoreWords.Dup.Call();
             Forth.FacilityWords.AtXY.Call();
         }

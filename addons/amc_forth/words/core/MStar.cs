@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class MStar : Forth.Words
     {
-        public MStar(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public MStar(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "M*";
             Description = "Multiply n1 by n2, leaving the double result d.";
@@ -15,7 +15,7 @@ namespace Forth.Core
 
         public override void Call()
         {
-            Forth.PushDint((long)Forth.Pop() * Forth.Pop());
+            Stack.PushDint((long)Stack.Pop() * Stack.Pop());
         }
     }
 }

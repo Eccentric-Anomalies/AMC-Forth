@@ -5,8 +5,8 @@ namespace Forth.CoreExt
     [GlobalClass]
     public partial class To : Forth.Words
     {
-        public To(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public To(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "TO";
             Description =
@@ -20,8 +20,8 @@ namespace Forth.CoreExt
         {
             // get the name
             Forth.CoreExtWords.ParseName.Call();
-            var len = Forth.Pop(); // length
-            var caddr = Forth.Pop(); // start
+            var len = Stack.Pop(); // length
+            var caddr = Stack.Pop(); // start
             var word = Forth.Util.StrFromAddrN(caddr, len);
             var token_addr_immediate = Forth.FindInDict(word);
             if (token_addr_immediate.Addr != 0)
@@ -45,7 +45,7 @@ namespace Forth.CoreExt
                 {
                     // not compiling
                     // poke top of stack into the memory
-                    Forth.Ram.SetInt(token_addr_immediate.Addr + RAM.CellSize, Forth.Pop());
+                    Forth.Ram.SetInt(token_addr_immediate.Addr + RAM.CellSize, Stack.Pop());
                 }
             }
         }
@@ -54,7 +54,7 @@ namespace Forth.CoreExt
         {
             // compiled execution time functionality of TO
             // Set the TO location from top of stack
-            Forth.Ram.SetInt(Forth.Ram.GetInt(Forth.DictIp + RAM.CellSize), Forth.Pop());
+            Forth.Ram.SetInt(Forth.Ram.GetInt(Forth.DictIp + RAM.CellSize), Stack.Pop());
             Forth.DictIp += RAM.CellSize;
         }
     }

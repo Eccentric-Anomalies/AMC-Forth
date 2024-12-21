@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Drop : Forth.Words
     {
-        public Drop(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public Drop(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "DROP";
             Description = "Drop (remove) the top entry of the stack.";
@@ -15,7 +15,7 @@ namespace Forth.Core
 
         public override void Call()
         {
-            Forth.Pop();
+            Stack.Pop();
         }
     }
 }

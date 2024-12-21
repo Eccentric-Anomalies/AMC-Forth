@@ -40,11 +40,6 @@ public partial class AMCForth : Godot.RefCounted
     // Size of terminal command history
     public const int MaxBufferSize = 20;
 
-    public const int DataStackSize = 100;
-    public const int DataStackTop = DataStackSize - 1;
-
-    public const int ReturnStackSize = 100;
-
     // Masks for built-in execution tokens
     public const uint XtUnusedMask = 0x80000000;
     public const uint BuiltInXtMask = 0x040000000;
@@ -67,6 +62,7 @@ public partial class AMCForth : Godot.RefCounted
     // Reference to the physical memory and utilities
     public RAM Ram;
     public Util Util;
+    public Stack Stack;
 
     // Forth Word Classes
     public Forth.AMCExt.AMCExtSet AMCExtWords;
@@ -104,14 +100,6 @@ public partial class AMCForth : Godot.RefCounted
 
     // Forth : exit flag (true if exit has been called)
     public bool ExitFlag = false;
-
-    // Forth: data stack
-    public int[] DataStack = new int[DataStackSize];
-    public int DsP;
-
-    // Forth: return stack
-    public int[] ReturnStack = new int[ReturnStackSize];
-    public int RsP;
 
     // Structure of an output port signal (owner, event name)
     public readonly struct OutputPortSignal
@@ -491,31 +479,31 @@ public partial class AMCForth : Godot.RefCounted
         var p = DictP;
         while (p != -1) // <empty>
         {
-            Push(Map.DictBuffStart); // c-addr
+            Stack.Push(Map.DictBuffStart); // c-addr
             CoreWords.Count.Call(); // search word in addr  # addr n
-            Push(p + RAM.CellSize); // entry name  # addr n c-addr
+            Stack.Push(p + RAM.CellSize); // entry name  # addr n c-addr
             CoreWords.Count.Call(); // candidate word in addr			# addr n addr n
-            var n_raw_length = Pop(); // addr n addr
+            var n_raw_length = Stack.Pop(); // addr n addr
             var n_length = n_raw_length & ~(SmudgeBitMask | ImmediateBitMask);
-            Push(n_length); // strip the SMUDGE and IMMEDIATE bits and restore # addr n addr n
+            Stack.Push(n_length); // strip the SMUDGE and IMMEDIATE bits and restore # addr n addr n
             // only check if the entry has a clear smudge bit
             if ((n_raw_length & SmudgeBitMask) == 0)
             {
                 StringWords.Compare.Call();
                 // is this the correct entry?
-                if (Pop() == 0)
+                if (Stack.Pop() == 0)
                 {
                     // found it. Link address + link size + string length byte + string, aligned
-                    Push(p + RAM.CellSize + 1 + n_length); // n
+                    Stack.Push(p + RAM.CellSize + 1 + n_length); // n
                     CoreWords.Aligned.Call(); // a
-                    return new(Pop(), (n_raw_length & ImmediateBitMask) != 0);
+                    return new(Stack.Pop(), (n_raw_length & ImmediateBitMask) != 0);
                 }
             }
             else
             {
                 // clean up the stack
-                PopDword(); // addr n
-                PopDword();
+                Stack.PopDword(); // addr n
+                Stack.PopDword();
             }
             // not found, drill down to the next entry
             p = Ram.GetInt(p);
@@ -535,8 +523,8 @@ public partial class AMCForth : Godot.RefCounted
         // ( - )
         // Grab the name
         CoreExtWords.ParseName.Call();
-        var len = Pop(); // length
-        var caddr = Pop(); // start
+        var len = Stack.Pop(); // length
+        var caddr = Stack.Pop(); // start
         if (len <= MaxNameLength)
         {
             // poke address of last link at next spot, but only if this isn't
@@ -558,9 +546,9 @@ public partial class AMCForth : Godot.RefCounted
             var ret = DictTopP;
             DictTopP += 1;
             // copy the name
-            Push(caddr);
-            Push(DictTopP);
-            Push(len);
+            Stack.Push(caddr);
+            Stack.Push(DictTopP);
+            Stack.Push(len);
             CoreWords.Move.Call();
             DictTopP += len;
             CoreWords.Align.Call(); // will save dict_top
@@ -724,106 +712,6 @@ public partial class AMCForth : Godot.RefCounted
                 StartPeriodicTimer(id, msec, xt);
             }
         }
-    }
-
-    // Forth Data Stack Push and Pop Routines
-
-    public void Push(int val)
-    {
-        DsP -= 1;
-        DataStack[DsP] = val;
-    }
-
-    public int Pop()
-    {
-        if (DsP < DataStackSize)
-        {
-            DsP += 1;
-            return DataStack[DsP - 1];
-        }
-        Util.RprintTerm(" Data stack underflow");
-        return 0;
-    }
-
-    public void PushDint(long val)
-    {
-        var t = RAM.Split64(val);
-        Push(t.Lo);
-        Push(t.Hi);
-    }
-
-    public long PopDint()
-    {
-        return RAM.Combine64(Pop(), Pop());
-    }
-
-    // Forth Return Stack Push and Pop Routines
-
-    public void RPush(int val)
-    {
-        RsP -= 1;
-        ReturnStack[RsP] = val;
-    }
-
-    public int RPop()
-    {
-        if (RsP < ReturnStackSize)
-        {
-            RsP += 1;
-            return ReturnStack[RsP - 1];
-        }
-        Util.RprintTerm(" Return stack underflow");
-        return 0;
-    }
-
-    public void RPushDint(long val)
-    {
-        var t = RAM.Split64(val);
-        RPush(t.Lo);
-        RPush(t.Hi);
-    }
-
-    public long RPopDint()
-    {
-        return RAM.Combine64(RPop(), RPop());
-    }
-
-    // top of stack is 0, next dint is at 2, etc.
-    public long GetDint(int index)
-    {
-        return RAM.Combine64(DataStack[DsP + index], DataStack[DsP + index + 1]);
-    }
-
-    public void SetDint(int index, long value)
-    {
-        var s = RAM.Split64(value);
-        DataStack[DsP + index] = s.Hi;
-        DataStack[DsP + index + 1] = s.Lo;
-    }
-
-    public void PushDword(ulong value)
-    {
-        var s = RAM.Split64((long)value);
-        Push(s.Lo);
-        Push(s.Hi);
-    }
-
-    public void SetDword(int index, ulong value)
-    {
-        var s = RAM.Split64((int)value);
-        DataStack[DsP + index] = s.Hi;
-        DataStack[DsP + index + 1] = s.Lo;
-    }
-
-    public ulong PopDword()
-    {
-        return (ulong)RAM.Combine64(Pop(), Pop());
-    }
-
-    // top of stack is -1, next dint is at -3, etc.
-    public ulong GetDword(int index)
-    {
-        return (ulong)RAM.Combine64(DataStack[DsP + index], DataStack[DsP + index + 1]);
     }
 
     // save the internal top of dict pointer to RAM
@@ -1003,31 +891,27 @@ public partial class AMCForth : Godot.RefCounted
         Ram.Allocate(Map.RamSize);
         Util = new();
         Util.Initialize(this);
+        Stack = new();
+        Stack.Initialize(this);
         // Instantiate Forth word definitions
-        CommonUseWords = new(this);
-        CoreWords = new(this);
-        CoreExtWords = new(this);
-        DoubleWords = new(this);
-        DoubleExtWords = new(this);
-        FacilityWords = new(this);
-        FileWords = new(this);
-        FileExtWords = new(this);
-        StringWords = new(this);
-        ToolsWords = new(this);
-        ToolsExtWords = new(this);
-        AMCExtWords = new(this);
+        CommonUseWords = new(this, Stack);
+        CoreWords = new(this, Stack);
+        CoreExtWords = new(this, Stack);
+        DoubleWords = new(this, Stack);
+        DoubleExtWords = new(this, Stack);
+        FacilityWords = new(this, Stack);
+        FileWords = new(this, Stack);
+        FileExtWords = new(this, Stack);
+        StringWords = new(this, Stack);
+        ToolsWords = new(this, Stack);
+        ToolsExtWords = new(this, Stack);
+        AMCExtWords = new(this, Stack);
 
         // Generate Documentation File
         if (OS.HasFeature("editor"))
         {
             CreateBuiltInsDocuments();
         }
-
-        // Initialize the data stack pointer
-        DsP = DataStackSize;
-
-        // Initialize the return stack pointer
-        RsP = ReturnStackSize;
 
         // set the terminal link in the dictionary
         Ram.SetInt(DictP, -1);
@@ -1147,8 +1031,8 @@ public partial class AMCForth : Godot.RefCounted
                 int xt = Ram.GetInt(Map.IoInMapStart + evt.Port * 2 * RAM.CellSize);
                 if (xt != 0)
                 {
-                    Push(evt.Value); // store the value
-                    Push(xt); // store the execution token
+                    Stack.Push(evt.Value); // store the value
+                    Stack.Push(xt); // store the execution token
                     CoreWords.Execute.Call(); // execute the token
                 }
             }
@@ -1161,7 +1045,7 @@ public partial class AMCForth : Godot.RefCounted
                 var xt = Ram.GetInt(Map.PeriodicStart + (id * 2 + 1) * RAM.CellSize);
                 if (xt != 0)
                 {
-                    Push(xt);
+                    Stack.Push(xt);
                     CoreWords.Execute.Call();
                 }
                 else
@@ -1185,7 +1069,7 @@ public partial class AMCForth : Godot.RefCounted
         // retrieve the address of the current buffer pointer
         CoreWords.ToIn.Call();
         // and set its contents to zero
-        Ram.SetInt(Pop(), 0);
+        Ram.SetInt(Stack.Pop(), 0);
     }
 
     public static bool IsValidInt(string word, int radix = 10)
@@ -1233,8 +1117,8 @@ public partial class AMCForth : Godot.RefCounted
         {
             Ram.SetByte(Map.BuffSourceStart + i, bytes_input[i]);
         }
-        Push(Map.BuffSourceStart);
-        Push(bytes_input.Length);
+        Stack.Push(Map.BuffSourceStart);
+        Stack.Push(bytes_input.Length);
         SourceId = -1;
         CoreWords.Evaluate.Call();
         Util.RprintTerm(" ok");

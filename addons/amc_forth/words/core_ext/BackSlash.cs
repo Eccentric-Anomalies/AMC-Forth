@@ -5,8 +5,8 @@ namespace Forth.CoreExt
     [GlobalClass]
     public partial class BackSlash : Forth.Words
     {
-        public BackSlash(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public BackSlash(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "\\";
             Description = "Begin parsing a comment, terminated by end of line.";
@@ -16,7 +16,7 @@ namespace Forth.CoreExt
 
         public override void Call()
         {
-            Forth.Push(Terminal.CR.ToAsciiBuffer()[0]);
+            Stack.Push(Terminal.CR.ToAsciiBuffer()[0]);
             Forth.CoreExtWords.Parse.Call();
             Forth.CoreWords.TwoDrop.Call();
         }

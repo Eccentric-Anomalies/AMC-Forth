@@ -17,14 +17,14 @@ namespace Forth.CommonUse
 
         private const string Wordset = "COMMON USE";
 
-        public CommonUseSet(AMCForth _forth)
+        public CommonUseSet(AMCForth _forth, Stack stack)
         {
-            TwoPlus = new(_forth, Wordset);
-            TwoMinus = new(_forth, Wordset);
-            MMinus = new(_forth, Wordset);
-            MSlash = new(_forth, Wordset);
-            Not = new(_forth, Wordset);
-            NumberQuestion = new(_forth, Wordset);
+            TwoPlus = new(_forth, stack, Wordset);
+            TwoMinus = new(_forth, stack, Wordset);
+            MMinus = new(_forth, stack, Wordset);
+            MSlash = new(_forth, stack, Wordset);
+            Not = new(_forth, stack, Wordset);
+            NumberQuestion = new(_forth, stack, Wordset);
         }
     }
 }

@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class PlusLoop : Forth.Words
     {
-        public PlusLoop(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public PlusLoop(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "+LOOP";
             Description =
@@ -36,10 +36,10 @@ namespace Forth.Core
         public override void CallExec()
         {
             // pull out the increment
-            var n = Forth.Pop();
+            var n = Stack.Pop();
             Forth.CoreExtWords.TwoRFrom.Call(); // Move two loop params to the data stack.
-            var i = (long)Forth.Pop(); // current index
-            var limit = (long)Forth.Pop(); // limit value
+            var i = (long)Stack.Pop(); // current index
+            var limit = (long)Stack.Pop(); // limit value
             var above_before = i >= limit;
             var next_i = i + n;
             var above_after = next_i >= limit;
@@ -51,9 +51,9 @@ namespace Forth.Core
             else
             {
                 // loop must continue
-                Forth.Push((int)limit);
+                Stack.Push((int)limit);
                 // original limit
-                Forth.Push((int)next_i);
+                Stack.Push((int)next_i);
                 // new index
                 // Branch back. The DO or ?DO exec will push the values
                 // back on the return stack

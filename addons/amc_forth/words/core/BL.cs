@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class BL : Forth.Words
     {
-        public BL(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public BL(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "BL";
             Description = "Return char, the ASCII character value of a space.";
@@ -15,7 +15,7 @@ namespace Forth.Core
 
         public override void Call()
         {
-            Forth.Push(Terminal.BL.ToAsciiBuffer()[0]);
+            Stack.Push(Terminal.BL.ToAsciiBuffer()[0]);
         }
     }
 }

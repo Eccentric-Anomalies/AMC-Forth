@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class CComma : Forth.Words
     {
-        public CComma(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public CComma(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "C,";
             Description = "Reserve one byte of data space and store char in the byte.";
@@ -15,7 +15,7 @@ namespace Forth.Core
 
         public override void Call()
         {
-            Forth.Ram.SetByte(Forth.DictTopP, Forth.Pop());
+            Forth.Ram.SetByte(Forth.DictTopP, Stack.Pop());
             Forth.DictTopP += 1;
             Forth.SaveDictTop(); // preserve dictionary state
         }

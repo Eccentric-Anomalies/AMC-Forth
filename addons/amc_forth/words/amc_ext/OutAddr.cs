@@ -5,8 +5,8 @@ namespace Forth.AMCExt
     [GlobalClass]
     public partial class OutAddr : Words
     {
-        public OutAddr(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public OutAddr(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "OUT-ADDR";
             Description = "Return memory addr from output port p.";
@@ -15,7 +15,7 @@ namespace Forth.AMCExt
 
         public override void Call()
         {
-            Forth.Push(Forth.Pop() * RAM.CellSize + Map.IoOutStart);
+            Stack.Push(Stack.Pop() * RAM.CellSize + Map.IoOutStart);
         }
     }
 }

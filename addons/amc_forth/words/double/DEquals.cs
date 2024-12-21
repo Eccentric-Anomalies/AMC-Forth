@@ -5,8 +5,8 @@ namespace Forth.Double
     [GlobalClass]
     public partial class DEquals : Forth.Words
     {
-        public DEquals(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public DEquals(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "D=";
             Description = "Return true if and only if d1 is equal to d2.";
@@ -15,14 +15,14 @@ namespace Forth.Double
 
         public override void Call()
         {
-            var t = Forth.PopDint();
-            if (Forth.PopDint() == t)
+            var t = Stack.PopDint();
+            if (Stack.PopDint() == t)
             {
-                Forth.Push(AMCForth.True);
+                Stack.Push(AMCForth.True);
             }
             else
             {
-                Forth.Push(AMCForth.False);
+                Stack.Push(AMCForth.False);
             }
         }
     }

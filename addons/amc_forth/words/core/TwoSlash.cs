@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class TwoSlash : Forth.Words
     {
-        public TwoSlash(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public TwoSlash(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "2/";
             Description =
@@ -18,7 +18,7 @@ namespace Forth.Core
         public override void Call()
         {
             // shift right, copying MSB
-            Forth.DataStack[Forth.DsP] = Forth.DataStack[Forth.DsP] >> 1;
+            Stack.DataStack[Stack.DsP] = Stack.DataStack[Stack.DsP] >> 1;
         }
     }
 }

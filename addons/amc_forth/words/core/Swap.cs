@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Swap : Forth.Words
     {
-        public Swap(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public Swap(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "SWAP";
             Description = "Exchange the top two items on the stack.";
@@ -15,9 +15,9 @@ namespace Forth.Core
 
         public override void Call()
         {
-            var x1 = Forth.DataStack[Forth.DsP + 1];
-            Forth.DataStack[Forth.DsP + 1] = Forth.DataStack[Forth.DsP];
-            Forth.DataStack[Forth.DsP] = x1;
+            var x1 = Stack.DataStack[Stack.DsP + 1];
+            Stack.DataStack[Stack.DsP + 1] = Stack.DataStack[Stack.DsP];
+            Stack.DataStack[Stack.DsP] = x1;
         }
     }
 }

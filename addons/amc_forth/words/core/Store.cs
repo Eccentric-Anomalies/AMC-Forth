@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Store : Forth.Words
     {
-        public Store(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public Store(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "!";
             Description = "Store x in the cell at a-addr.";
@@ -15,8 +15,8 @@ namespace Forth.Core
 
         public override void Call()
         {
-            var addr = Forth.Pop();
-            Forth.Ram.SetInt(addr, Forth.Pop());
+            var addr = Stack.Pop();
+            Forth.Ram.SetInt(addr, Stack.Pop());
         }
     }
 }

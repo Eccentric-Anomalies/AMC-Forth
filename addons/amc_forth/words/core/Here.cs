@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Here : Forth.Words
     {
-        public Here(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public Here(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "HERE";
             Description = "Return address of the next available location in data-space.";
@@ -15,7 +15,7 @@ namespace Forth.Core
 
         public override void Call()
         {
-            Forth.Push(Forth.DictTopP);
+            Stack.Push(Forth.DictTopP);
         }
     }
 }

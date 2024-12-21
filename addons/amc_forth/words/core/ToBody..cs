@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class ToBody : Forth.Words
     {
-        public ToBody(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public ToBody(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = ">BODY";
             Description =
@@ -19,10 +19,10 @@ namespace Forth.Core
         {
             // Note this has no meaning for built-in execution tokens, which
             // have no parameter field.
-            var xt = Forth.Pop();
+            var xt = Stack.Pop();
             if (xt >= Map.DictStart && xt < Map.DictTop)
             {
-                Forth.Push(xt + RAM.CellSize);
+                Stack.Push(xt + RAM.CellSize);
             }
             else
             {

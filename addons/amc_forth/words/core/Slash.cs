@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Slash : Forth.Words
     {
-        public Slash(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public Slash(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "/";
             Description = "Divide n1 by n2, leaving the quotient n3.";
@@ -15,8 +15,8 @@ namespace Forth.Core
 
         public override void Call()
         {
-            var d = Forth.Pop();
-            Forth.Push(Forth.Pop() / d);
+            var d = Stack.Pop();
+            Stack.Push(Stack.Pop() / d);
         }
     }
 }

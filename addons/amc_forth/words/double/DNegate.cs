@@ -5,8 +5,8 @@ namespace Forth.Double
     [GlobalClass]
     public partial class DNegate : Forth.Words
     {
-        public DNegate(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public DNegate(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "DNEGATE";
             Description = "Change the sign of the top stack value.";
@@ -15,7 +15,7 @@ namespace Forth.Double
 
         public override void Call()
         {
-            Forth.SetDint(0, -Forth.GetDint(0));
+            Stack.SetDint(0, -Stack.GetDint(0));
         }
     }
 }

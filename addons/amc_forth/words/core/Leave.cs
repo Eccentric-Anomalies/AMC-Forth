@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Leave : Forth.Words
     {
-        public Leave(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public Leave(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "LEAVE";
             Description =
@@ -30,8 +30,8 @@ namespace Forth.Core
         public override void CallExec()
         {
             // Discard loop parameters
-            Forth.RPop();
-            Forth.RPop();
+            Stack.RPop();
+            Stack.RPop();
             // Skip ahead to the LOOP address in the next cell
             Forth.DictIp = Forth.Ram.GetInt(Forth.DictIp + RAM.CellSize);
         }

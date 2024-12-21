@@ -5,8 +5,8 @@ namespace Forth.CoreExt
     [GlobalClass]
     public partial class CQuote : Forth.Words
     {
-        public CQuote(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public CQuote(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "C\"";
             Description =
@@ -18,14 +18,14 @@ namespace Forth.CoreExt
 
         public override void Call()
         {
-            Forth.Push("\"".ToAsciiBuffer()[0]);
+            Stack.Push("\"".ToAsciiBuffer()[0]);
             Forth.CoreExtWords.Parse.Call();
             if (Forth.State) // compilation behavior
             {
                 // copy the execution token
                 Forth.Ram.SetInt(Forth.DictTopP, XtX); // store the value
-                var l = Forth.Pop(); // length of the string
-                var src = Forth.Pop(); // first byte address
+                var l = Stack.Pop(); // length of the string
+                var src = Stack.Pop(); // first byte address
                 Forth.DictTopP += RAM.CellSize;
                 Forth.Ram.SetByte(Forth.DictTopP, l); // store the length
                 Forth.DictTopP += 1; // beginning of string characters
@@ -42,7 +42,7 @@ namespace Forth.CoreExt
         public override void CallExec()
         {
             var l = Forth.Ram.GetByte(Forth.DictIp + RAM.CellSize);
-            Forth.Push(Forth.DictIp + RAM.CellSize); // address of the string start
+            Stack.Push(Forth.DictIp + RAM.CellSize); // address of the string start
             // moves to string cell for l in 0..3, then one cell past for l in 4..7, etc.
             Forth.DictIp += ((l / RAM.CellSize) + 1) * RAM.CellSize;
         }

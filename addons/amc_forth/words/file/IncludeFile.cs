@@ -5,8 +5,8 @@ namespace Forth.File
     [GlobalClass]
     public partial class IncludeFile : Forth.Words
     {
-        public IncludeFile(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public IncludeFile(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "INCLUDE-FILE";
             Description =
@@ -21,7 +21,7 @@ namespace Forth.File
             var flag = AMCForth.True;
             var u2 = 0;
             var ior = 0;
-            var fileid = Forth.Pop();
+            var fileid = Stack.Pop();
             Forth.SourceIdStack.Push(Forth.SourceId); // save the current source
             Forth.SourceId = fileid; // new source id
             var buff_data = fileid + Map.FileBuffDataOffset; // address of data buffer
@@ -29,24 +29,24 @@ namespace Forth.File
             while ((ior == 0) && (flag == AMCForth.True))
             {
                 Forth.Ram.SetInt(fileid + Map.FileBuffPtrOffset, 0); // clear the buffer pointer
-                Forth.Push(buff_data);
-                Forth.Push(buff_size);
-                Forth.Push(fileid);
+                Stack.Push(buff_data);
+                Stack.Push(buff_size);
+                Stack.Push(fileid);
                 Forth.FileWords.ReadLine.Call();
-                ior = Forth.Pop();
-                flag = Forth.Pop();
-                u2 = Forth.Pop();
+                ior = Stack.Pop();
+                flag = Stack.Pop();
+                u2 = Stack.Pop();
                 if (u2 != 0) // process the line read, if any
                 {
-                    Forth.Push(buff_data);
-                    Forth.Push(u2);
+                    Stack.Push(buff_data);
+                    Stack.Push(u2);
                     Forth.CoreWords.Evaluate.Call();
                 }
             }
             Forth.SourceId = Forth.SourceIdStack.Pop(); // restore the previous source
-            Forth.Push(fileid); // close the file
+            Stack.Push(fileid); // close the file
             Forth.FileWords.CloseFile.Call();
-            Forth.Pop();
+            Stack.Pop();
         }
     }
 }

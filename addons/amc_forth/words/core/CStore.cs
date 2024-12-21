@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class CStore : Forth.Words
     {
-        public CStore(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public CStore(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "C!";
             Description =
@@ -17,8 +17,8 @@ namespace Forth.Core
 
         public override void Call()
         {
-            var addr = Forth.Pop();
-            Forth.Ram.SetByte(addr, Forth.Pop());
+            var addr = Stack.Pop();
+            Forth.Ram.SetByte(addr, Stack.Pop());
         }
     }
 }

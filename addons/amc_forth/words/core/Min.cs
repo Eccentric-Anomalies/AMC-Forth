@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Min : Forth.Words
     {
-        public Min(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public Min(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "MIN";
             Description = "Return n3, the lesser of n1 and n2.";
@@ -15,10 +15,10 @@ namespace Forth.Core
 
         public override void Call()
         {
-            var n2 = Forth.Pop();
-            if (n2 < Forth.DataStack[Forth.DsP])
+            var n2 = Stack.Pop();
+            if (n2 < Stack.DataStack[Stack.DsP])
             {
-                Forth.DataStack[Forth.DsP] = n2;
+                Stack.DataStack[Stack.DsP] = n2;
             }
         }
     }

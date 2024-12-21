@@ -6,8 +6,8 @@ namespace Forth.AMCExt
     [GlobalClass]
     public partial class PTimer : Forth.Words
     {
-        public PTimer(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public PTimer(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "P-TIMER";
             Description =
@@ -23,15 +23,15 @@ namespace Forth.AMCExt
             // ( i n - n i )
             Forth.CoreWords.Dup.Call();
             // ( n i - n i i )
-            var id = Forth.Pop();
+            var id = Stack.Pop();
             // ( n i i - n i )
             GetTimerAddress();
             // ( n i - n addr )
             Forth.CoreWords.Tick.Call();
             // ( n addr - n addr xt )
-            var xt = Forth.Pop();
-            var addr = Forth.Pop();
-            var ms = Forth.Pop();
+            var xt = Stack.Pop();
+            var addr = Stack.Pop();
+            var ms = Stack.Pop();
             // ( - )
             try
             {
@@ -54,10 +54,10 @@ namespace Forth.AMCExt
             // Utility to accept timer id and leave the start address of
             // its msec, xt pair
             // ( id - addr )
-            Forth.Push(RAM.CellSize);
+            Stack.Push(RAM.CellSize);
             Forth.CoreWords.TwoStar.Call();
             Forth.CoreWords.Star.Call();
-            Forth.Push(Map.PeriodicStart);
+            Stack.Push(Map.PeriodicStart);
             Forth.CoreWords.Plus.Call();
         }
     }

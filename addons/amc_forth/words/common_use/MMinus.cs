@@ -5,8 +5,8 @@ namespace Forth.CommonUse
     [GlobalClass]
     public partial class MMinus : Forth.Words
     {
-        public MMinus(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public MMinus(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "M-";
             Description = "Subtract n from d1 leaving the difference d2.";
@@ -15,8 +15,8 @@ namespace Forth.CommonUse
 
         public override void Call()
         {
-            var n = Forth.Pop();
-            Forth.PushDint(Forth.PopDint() - n);
+            var n = Stack.Pop();
+            Stack.PushDint(Stack.PopDint() - n);
         }
     }
 }

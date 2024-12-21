@@ -5,8 +5,8 @@ namespace Forth.CoreExt
     [GlobalClass]
     public partial class DotLeftParenthesis : Forth.Words
     {
-        public DotLeftParenthesis(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public DotLeftParenthesis(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = ".(";
             Description =
@@ -17,7 +17,7 @@ namespace Forth.CoreExt
 
         public override void Call()
         {
-            Forth.Push(")".ToAsciiBuffer()[0]);
+            Stack.Push(")".ToAsciiBuffer()[0]);
             Forth.CoreExtWords.Parse.Call();
             Forth.CoreWords.Type.Call();
         }

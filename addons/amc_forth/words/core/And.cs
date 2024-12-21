@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class And : Forth.Words
     {
-        public And(AMCForth forth, string wordset)
-            : base(forth, wordset)
+        public And(AMCForth forth, Stack stack, string wordset)
+            : base(forth, stack, wordset)
         {
             Name = "AND";
             Description = "Return x3, the bit-wise logical AND of x1 and x2.";
@@ -15,7 +15,7 @@ namespace Forth.Core
 
         public override void Call()
         {
-            Forth.Push(Forth.Pop() & Forth.Pop());
+            Stack.Push(Stack.Pop() & Stack.Pop());
         }
     }
 }
