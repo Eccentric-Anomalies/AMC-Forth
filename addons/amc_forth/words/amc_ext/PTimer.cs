@@ -45,9 +45,7 @@ namespace Forth.AMCExt
             }
             catch (ArgumentOutOfRangeException)
             {
-                Forth.Util.RprintTerm(
-                    $" Timer ID out of range (maximum {AMCForth.PeriodicTimerQty})."
-                );
+                Forth.Util.RprintTerm($" Timer ID out of range (maximum {Map.PeriodicTimerQty}).");
             }
         }
 
@@ -59,7 +57,7 @@ namespace Forth.AMCExt
             Forth.Push(RAM.CellSize);
             Forth.CoreWords.TwoStar.Call();
             Forth.CoreWords.Star.Call();
-            Forth.Push(AMCForth.PeriodicStart);
+            Forth.Push(Map.PeriodicStart);
             Forth.CoreWords.Plus.Call();
         }
     }

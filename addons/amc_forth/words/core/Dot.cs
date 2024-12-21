@@ -15,7 +15,7 @@ namespace Forth.Core
 
         public override void Call()
         {
-            var fmt = Forth.Ram.GetInt(AMCForth.Base) == 10 ? "F0" : "X";
+            var fmt = Forth.Ram.GetInt(Map.Base) == 10 ? "F0" : "X";
             var num = Forth.Pop();
             Forth.Util.PrintTerm(" " + num.ToString(fmt));
         }

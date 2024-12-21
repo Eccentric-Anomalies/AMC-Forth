@@ -19,7 +19,7 @@ namespace Forth.AMCExt
             var port = Forth.Pop();
             Forth.CoreWords.Cells.Call();
             // offset in bytes
-            Forth.Push(AMCForth.IoOutStart);
+            Forth.Push(Map.IoOutStart);
             // address of output block
             Forth.CoreWords.Plus.Call();
             // output address

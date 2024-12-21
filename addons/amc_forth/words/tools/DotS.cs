@@ -17,7 +17,7 @@ namespace Forth.Tools
         public override void Call()
         {
             var pointer = AMCForth.DataStackTop;
-            var fmt = Forth.Ram.GetInt(AMCForth.Base) == 10 ? "F0" : "X";
+            var fmt = Forth.Ram.GetInt(Map.Base) == 10 ? "F0" : "X";
             Forth.Util.RprintTerm("");
             while (pointer >= Forth.DsP)
             {

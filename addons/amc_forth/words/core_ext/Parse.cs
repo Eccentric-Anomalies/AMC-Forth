@@ -19,7 +19,7 @@ namespace Forth.CoreExt
         public override void Call()
         {
             var count = 0;
-            var ptr = AMCForth.WordBuffStart + 1;
+            var ptr = Map.WordBuffStart + 1;
             var delim = Forth.Pop();
             Forth.CoreWords.Source.Call();
             var source_size = Forth.Pop();

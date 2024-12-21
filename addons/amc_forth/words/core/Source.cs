@@ -17,13 +17,13 @@ namespace Forth.Core
         {
             if (Forth.SourceId == -1)
             {
-                Forth.Push(AMCForth.BuffSourceStart);
-                Forth.Push(AMCForth.BuffSourceSize);
+                Forth.Push(Map.BuffSourceStart);
+                Forth.Push(Map.BuffSourceSize);
             }
             else if (Forth.SourceId != 0)
             {
-                Forth.Push(Forth.SourceId + AMCForth.FileBuffDataOffset);
-                Forth.Push(AMCForth.FileBuffDataSize);
+                Forth.Push(Forth.SourceId + Map.FileBuffDataOffset);
+                Forth.Push(Map.FileBuffDataSize);
             }
         }
     }

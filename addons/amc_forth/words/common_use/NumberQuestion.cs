@@ -18,7 +18,7 @@ namespace Forth.CommonUse
 
         public override void Call()
         {
-            var radix = Forth.Ram.GetInt(AMCForth.Base);
+            var radix = Forth.Ram.GetInt(Map.Base);
             var len = Forth.Pop();
             // length of word
             var caddr = Forth.Pop();

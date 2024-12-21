@@ -4,11 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Security;
 using Forth;
-using Forth.CommonUse;
-using Forth.Core;
-using Forth.File;
 using Godot;
-using Godot.Collections;
 
 [GlobalClass]
 public partial class AMCForth : Godot.RefCounted
@@ -36,89 +32,6 @@ public partial class AMCForth : Godot.RefCounted
 
     public const string Banner = "AMC Forth";
     public const string ConfigFileName = "user://ForthState.cfg";
-
-    // Memory Map
-    public const int RamSize = 0x20000;
-
-    // BYTES
-    // Dictionary
-    public const int DictStart = 0x0100;
-
-    // BYTES
-    public const int DictSize = 0x08000;
-    public const int DictTop = DictStart + DictSize;
-
-    // Dictionary scratch space
-    public const int DictBuffSize = 0x040;
-
-    // word-sized
-    public const int DictBuffStart = DictTop;
-    public const int DictBuffTop = DictBuffStart + DictBuffSize;
-
-    // Input Buffer
-    public const int BuffSourceSize = 0x0100;
-
-    // bytes
-    public const int BuffSourceStart = DictBuffTop;
-    public const int BuffSourceTop = BuffSourceStart + BuffSourceSize;
-
-    // File Buffers
-    public const int FileBuffQty = 8;
-
-    // number of simultaneous open files possible
-    public const int FileBuffIdOffset = 0;
-
-    // offset in buffer to fileid
-    public const int FileBuffPtrOffset = RAM.CellSize;
-
-    // location of pointer
-    public const int FileBuffDataOffset = RAM.CellSize * 2;
-
-    // location of buff data
-    public const int FileBuffSize = 0x0100;
-
-    // bytes, overall
-    public const int FileBuffDataSize = FileBuffSize - FileBuffDataOffset;
-    public const int FileBuffStart = BuffSourceTop;
-    public const int FileBuffTop = FileBuffStart + FileBuffSize * FileBuffQty;
-
-    // Pointer to the parse position in the TERMINAL buffer
-    public const int BuffToIn = FileBuffTop;
-    public const int BuffToInTop = BuffToIn + RAM.CellSize;
-
-    // Temporary word storage (used by WORD)
-    public const int WordBuffSize = 0x0100;
-    public const int WordBuffStart = BuffToInTop;
-    public const int WordBuffTop = WordBuffStart + WordBuffSize;
-
-    // BASE cell
-    public const int Base = WordBuffTop;
-
-    // DICT_TOP_PTR cell
-    public const int DictTopPtr = Base + RAM.CellSize;
-
-    // DICT_PTR
-    public const int DictPtr = DictTopPtr + RAM.CellSize;
-
-    // IO SPACE - cell-sized ports identified by port # ranging from 0 to 255
-    public const int IoOutPortQty = 0x0100;
-    public const int IoOutTop = RamSize;
-    public const int IoOutStart = IoOutTop - IoOutPortQty * RAM.CellSize;
-    public const int IoInPortQty = 0x0100;
-    public const int IoInTop = IoOutStart;
-    public const int IoInStart = IoInTop - IoInPortQty * RAM.CellSize;
-    public const int IoInMapTop = IoInStart;
-
-    // (xt, QueueMode) for every port that is being listened on (double cell entries)
-    public const int IoInMapStart = IoInMapTop - IoInPortQty * 2 * RAM.CellSize;
-
-    // PERIODIC TIMER SPACE
-    public const int PeriodicTimerQty = 0x080;
-
-    // Timer IDs 0-127, stored as @addr: msec, xt
-    public const int PeriodicTop = IoInStart;
-
-    public const int PeriodicStart = (PeriodicTop - PeriodicTimerQty * RAM.CellSize * 2);
 
     // Add more pointers here
     public const int True = -1;
@@ -317,19 +230,19 @@ public partial class AMCForth : Godot.RefCounted
     // return the file id or zero if none available
     public int AssignFileId(Godot.FileAccess file, int new_mode)
     {
-        for (int i = 0; i < FileBuffQty; i++)
+        for (int i = 0; i < Map.FileBuffQty; i++)
         {
-            var addr = i * FileBuffSize + FileBuffStart;
-            var mode = Ram.GetInt(addr + FileBuffIdOffset);
+            var addr = i * Map.FileBuffSize + Map.FileBuffStart;
+            var mode = Ram.GetInt(addr + Map.FileBuffIdOffset);
             if (mode == 0)
             {
                 // available file handle
-                Ram.SetInt(addr + FileBuffIdOffset, new_mode);
-                Ram.SetInt(addr + FileBuffPtrOffset, 0);
+                Ram.SetInt(addr + Map.FileBuffIdOffset, new_mode);
+                Ram.SetInt(addr + Map.FileBuffPtrOffset, 0);
                 _FileIdDict[addr] = file;
                 return addr;
             }
-            addr += FileBuffSize;
+            addr += Map.FileBuffSize;
         }
         return 0;
     }
@@ -356,7 +269,7 @@ public partial class AMCForth : Godot.RefCounted
         }
 
         // clear the buffer entry
-        Ram.SetInt(id + FileBuffIdOffset, 0);
+        Ram.SetInt(id + Map.FileBuffIdOffset, 0);
 
         // erase the dictionary entry
         _FileIdDict.Remove(id);
@@ -573,12 +486,12 @@ public partial class AMCForth : Godot.RefCounted
             return new(0, false);
         }
         // stuff the search string in data memory
-        Util.CstringFromStr(DictBuffStart, word);
+        Util.CstringFromStr(Map.DictBuffStart, word);
         // make a temporary pointer
         var p = DictP;
         while (p != -1) // <empty>
         {
-            Push(DictBuffStart); // c-addr
+            Push(Map.DictBuffStart); // c-addr
             CoreWords.Count.Call(); // search word in addr  # addr n
             Push(p + RAM.CellSize); // entry name  # addr n c-addr
             CoreWords.Count.Call(); // candidate word in addr			# addr n addr n
@@ -694,7 +607,7 @@ public partial class AMCForth : Godot.RefCounted
     // Utility function to add an input event to the queue
     public void InputEvent(int port, int value)
     {
-        var q = (QueueMode)Ram.GetInt(IoInMapStart + RAM.CellSize * (2 * port + 1));
+        var q = (QueueMode)Ram.GetInt(Map.IoInMapStart + RAM.CellSize * (2 * port + 1));
         var item = new PortEvent(port, value);
         bool enqueue = false;
         int i;
@@ -727,7 +640,7 @@ public partial class AMCForth : Godot.RefCounted
                 }
             }
             InputPortMutex.Unlock();
-            if (i < 0 && Ram.GetInt(IoInStart + port * RAM.CellSize) != value)
+            if (i < 0 && Ram.GetInt(Map.IoInStart + port * RAM.CellSize) != value)
             {
                 // exhausted the entire queue without a matching port, and the new
                 // value is different from the value currently stored. Enqueue it!
@@ -801,9 +714,9 @@ public partial class AMCForth : Godot.RefCounted
     // Create and start all configured timers
     protected void RestoreAllTimers()
     {
-        for (int id = 0; id < PeriodicTimerQty; id++)
+        for (int id = 0; id < Map.PeriodicTimerQty; id++)
         {
-            var addr = PeriodicStart + RAM.CellSize * 2 * id;
+            var addr = Map.PeriodicStart + RAM.CellSize * 2 * id;
             var msec = Ram.GetInt(addr);
             var xt = Ram.GetInt(addr + RAM.CellSize);
             if (xt != 0)
@@ -916,25 +829,25 @@ public partial class AMCForth : Godot.RefCounted
     // save the internal top of dict pointer to RAM
     public void SaveDictTop()
     {
-        Ram.SetInt(DictTopPtr, DictTopP);
+        Ram.SetInt(Map.DictTopPtr, DictTopP);
     }
 
     // save the internal dict pointer to RAM
     public void SaveDictP()
     {
-        Ram.SetInt(DictPtr, DictP);
+        Ram.SetInt(Map.DictPtr, DictP);
     }
 
     // retrieve the internal top of dict pointer from RAM
     public void RestoreDictTop()
     {
-        DictTopP = Ram.GetInt(DictTopPtr);
+        DictTopP = Ram.GetInt(Map.DictTopPtr);
     }
 
     // retrieve the internal dict pointer from RAM
     public void RestoreDictP()
     {
-        DictP = Ram.GetInt(DictPtr);
+        DictP = Ram.GetInt(Map.DictPtr);
     }
 
     // dictionary instruction pointer manipulation
@@ -1085,9 +998,9 @@ public partial class AMCForth : Godot.RefCounted
         // create a config file
         _Config = new();
         // the top of the dictionary can't overlap the high-memory stuff
-        System.Diagnostics.Debug.Assert(DictTop < PeriodicStart);
+        System.Diagnostics.Debug.Assert(Map.DictTop < Map.PeriodicStart);
         Ram = new();
-        Ram.Allocate(RamSize);
+        Ram.Allocate(Map.RamSize);
         Util = new();
         Util.Initialize(this);
         // Instantiate Forth word definitions
@@ -1120,17 +1033,17 @@ public partial class AMCForth : Godot.RefCounted
         Ram.SetInt(DictP, -1);
 
         // reset the buffer pointer
-        Ram.SetInt(BuffToIn, 0);
+        Ram.SetInt(Map.BuffToIn, 0);
 
         // set the base
         CoreWords.Decimal.Call();
 
         // initialize dictionary pointers and save them to RAM
         // FIXME note these have to be initialized when re-loading state
-        DictP = DictStart;
+        DictP = Map.DictStart;
         // position of last link
         SaveDictP();
-        DictTopP = DictStart;
+        DictTopP = Map.DictStart;
         // position of next new link to create
         SaveDictTop();
 
@@ -1228,10 +1141,10 @@ public partial class AMCForth : Godot.RefCounted
                 InputPortMutex.Unlock();
 
                 // save the input value to the correct memory address
-                Ram.SetInt(IoInStart + evt.Port * RAM.CellSize, evt.Value);
+                Ram.SetInt(Map.IoInStart + evt.Port * RAM.CellSize, evt.Value);
 
                 // only execute handler if there is a Forth execution token
-                int xt = Ram.GetInt(IoInMapStart + evt.Port * 2 * RAM.CellSize);
+                int xt = Ram.GetInt(Map.IoInMapStart + evt.Port * 2 * RAM.CellSize);
                 if (xt != 0)
                 {
                     Push(evt.Value); // store the value
@@ -1245,7 +1158,7 @@ public partial class AMCForth : Godot.RefCounted
                 var id = TimerEvents.Dequeue();
 
                 // only execute if Forth is still listening on this id
-                var xt = Ram.GetInt(PeriodicStart + (id * 2 + 1) * RAM.CellSize);
+                var xt = Ram.GetInt(Map.PeriodicStart + (id * 2 + 1) * RAM.CellSize);
                 if (xt != 0)
                 {
                     Push(xt);
@@ -1318,9 +1231,9 @@ public partial class AMCForth : Godot.RefCounted
         // transfer to the RAM-based input buffer (accessible to the engine)
         for (int i = 0; i < bytes_input.Length; i++)
         {
-            Ram.SetByte(BuffSourceStart + i, bytes_input[i]);
+            Ram.SetByte(Map.BuffSourceStart + i, bytes_input[i]);
         }
-        Push(BuffSourceStart);
+        Push(Map.BuffSourceStart);
         Push(bytes_input.Length);
         SourceId = -1;
         CoreWords.Evaluate.Call();

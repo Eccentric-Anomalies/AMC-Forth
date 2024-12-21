@@ -22,7 +22,7 @@ namespace Forth.Core
                 // this xt identifies a built-in function
                 CallXt(xt);
             }
-            else if (xt >= AMCForth.DictStart && xt < AMCForth.DictTop)
+            else if (xt >= Map.DictStart && xt < Map.DictTop)
             {
                 // this xt (probably) identifies an address in the dictionary
                 // save the current ip

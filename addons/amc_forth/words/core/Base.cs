@@ -17,7 +17,7 @@ namespace Forth.Core
 
         public override void Call()
         {
-            Forth.Push(AMCForth.Base);
+            Forth.Push(Map.Base);
         }
     }
 }

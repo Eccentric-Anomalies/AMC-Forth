@@ -20,7 +20,7 @@ namespace Forth.Core
             // Note this has no meaning for built-in execution tokens, which
             // have no parameter field.
             var xt = Forth.Pop();
-            if (xt >= AMCForth.DictStart && xt < AMCForth.DictTop)
+            if (xt >= Map.DictStart && xt < Map.DictTop)
             {
                 Forth.Push(xt + RAM.CellSize);
             }

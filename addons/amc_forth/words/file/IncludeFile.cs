@@ -24,11 +24,11 @@ namespace Forth.File
             var fileid = Forth.Pop();
             Forth.SourceIdStack.Push(Forth.SourceId); // save the current source
             Forth.SourceId = fileid; // new source id
-            var buff_data = fileid + AMCForth.FileBuffDataOffset; // address of data buffer
-            var buff_size = AMCForth.FileBuffDataSize;
+            var buff_data = fileid + Map.FileBuffDataOffset; // address of data buffer
+            var buff_size = Map.FileBuffDataSize;
             while ((ior == 0) && (flag == AMCForth.True))
             {
-                Forth.Ram.SetInt(fileid + AMCForth.FileBuffPtrOffset, 0); // clear the buffer pointer
+                Forth.Ram.SetInt(fileid + Map.FileBuffPtrOffset, 0); // clear the buffer pointer
                 Forth.Push(buff_data);
                 Forth.Push(buff_size);
                 Forth.Push(fileid);
