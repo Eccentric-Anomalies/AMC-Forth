@@ -676,7 +676,7 @@ public partial class AMCForth : Godot.RefCounted
 
     public void AddInputSignal(int port, Signal s)
     {
-        new AMCForthInput().Initialize(this, port, s);
+        new InputReceiver().Initialize(this, port, s);
     }
 
     // Register an output signal handler (port triggers message out)
