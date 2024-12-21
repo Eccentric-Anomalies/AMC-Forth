@@ -2,7 +2,7 @@
 Enter compilation state.
 * ( - )
 * [Source Code](../words/core/RightBracket.cs)
-* Execution Tokens: 1073919490 (interpreted) and 537048578 (compiled)
+* Execution Tokens: 1305597661 (interpreted) and 768726749 (compiled)
 
 
 [BACK](builtins.md#RightBracket)

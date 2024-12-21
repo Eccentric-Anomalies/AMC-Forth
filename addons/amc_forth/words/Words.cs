@@ -53,8 +53,8 @@ namespace Forth
 
         private void AssignXt()
         {
-            Xt = (int)(AMCForth.BuiltInXtMask + (AMCForth.BuiltInMask & _name.Hash()));
-            XtX = (int)(AMCForth.BuiltInXtXMask + (AMCForth.BuiltInMask & _name.Hash()));
+            Xt = (int)(AMCForth.BuiltInXtMask + (AMCForth.BuiltInMask & _name.GetHashCode()));
+            XtX = (int)(AMCForth.BuiltInXtXMask + (AMCForth.BuiltInMask & _name.GetHashCode()));
             if (_xtDict.ContainsKey(Xt) || _xtDict.ContainsKey(XtX))
             {
                 throw new InvalidOperationException(

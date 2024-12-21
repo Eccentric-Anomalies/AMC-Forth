@@ -2,7 +2,7 @@
 Restore the Forth system RAM from backup file.
 * ( - )
 * [Source Code](../words/amc_ext/LoadSnap.cs)
-* Execution Tokens: 1558456004 (interpreted) and 1021585092 (compiled)
+* Execution Tokens: 1296931970 (interpreted) and 760061058 (compiled)
 
 
 [BACK](builtins.md#LoadSnap)

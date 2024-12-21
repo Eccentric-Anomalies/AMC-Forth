@@ -2,7 +2,7 @@
 List all the definition names in the word list of the search order. Returns dictionary names first, including duplicates, then built-in names.
 * ( - )
 * [Source Code](../words/tools/Words.cs)
-* Execution Tokens: 1313999828 (interpreted) and 777128916 (compiled)
+* Execution Tokens: 1333965740 (interpreted) and 797094828 (compiled)
 
 
 [BACK](builtins.md#Words)
