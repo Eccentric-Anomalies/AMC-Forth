@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class UDot : Forth.Words
     {
-        public UDot(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public UDot(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Salt = "UDot";
             Name = "U.";

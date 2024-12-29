@@ -6,8 +6,8 @@ namespace Forth.AMCExt
     [GlobalClass]
     public partial class PTimer : Forth.Words
     {
-        public PTimer(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public PTimer(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "P-TIMER";
             Description =

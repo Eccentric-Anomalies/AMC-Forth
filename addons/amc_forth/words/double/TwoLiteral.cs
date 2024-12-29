@@ -5,8 +5,8 @@ namespace Forth.Double
     [GlobalClass]
     public partial class TwoLiteral : Forth.Words
     {
-        public TwoLiteral(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public TwoLiteral(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "2LITERAL";
             Description =

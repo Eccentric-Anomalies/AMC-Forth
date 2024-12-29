@@ -5,8 +5,8 @@ namespace Forth.AMCExt
     [GlobalClass]
     public partial class UnderlineV : Forth.Words
     {
-        public UnderlineV(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public UnderlineV(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "UNDERLINEV";
             Description = "Send UNDERLINE command to video terminal.";

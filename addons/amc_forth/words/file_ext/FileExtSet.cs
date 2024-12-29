@@ -10,9 +10,9 @@ namespace Forth.FileExt
         public Include Include;
         private const string Wordset = "FILE EXT";
 
-        public FileExtSet(AMCForth _forth, Stack stack)
+        public FileExtSet(AMCForth _forth)
         {
-            Include = new(_forth, stack, Wordset);
+            Include = new(_forth, Wordset);
         }
     }
 }

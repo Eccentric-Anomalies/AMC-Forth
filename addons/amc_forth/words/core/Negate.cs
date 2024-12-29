@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Negate : Forth.Words
     {
-        public Negate(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public Negate(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "NEGATE";
             Description = "Change the sign of the top stack value.";

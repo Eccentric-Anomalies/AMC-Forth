@@ -5,8 +5,8 @@ namespace Forth.CoreExt
     [GlobalClass]
     public partial class Value : Forth.Words
     {
-        public Value(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public Value(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "VALUE";
             Description =

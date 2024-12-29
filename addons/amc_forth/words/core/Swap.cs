@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Swap : Forth.Words
     {
-        public Swap(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public Swap(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "SWAP";
             Description = "Exchange the top two items on the stack.";

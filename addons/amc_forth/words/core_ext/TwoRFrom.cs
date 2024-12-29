@@ -5,8 +5,8 @@ namespace Forth.CoreExt
     [GlobalClass]
     public partial class TwoRFrom : Forth.Words
     {
-        public TwoRFrom(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public TwoRFrom(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "2R>";
             Description =

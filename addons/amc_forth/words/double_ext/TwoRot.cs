@@ -5,8 +5,8 @@ namespace Forth.DoubleExt
     [GlobalClass]
     public partial class TwoRot : Forth.Words
     {
-        public TwoRot(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public TwoRot(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "2ROT";
             Description = "Rotate the top three cell pairs on the stack.";

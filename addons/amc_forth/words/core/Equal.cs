@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Equal : Forth.Words
     {
-        public Equal(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public Equal(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "=";
             Description = "Return true if and only if n1 is equal to n2.";

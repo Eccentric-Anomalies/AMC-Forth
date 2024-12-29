@@ -5,8 +5,8 @@ namespace Forth.Double
     [GlobalClass]
     public partial class DMax : Forth.Words
     {
-        public DMax(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public DMax(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "DMAX";
             Description = "Return d3, the greater of d1 and d2.";

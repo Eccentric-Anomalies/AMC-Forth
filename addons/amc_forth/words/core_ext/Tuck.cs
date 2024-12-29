@@ -5,8 +5,8 @@ namespace Forth.CoreExt
     [GlobalClass]
     public partial class Tuck : Forth.Words
     {
-        public Tuck(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public Tuck(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "TUCK";
             Description = "Place a copy of the top stack item below the second stack item.";

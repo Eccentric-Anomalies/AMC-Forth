@@ -42,10 +42,10 @@ namespace Forth
         static Dictionary<string, Words> _nameDict = new();
         static Dictionary<int, Words> _xtDict = new();
 
-        public Words(AMCForth forth, Stack stack, string wordset)
+        public Words(AMCForth forth, string wordset)
         {
             Forth = forth;
-            Stack = stack;
+            Stack = Forth.Stack;
             Immediate = false;
             WordSet = wordset;
         }

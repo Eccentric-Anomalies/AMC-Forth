@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Loop : Forth.Words
     {
-        public Loop(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public Loop(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "LOOP";
             Description =

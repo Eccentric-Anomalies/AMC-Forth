@@ -5,8 +5,8 @@ namespace Forth.Double
     [GlobalClass]
     public partial class DTwoSlash : Forth.Words
     {
-        public DTwoSlash(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public DTwoSlash(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "D2/";
             Description = "Divide d1 by 2, leaving the result d2.";

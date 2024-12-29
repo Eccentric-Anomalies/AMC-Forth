@@ -5,8 +5,8 @@ namespace Forth.Double
     [GlobalClass]
     public partial class DDot : Forth.Words
     {
-        public DDot(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public DDot(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "D.";
             Description = "Display the top cell pair on the stack as a signed double integer.";

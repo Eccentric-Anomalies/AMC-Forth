@@ -5,8 +5,8 @@ namespace Forth.CommonUse
     [GlobalClass]
     public partial class TwoPlus : Forth.Words
     {
-        public TwoPlus(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public TwoPlus(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "2+";
             Description = "Add two to n1, leaving n2.";

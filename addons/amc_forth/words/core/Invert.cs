@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Invert : Forth.Words
     {
-        public Invert(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public Invert(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "INVERT";
             Description = "Invert all bits of x1, giving its logical inverse, x2.";

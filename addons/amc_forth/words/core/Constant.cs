@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Constant : Forth.Words
     {
-        public Constant(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public Constant(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "CONSTANT";
             Description =

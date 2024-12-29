@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Type : Forth.Words
     {
-        public Type(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public Type(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "TYPE";
             Description = "Output the character string at c-addr, length u.";

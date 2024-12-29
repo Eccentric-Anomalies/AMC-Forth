@@ -6,8 +6,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Emit : Forth.Words
     {
-        public Emit(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public Emit(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "EMIT";
             Description = "Output one character from the LS byte of the top item on stack.";

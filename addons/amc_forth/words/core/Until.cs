@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Until : Forth.Words
     {
-        public Until(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public Until(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "UNTIL";
             Description =

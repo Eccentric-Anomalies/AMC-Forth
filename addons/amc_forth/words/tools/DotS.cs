@@ -6,8 +6,8 @@ namespace Forth.Tools
     [GlobalClass]
     public partial class DotS : Forth.Words
     {
-        public DotS(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public DotS(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = ".S";
             Description = "Display the contents of the data stack using the current base.";

@@ -5,8 +5,8 @@ namespace Forth.CoreExt
     [GlobalClass]
     public partial class SourceId : Forth.Words
     {
-        public SourceId(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public SourceId(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "SOURCE-ID";
             Description =

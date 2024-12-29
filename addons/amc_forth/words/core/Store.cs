@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Store : Forth.Words
     {
-        public Store(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public Store(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "!";
             Description = "Store x in the cell at a-addr.";

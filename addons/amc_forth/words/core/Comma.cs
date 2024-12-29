@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Comma : Forth.Words
     {
-        public Comma(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public Comma(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = ",";
             Description = "Reserve one cell of data space and store x in it.";

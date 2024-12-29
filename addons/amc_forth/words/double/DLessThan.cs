@@ -5,8 +5,8 @@ namespace Forth.Double
     [GlobalClass]
     public partial class DLessThan : Forth.Words
     {
-        public DLessThan(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public DLessThan(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "D<";
             Description = "Return true if and only if d1 is less than d2.";

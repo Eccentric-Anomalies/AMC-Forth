@@ -5,8 +5,8 @@ namespace Forth.CoreExt
     [GlobalClass]
     public partial class BackSlash : Forth.Words
     {
-        public BackSlash(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public BackSlash(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "\\";
             Description = "Begin parsing a comment, terminated by end of line.";

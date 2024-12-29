@@ -5,8 +5,8 @@ namespace Forth.CoreExt
     [GlobalClass]
     public partial class Again : Forth.Words
     {
-        public Again(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public Again(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "AGAIN";
             Description =

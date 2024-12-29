@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class PlusLoop : Forth.Words
     {
-        public PlusLoop(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public PlusLoop(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "+LOOP";
             Description =

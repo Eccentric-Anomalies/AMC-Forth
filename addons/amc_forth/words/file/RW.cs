@@ -5,8 +5,8 @@ namespace Forth.File
     [GlobalClass]
     public partial class RW : Forth.Words
     {
-        public RW(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public RW(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "R/W";
             Description = "Return the read-write file access method.";

@@ -5,8 +5,8 @@ namespace Forth.CoreExt
     [GlobalClass]
     public partial class Nip : Forth.Words
     {
-        public Nip(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public Nip(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "NIP";
             Description = "Drop second stack item, leaving top unchanged.";

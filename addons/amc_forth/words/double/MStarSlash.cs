@@ -5,8 +5,8 @@ namespace Forth.Double
     [GlobalClass]
     public partial class MStarSlash : Forth.Words
     {
-        public MStarSlash(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public MStarSlash(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "M*/";
             Description =

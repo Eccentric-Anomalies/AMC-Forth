@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Rot : Forth.Words
     {
-        public Rot(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public Rot(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "ROT";
             Description = "Rotate the top three items on the stack.";

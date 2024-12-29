@@ -5,8 +5,8 @@ namespace Forth.AMCExt
     [GlobalClass]
     public partial class ReverseV : Forth.Words
     {
-        public ReverseV(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public ReverseV(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "REVERSEV";
             Description = "Send REVERSE command to video terminal.";

@@ -5,8 +5,8 @@ namespace Forth.Facility
     [GlobalClass]
     public partial class Page : Forth.Words
     {
-        public Page(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public Page(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "PAGE";
             Description =

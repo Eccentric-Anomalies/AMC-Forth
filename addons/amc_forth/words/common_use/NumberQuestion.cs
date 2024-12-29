@@ -5,8 +5,8 @@ namespace Forth.CommonUse
     [GlobalClass]
     public partial class NumberQuestion : Forth.Words
     {
-        public NumberQuestion(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public NumberQuestion(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "NUMBER?";
             Description =

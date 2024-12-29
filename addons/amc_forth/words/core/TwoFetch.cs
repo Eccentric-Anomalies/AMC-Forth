@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class TwoFetch : Forth.Words
     {
-        public TwoFetch(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public TwoFetch(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "2@";
             Description =

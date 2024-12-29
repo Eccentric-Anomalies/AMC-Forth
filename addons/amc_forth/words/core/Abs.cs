@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Abs : Forth.Words
     {
-        public Abs(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public Abs(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "ABS";
             Description = "Replace the top stack item with its absolute value.";

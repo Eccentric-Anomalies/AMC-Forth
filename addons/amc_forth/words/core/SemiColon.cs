@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class SemiColon : Forth.Words
     {
-        public SemiColon(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public SemiColon(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = ";";
             Description = "Leave compilation state.";

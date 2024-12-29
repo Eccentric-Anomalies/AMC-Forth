@@ -7,8 +7,8 @@ namespace Forth.Core
     {
         public int SmudgeAddress;
 
-        public Colon(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public Colon(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = ":";
             Description = "Create a definition for <name> and enter compilation state.";

@@ -12,11 +12,11 @@ namespace Forth.String
         public CMoveUp CMoveUp;
         private const string Wordset = "STRING";
 
-        public StringSet(AMCForth _forth, Stack stack)
+        public StringSet(AMCForth _forth)
         {
-            Compare = new(_forth, stack, Wordset);
-            CMove = new(_forth, stack, Wordset);
-            CMoveUp = new(_forth, stack, Wordset);
+            Compare = new(_forth, Wordset);
+            CMove = new(_forth, Wordset);
+            CMoveUp = new(_forth, Wordset);
         }
     }
 }

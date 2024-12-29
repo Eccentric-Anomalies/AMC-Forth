@@ -6,8 +6,8 @@ namespace Forth.Double
     [GlobalClass]
     public partial class DAbs : Forth.Words
     {
-        public DAbs(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public DAbs(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "DABS";
             Description = "Replace the top stack double item with its absolute value.";

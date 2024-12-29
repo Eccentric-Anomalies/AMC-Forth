@@ -5,8 +5,8 @@ namespace Forth.AMCExt
     [GlobalClass]
     public partial class Unlisten : Forth.Words
     {
-        public Unlisten(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public Unlisten(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "UNLISTEN";
             Description = "Remove a lookup entry for the IO port p.";

@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class RFetch : Forth.Words
     {
-        public RFetch(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public RFetch(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "R@";
             Description =

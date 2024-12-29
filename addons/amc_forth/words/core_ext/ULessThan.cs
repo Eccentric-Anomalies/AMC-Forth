@@ -5,8 +5,8 @@ namespace Forth.CoreExt
     [GlobalClass]
     public partial class ULessThan : Forth.Words
     {
-        public ULessThan(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public ULessThan(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "U>";
             Description = "Return true if and only if u1 is greater than u2.";

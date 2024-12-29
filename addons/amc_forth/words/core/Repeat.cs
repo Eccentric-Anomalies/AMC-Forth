@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Repeat : Forth.Words
     {
-        public Repeat(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public Repeat(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "REPEAT";
             Description =

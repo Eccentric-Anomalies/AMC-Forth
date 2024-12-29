@@ -5,8 +5,8 @@ namespace Forth.AMCExt
     [GlobalClass]
     public partial class PopXY : Forth.Words
     {
-        public PopXY(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public PopXY(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "POP-XY";
             Description =

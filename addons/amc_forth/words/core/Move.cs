@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Move : Forth.Words
     {
-        public Move(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public Move(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "MOVE";
             Description =

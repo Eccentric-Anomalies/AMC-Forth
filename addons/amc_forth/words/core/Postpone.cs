@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Postpone : Forth.Words
     {
-        public Postpone(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public Postpone(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "POSTPONE";
             Description =

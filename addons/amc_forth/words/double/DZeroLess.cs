@@ -5,8 +5,8 @@ namespace Forth.Double
     [GlobalClass]
     public partial class DZeroLess : Forth.Words
     {
-        public DZeroLess(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public DZeroLess(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "D0<";
             Description =

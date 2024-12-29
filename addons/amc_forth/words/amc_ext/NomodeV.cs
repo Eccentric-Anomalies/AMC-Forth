@@ -5,8 +5,8 @@ namespace Forth.AMCExt
     [GlobalClass]
     public partial class NomodeV : Forth.Words
     {
-        public NomodeV(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public NomodeV(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "NOMODEV";
             Description = "Send MODESOFF command to video terminal.";

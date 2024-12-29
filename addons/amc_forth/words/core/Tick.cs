@@ -6,8 +6,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Tick : Forth.Words
     {
-        public Tick(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public Tick(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "'";
             Description =

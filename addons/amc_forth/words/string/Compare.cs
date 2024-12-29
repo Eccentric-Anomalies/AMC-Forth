@@ -6,8 +6,8 @@ namespace Forth.String
     [GlobalClass]
     public partial class Compare : Forth.Words
     {
-        public Compare(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public Compare(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "COMPARE";
             Description = "If the data-space pointer is not aligned, reserve space to align it.";

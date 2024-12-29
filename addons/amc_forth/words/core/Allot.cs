@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Allot : Forth.Words
     {
-        public Allot(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public Allot(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "ALLOT";
             Description = "Allocate u bytes of data space beginning at the next location.";

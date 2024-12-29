@@ -5,8 +5,8 @@ namespace Forth.CoreExt
     [GlobalClass]
     public partial class NotEqual : Forth.Words
     {
-        public NotEqual(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public NotEqual(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "<>";
             Description = "Return true if and only if n1 is not equal to n2.";

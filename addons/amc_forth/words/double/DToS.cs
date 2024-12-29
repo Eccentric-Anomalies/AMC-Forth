@@ -5,8 +5,8 @@ namespace Forth.Double
     [GlobalClass]
     public partial class DToS : Forth.Words
     {
-        public DToS(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public DToS(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "D>S";
             Description = "Convert double to single, discarding MS cell.";

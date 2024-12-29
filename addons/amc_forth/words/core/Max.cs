@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Max : Forth.Words
     {
-        public Max(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public Max(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "MAX";
             Description = "Return n3, the greater of n1 and n2.";

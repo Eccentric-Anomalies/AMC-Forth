@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class GreaterThan : Forth.Words
     {
-        public GreaterThan(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public GreaterThan(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = ">";
             Description = "Return true if and only if n1 is greater than n2";

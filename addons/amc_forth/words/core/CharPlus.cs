@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class CharPlus : Forth.Words
     {
-        public CharPlus(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public CharPlus(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "CHAR+";
             Description = "Add the size in bytes of a character to c_addr1, giving c-addr2.";

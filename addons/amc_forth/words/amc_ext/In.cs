@@ -5,8 +5,8 @@ namespace Forth.AMCExt
     [GlobalClass]
     public partial class In : Words
     {
-        public In(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public In(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "IN";
             Description = "Return cell data x from memory at input port p.";

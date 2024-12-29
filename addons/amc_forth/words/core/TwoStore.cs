@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class TwoStore : Forth.Words
     {
-        public TwoStore(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public TwoStore(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "2!";
             Description =

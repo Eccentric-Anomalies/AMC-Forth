@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Xor : Forth.Words
     {
-        public Xor(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public Xor(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "XOR";
             Description = "Return x3, the bit-wise exclusive or of x1 with x2.";

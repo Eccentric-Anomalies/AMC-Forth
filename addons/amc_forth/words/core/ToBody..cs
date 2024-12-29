@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class ToBody : Forth.Words
     {
-        public ToBody(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public ToBody(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = ">BODY";
             Description =

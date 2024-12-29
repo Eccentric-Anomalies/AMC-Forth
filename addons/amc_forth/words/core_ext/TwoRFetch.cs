@@ -5,8 +5,8 @@ namespace Forth.CoreExt
     [GlobalClass]
     public partial class TwoRFetch : Forth.Words
     {
-        public TwoRFetch(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public TwoRFetch(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "2R@";
             Description = "Push a copy of the top two return stack cells onto the data stack.";

@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class StarSlashMod : Forth.Words
     {
-        public StarSlashMod(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public StarSlashMod(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "*/MOD";
             Description =

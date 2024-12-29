@@ -5,8 +5,8 @@ namespace Forth.AMCExt
     [GlobalClass]
     public partial class PStop : Forth.Words
     {
-        public PStop(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public PStop(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "P-STOP";
             Description = "Stop periodic timer with id i.";

@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Exit : Forth.Words
     {
-        public Exit(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public Exit(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "EXIT";
             Description = "Return control to the calling definition in the ip-stack.";

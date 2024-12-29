@@ -5,8 +5,8 @@ namespace Forth.Double
     [GlobalClass]
     public partial class TwoConstant : Forth.Words
     {
-        public TwoConstant(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public TwoConstant(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "2CONSTANT";
             Description = "Create a dictionary entry for name, associated with constant double d.";

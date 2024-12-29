@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class CComma : Forth.Words
     {
-        public CComma(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public CComma(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "C,";
             Description = "Reserve one byte of data space and store char in the byte.";

@@ -5,8 +5,8 @@ namespace Forth.File
     [GlobalClass]
     public partial class IncludeFile : Forth.Words
     {
-        public IncludeFile(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public IncludeFile(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "INCLUDE-FILE";
             Description =

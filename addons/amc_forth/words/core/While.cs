@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class While : Forth.Words
     {
-        public While(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public While(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "WHILE";
             Description =

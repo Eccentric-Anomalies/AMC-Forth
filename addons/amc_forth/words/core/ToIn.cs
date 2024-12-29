@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class ToIn : Forth.Words
     {
-        public ToIn(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public ToIn(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = ">IN";
             Description =

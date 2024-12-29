@@ -5,8 +5,8 @@ namespace Forth.CoreExt
     [GlobalClass]
     public partial class Hex : Forth.Words
     {
-        public Hex(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public Hex(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "HEX";
             Description = "Sets BASE to 16.";

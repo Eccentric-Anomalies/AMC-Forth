@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class MStar : Forth.Words
     {
-        public MStar(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public MStar(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "M*";
             Description = "Multiply n1 by n2, leaving the double result d.";

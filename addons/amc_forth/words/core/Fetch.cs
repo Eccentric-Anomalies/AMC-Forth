@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Fetch : Forth.Words
     {
-        public Fetch(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public Fetch(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "@";
             Description = "Replace a-addr with the contents of the cell at a_addr.";

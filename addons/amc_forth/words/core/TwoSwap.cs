@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class TwoSwap : Forth.Words
     {
-        public TwoSwap(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public TwoSwap(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "2SWAP";
             Description = "Exchange the top two cell pairs.";

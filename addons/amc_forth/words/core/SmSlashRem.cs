@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class SmSlashRem : Forth.Words
     {
-        public SmSlashRem(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public SmSlashRem(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "SM/REM";
             Description =

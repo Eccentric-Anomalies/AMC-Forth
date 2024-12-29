@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Decimal : Forth.Words
     {
-        public Decimal(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public Decimal(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "DECIMAL";
             Description = "Sets BASE to 10.";

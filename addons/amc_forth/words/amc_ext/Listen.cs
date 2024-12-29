@@ -5,8 +5,8 @@ namespace Forth.AMCExt
     [GlobalClass]
     public partial class Listen : Forth.Words
     {
-        public Listen(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public Listen(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "LISTEN";
             Description =

@@ -5,8 +5,8 @@ namespace Forth.Double
     [GlobalClass]
     public partial class DMinus : Forth.Words
     {
-        public DMinus(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public DMinus(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "D-";
             Description = "Subtract d2 from d1, leaving the difference d3.";

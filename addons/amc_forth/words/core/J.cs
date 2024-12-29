@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class J : Forth.Words
     {
-        public J(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public J(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "J";
             Description = "Push a copy of the next-outer DO-LOOP index value to the stack.";

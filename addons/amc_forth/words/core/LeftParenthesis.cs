@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class LeftParenthesis : Forth.Words
     {
-        public LeftParenthesis(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public LeftParenthesis(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "(";
             Description = "Begin parsing a comment, terminated by ')' character.";

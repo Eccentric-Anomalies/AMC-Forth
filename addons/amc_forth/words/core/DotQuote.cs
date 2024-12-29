@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class DotQuote : Forth.Words
     {
-        public DotQuote(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public DotQuote(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = ".\"";
             Description = "Type the string when the containing word is executed.";

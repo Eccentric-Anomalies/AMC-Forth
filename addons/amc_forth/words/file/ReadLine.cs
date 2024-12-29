@@ -5,8 +5,8 @@ namespace Forth.File
     [GlobalClass]
     public partial class ReadLine : Forth.Words
     {
-        public ReadLine(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public ReadLine(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "READ-LINE";
             Description =

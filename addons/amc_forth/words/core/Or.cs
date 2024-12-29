@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Or : Forth.Words
     {
-        public Or(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public Or(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "OR";
             Description = "Return x3, the bit-wise inclusive or of x1 with x2.";

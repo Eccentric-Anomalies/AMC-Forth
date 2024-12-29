@@ -5,8 +5,8 @@ namespace Forth.CoreExt
     [GlobalClass]
     public partial class BufferColon : Forth.Words
     {
-        public BufferColon(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public BufferColon(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "BUFFER:";
             Description =

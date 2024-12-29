@@ -6,8 +6,8 @@ namespace Forth.Tools
     [GlobalClass]
     public partial class Words : Forth.Words
     {
-        public Words(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public Words(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "WORDS";
             Description =

@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Do : Forth.Words
     {
-        public Do(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public Do(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "DO";
             Description =

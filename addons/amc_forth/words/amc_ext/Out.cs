@@ -5,8 +5,8 @@ namespace Forth.AMCExt
     [GlobalClass]
     public partial class Out : Forth.Words
     {
-        public Out(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public Out(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "OUT";
             Description = "Save value x to I/O port p, possibly triggering Godot signal.";

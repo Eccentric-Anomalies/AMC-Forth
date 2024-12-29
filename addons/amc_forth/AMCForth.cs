@@ -893,18 +893,18 @@ public partial class AMCForth : Godot.RefCounted
         Stack = new();
         Stack.Initialize(this);
         // Instantiate Forth word definitions
-        CommonUseWords = new(this, Stack);
-        CoreWords = new(this, Stack);
-        CoreExtWords = new(this, Stack);
-        DoubleWords = new(this, Stack);
-        DoubleExtWords = new(this, Stack);
-        FacilityWords = new(this, Stack);
-        FileWords = new(this, Stack);
-        FileExtWords = new(this, Stack);
-        StringWords = new(this, Stack);
-        ToolsWords = new(this, Stack);
-        ToolsExtWords = new(this, Stack);
-        AMCExtWords = new(this, Stack);
+        CommonUseWords = new(this);
+        CoreWords = new(this);
+        CoreExtWords = new(this);
+        DoubleWords = new(this);
+        DoubleExtWords = new(this);
+        FacilityWords = new(this);
+        FileWords = new(this);
+        FileExtWords = new(this);
+        StringWords = new(this);
+        ToolsWords = new(this);
+        ToolsExtWords = new(this);
+        AMCExtWords = new(this);
 
         // Generate Documentation File
         if (OS.HasFeature("editor"))

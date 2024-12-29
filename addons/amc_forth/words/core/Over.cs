@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Over : Forth.Words
     {
-        public Over(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public Over(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "OVER";
             Description = "Place a copy of x1 on top of the stack.";

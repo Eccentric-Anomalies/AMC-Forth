@@ -5,8 +5,8 @@ namespace Forth.CoreExt
     [GlobalClass]
     public partial class Parse : Forth.Words
     {
-        public Parse(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public Parse(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "PARSE";
             Description =

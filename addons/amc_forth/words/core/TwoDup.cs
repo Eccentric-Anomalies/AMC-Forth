@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class TwoDup : Forth.Words
     {
-        public TwoDup(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public TwoDup(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "2DUP";
             Description = "Duplicate the top cell pair.";

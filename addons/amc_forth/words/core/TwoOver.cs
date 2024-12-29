@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class TwoOver : Forth.Words
     {
-        public TwoOver(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public TwoOver(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "2OVER";
             Description = "Copy a cell pair x1 x2 to the top of the stack.";

@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class CellPlus : Forth.Words
     {
-        public CellPlus(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public CellPlus(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "CELL+";
             Description = "Add the size in bytes of a cell to a_addr1, returning a_addr2.";

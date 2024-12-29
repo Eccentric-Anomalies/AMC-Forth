@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Spaces : Forth.Words
     {
-        public Spaces(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public Spaces(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "SPACES";
             Description = "Display u spaces on the current output device.";

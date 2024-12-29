@@ -6,8 +6,8 @@ namespace Forth.String
     [GlobalClass]
     public partial class CMove : Forth.Words
     {
-        public CMove(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public CMove(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "CMOVE";
             Description =

@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Min : Forth.Words
     {
-        public Min(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public Min(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "MIN";
             Description = "Return n3, the lesser of n1 and n2.";

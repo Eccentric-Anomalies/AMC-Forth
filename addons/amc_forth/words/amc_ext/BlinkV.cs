@@ -5,8 +5,8 @@ namespace Forth.AMCExt
     [GlobalClass]
     public partial class BlinkV : Forth.Words
     {
-        public BlinkV(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public BlinkV(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "BLINKV";
             Description = "Send BLINK command to video terminal.";

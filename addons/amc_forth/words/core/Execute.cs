@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Execute : Forth.Words
     {
-        public Execute(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public Execute(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "EXECUTE";
             Description =

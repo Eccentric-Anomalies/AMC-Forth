@@ -5,8 +5,8 @@ namespace Forth.CoreExt
     [GlobalClass]
     public partial class CQuote : Forth.Words
     {
-        public CQuote(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public CQuote(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "C\"";
             Description =

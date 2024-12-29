@@ -35,30 +35,30 @@ namespace Forth.AMCExt
         public Unlisten Unlisten;
         private const string Wordset = "AMC EXT";
 
-        public AMCExtSet(AMCForth _forth, Stack stack)
+        public AMCExtSet(AMCForth _forth)
         {
-            BlinkV = new(_forth, stack, Wordset);
-            BoldV = new(_forth, stack, Wordset);
-            Help = new(_forth, stack, Wordset);
-            HelpS = new(_forth, stack, Wordset);
-            HelpWS = new(_forth, stack, Wordset);
-            In = new(_forth, stack, Wordset);
-            InAddr = new(_forth, stack, Wordset);
-            InvisibleV = new(_forth, stack, Wordset);
-            Listen = new(_forth, stack, Wordset);
-            LoadSnap = new(_forth, stack, Wordset);
-            LowV = new(_forth, stack, Wordset);
-            NomodeV = new(_forth, stack, Wordset);
-            Out = new(_forth, stack, Wordset);
-            OutAddr = new(_forth, stack, Wordset);
-            PTimer = new(_forth, stack, Wordset);
-            PStop = new(_forth, stack, Wordset);
-            PopXY = new(_forth, stack, Wordset);
-            PushXY = new(_forth, stack, Wordset);
-            ReverseV = new(_forth, stack, Wordset);
-            SaveSnap = new(_forth, stack, Wordset);
-            UnderlineV = new(_forth, stack, Wordset);
-            Unlisten = new(_forth, stack, Wordset);
+            BlinkV = new(_forth, Wordset);
+            BoldV = new(_forth, Wordset);
+            Help = new(_forth, Wordset);
+            HelpS = new(_forth, Wordset);
+            HelpWS = new(_forth, Wordset);
+            In = new(_forth, Wordset);
+            InAddr = new(_forth, Wordset);
+            InvisibleV = new(_forth, Wordset);
+            Listen = new(_forth, Wordset);
+            LoadSnap = new(_forth, Wordset);
+            LowV = new(_forth, Wordset);
+            NomodeV = new(_forth, Wordset);
+            Out = new(_forth, Wordset);
+            OutAddr = new(_forth, Wordset);
+            PTimer = new(_forth, Wordset);
+            PStop = new(_forth, Wordset);
+            PopXY = new(_forth, Wordset);
+            PushXY = new(_forth, Wordset);
+            ReverseV = new(_forth, Wordset);
+            SaveSnap = new(_forth, Wordset);
+            UnderlineV = new(_forth, Wordset);
+            Unlisten = new(_forth, Wordset);
         }
     }
 }

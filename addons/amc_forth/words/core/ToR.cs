@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class ToR : Forth.Words
     {
-        public ToR(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public ToR(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = ">R";
             Description =

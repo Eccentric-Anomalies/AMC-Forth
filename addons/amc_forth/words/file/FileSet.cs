@@ -17,16 +17,16 @@ namespace Forth.File
         public WO WO;
         private const string Wordset = "FILE";
 
-        public FileSet(AMCForth _forth, Stack stack)
+        public FileSet(AMCForth _forth)
         {
-            CloseFile = new(_forth, stack, Wordset);
-            Included = new(_forth, stack, Wordset);
-            IncludeFile = new(_forth, stack, Wordset);
-            OpenFile = new(_forth, stack, Wordset);
-            RO = new(_forth, stack, Wordset);
-            RW = new(_forth, stack, Wordset);
-            ReadLine = new(_forth, stack, Wordset);
-            WO = new(_forth, stack, Wordset);
+            CloseFile = new(_forth, Wordset);
+            Included = new(_forth, Wordset);
+            IncludeFile = new(_forth, Wordset);
+            OpenFile = new(_forth, Wordset);
+            RO = new(_forth, Wordset);
+            RW = new(_forth, Wordset);
+            ReadLine = new(_forth, Wordset);
+            WO = new(_forth, Wordset);
         }
     }
 }

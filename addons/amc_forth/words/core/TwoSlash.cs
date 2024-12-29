@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class TwoSlash : Forth.Words
     {
-        public TwoSlash(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public TwoSlash(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "2/";
             Description =

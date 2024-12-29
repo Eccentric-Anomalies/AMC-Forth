@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Source : Forth.Words
     {
-        public Source(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public Source(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "SOURCE";
             Description = "Return the address and length of the input buffer.";

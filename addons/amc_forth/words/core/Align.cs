@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Align : Forth.Words
     {
-        public Align(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public Align(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "ALIGN";
             Description = "If the data-space pointer is not aligned, reserve space to align it.";

@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class CR : Forth.Words
     {
-        public CR(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public CR(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "CR";
             Description = "Emit characters to generate a newline on the terminal.";

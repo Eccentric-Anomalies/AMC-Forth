@@ -6,8 +6,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Evaluate : Forth.Words
     {
-        public Evaluate(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public Evaluate(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "EVALUATE";
             Description = "Use c-addr, u as the buffer start and interpret as Forth source.";

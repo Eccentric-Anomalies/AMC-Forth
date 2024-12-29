@@ -6,8 +6,8 @@ namespace Forth.AMCExt
     [GlobalClass]
     public partial class HelpWS : Forth.Words
     {
-        public HelpWS(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public HelpWS(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "HELPWS";
             Description = "Display word set for the following Forth word.";

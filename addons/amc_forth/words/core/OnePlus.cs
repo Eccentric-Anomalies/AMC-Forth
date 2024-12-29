@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class OnePlus : Forth.Words
     {
-        public OnePlus(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public OnePlus(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "1+";
             Description = "Add one to n1, leaving n2.";

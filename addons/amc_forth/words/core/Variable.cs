@@ -5,8 +5,8 @@ namespace Forth.Core
     [GlobalClass]
     public partial class Variable : Forth.Words
     {
-        public Variable(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public Variable(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "VARIABLE";
             Description =

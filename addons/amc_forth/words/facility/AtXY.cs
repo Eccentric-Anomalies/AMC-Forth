@@ -5,8 +5,8 @@ namespace Forth.Facility
     [GlobalClass]
     public partial class AtXY : Forth.Words
     {
-        public AtXY(AMCForth forth, Stack stack, string wordset)
-            : base(forth, stack, wordset)
+        public AtXY(AMCForth forth, string wordset)
+            : base(forth, wordset)
         {
             Name = "AT-XY";
             Description =
