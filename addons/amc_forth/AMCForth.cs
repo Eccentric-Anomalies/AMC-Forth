@@ -62,6 +62,7 @@ public partial class AMCForth : Godot.RefCounted
     public RAM Ram;
     public Util Util;
     public Stack Stack;
+    public Files Files;
 
     // Forth Word Classes
     public Forth.AMCExt.AMCExtSet AMCExtWords;
@@ -206,76 +207,12 @@ public partial class AMCForth : Godot.RefCounted
     // Client connect count
     protected int _ClientConnections = 0;
 
-    // File access
-    // map Forth fileid to FileAccess objects
-    // file_id is the address of the file's buffer structure
-    // the first cell in the structure is the file access mode bits
-    //protected Dictionary _FileIdDict = new Dictionary{};
-    protected System.Collections.Generic.Dictionary<int, Godot.FileAccess> _FileIdDict = new();
-
-    // allocate a buffer for the provided file handle and mode
-    // return the file id or zero if none available
-    public int AssignFileId(Godot.FileAccess file, int new_mode)
-    {
-        for (int i = 0; i < Map.FileBuffQty; i++)
-        {
-            var addr = i * Map.FileBuffSize + Map.FileBuffStart;
-            var mode = Ram.GetInt(addr + Map.FileBuffIdOffset);
-            if (mode == 0)
-            {
-                // available file handle
-                Ram.SetInt(addr + Map.FileBuffIdOffset, new_mode);
-                Ram.SetInt(addr + Map.FileBuffPtrOffset, 0);
-                _FileIdDict[addr] = file;
-                return addr;
-            }
-            addr += Map.FileBuffSize;
-        }
-        return 0;
-    }
-
-    public Godot.FileAccess GetFileFromId(int id)
-    {
-        if (_FileIdDict.ContainsKey(id))
-        {
-            return _FileIdDict[id];
-        }
-        else
-        {
-            return null;
-        }
-    }
-
-    // releases an file buffer, and closes the associated file, if open
-    public void FreeFileId(int id)
-    {
-        var file = _FileIdDict[id];
-        if (file.IsOpen())
-        {
-            file.Close();
-        }
-
-        // clear the buffer entry
-        Ram.SetInt(id + Map.FileBuffIdOffset, 0);
-
-        // erase the dictionary entry
-        _FileIdDict.Remove(id);
-    }
-
     public void ClientConnected()
     {
         if (_ClientConnections == 0)
         {
             EmitSignal("TerminalOut", GetBanner() + Forth.Terminal.CRLF);
             _ClientConnections += 1;
-        }
-    }
-
-    public void CloseAllFiles()
-    {
-        foreach (int id in _FileIdDict.Keys)
-        {
-            FreeFileId(id);
         }
     }
 
@@ -289,7 +226,7 @@ public partial class AMCForth : Godot.RefCounted
     public void SaveSnapshot()
     {
         _Config.Clear();
-        CloseAllFiles();
+        Files.CloseAllFiles();
         Ram.SaveState(_Config);
         _Config.Save(ConfigFileName);
     }
@@ -892,6 +829,8 @@ public partial class AMCForth : Godot.RefCounted
         Util.Initialize(this);
         Stack = new();
         Stack.Initialize(this);
+        Files = new();
+        Files.Initialize(this);
         // Instantiate Forth word definitions
         CommonUseWords = new(this);
         CoreWords = new(this);

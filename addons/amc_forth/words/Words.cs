@@ -14,6 +14,7 @@ namespace Forth
     {
         public AMCForth Forth;
         public Stack Stack;
+        public Files Files;
         public bool Immediate;
         public string Name
         {
@@ -46,6 +47,7 @@ namespace Forth
         {
             Forth = forth;
             Stack = Forth.Stack;
+            Files = Forth.Files;
             Immediate = false;
             WordSet = wordset;
         }

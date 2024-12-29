@@ -27,7 +27,7 @@ namespace Forth.File
             file ??= FileAccess.Open("res://" + fname, (FileAccess.ModeFlags)fam);
             if (file != null)
             {
-                fileid = Forth.AssignFileId(file, fam);
+                fileid = Files.AssignFileId(file, fam);
                 if (fileid != 0)
                 {
                     ior = 0;

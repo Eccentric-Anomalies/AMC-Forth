@@ -18,7 +18,7 @@ namespace Forth.File
 
         public override void Call()
         {
-            var file = Forth.GetFileFromId(Stack.Pop());
+            var file = Files.GetFileFromId(Stack.Pop());
             var u1 = Stack.Pop();
             var c_addr = Stack.Pop();
             var u2 = 0;
