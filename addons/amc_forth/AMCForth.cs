@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
 using Forth;
 using Godot;
 
@@ -277,7 +275,7 @@ public partial class AMCForth : Godot.RefCounted
                 }
 
                 // reconstruct the changed entry, with correct cursor position
-                echo_text = _RefreshEditText();
+                echo_text = RefreshEditText();
                 in_str = in_str.Substring(Forth.Terminal.DEL_LEFT.Length);
             }
             else if (in_str.Find(Forth.Terminal.DEL) == 0)
@@ -290,7 +288,7 @@ public partial class AMCForth : Godot.RefCounted
                 }
 
                 // reconstruct the changed entry, with correct cursor position
-                echo_text = _RefreshEditText();
+                echo_text = RefreshEditText();
                 in_str = in_str.Substring(Forth.Terminal.DEL.Length);
             }
             else if (in_str.Find(Forth.Terminal.LEFT) == 0)
@@ -317,7 +315,7 @@ public partial class AMCForth : Godot.RefCounted
                 if (buffer_size != 0)
                 {
                     _BufferIndex = Mathf.Max(0, _BufferIndex - 1);
-                    echo_text = _SelectBufferedCommand();
+                    echo_text = SelectBufferedCommand();
                 }
                 in_str = in_str.Substring(Forth.Terminal.UP.Length);
             }
@@ -326,7 +324,7 @@ public partial class AMCForth : Godot.RefCounted
                 if (buffer_size != 0)
                 {
                     _BufferIndex = Mathf.Min(_TerminalBuffer.Count - 1, _BufferIndex + 1);
-                    echo_text = _SelectBufferedCommand();
+                    echo_text = SelectBufferedCommand();
                 }
                 in_str = in_str.Substring(Forth.Terminal.DOWN.Length);
             }
@@ -357,7 +355,7 @@ public partial class AMCForth : Godot.RefCounted
                 _BufferIndex = _TerminalBuffer.Count;
                 // refresh the line in the terminal
                 _PadPosition = _TerminalPad.Length;
-                EmitSignal("TerminalOut", _RefreshEditText());
+                EmitSignal("TerminalOut", RefreshEditText());
                 // text is ready for the Forth interpreter
                 _InputReady.Post();
                 in_str = in_str.Substring(Forth.Terminal.CR.Length);
@@ -942,47 +940,6 @@ public partial class AMCForth : Godot.RefCounted
         }
     }
 
-    public void ResetBuffToIn()
-    {
-        // retrieve the address of the current buffer pointer
-        CoreWords.ToIn.Call();
-        // and set its contents to zero
-        Ram.SetInt(Stack.Pop(), 0);
-    }
-
-    public static bool IsValidInt(string word, int radix = 10)
-    {
-        if (radix == 16)
-        {
-            return word.IsValidHexNumber();
-        }
-        return word.IsValidInt();
-    }
-
-    public static bool IsValidLong(string word, int radix = 10)
-    {
-        if (radix == 16)
-        {
-            return long.TryParse(
-                word,
-                NumberStyles.AllowHexSpecifier,
-                CultureInfo.InvariantCulture,
-                out long _
-            );
-        }
-        return long.TryParse(word, out _);
-    }
-
-    public static int ToInt(string word, int radix = 10)
-    {
-        return Convert.ToInt32(word, radix);
-    }
-
-    public static long ToLong(string word, int radix = 10)
-    {
-        return Convert.ToInt64(word, radix);
-    }
-
     // Interpret the _terminal_pad content
     protected void InterpretTerminalLine()
     {
@@ -1003,7 +960,7 @@ public partial class AMCForth : Godot.RefCounted
     }
 
     // return echo text that refreshes the current edit
-    protected string _RefreshEditText()
+    protected string RefreshEditText()
     {
         var echo = Forth.Terminal.CLRLINE + Forth.Terminal.CR + _TerminalPad + Forth.Terminal.CR;
 
@@ -1014,7 +971,7 @@ public partial class AMCForth : Godot.RefCounted
         return echo;
     }
 
-    protected string _SelectBufferedCommand()
+    protected string SelectBufferedCommand()
     {
         var selected_index = _BufferIndex;
         _TerminalPad = _TerminalBuffer[selected_index];

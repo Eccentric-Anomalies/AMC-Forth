@@ -24,16 +24,16 @@ namespace Forth.CommonUse
             var caddr = Stack.Pop();
             // start of word
             var t = Forth.Util.StrFromAddrN(caddr, len);
-            if (t.Contains(".") && AMCForth.IsValidLong(t.Replace(".", ""), radix))
+            if (t.Contains(".") && Util.IsValidLong(t.Replace(".", ""), radix))
             {
                 var t_strip = t.Replace(".", "");
-                var temp = AMCForth.ToLong(t_strip, radix);
+                var temp = Util.ToLong(t_strip, radix);
                 Stack.PushDint(temp);
                 Stack.Push(2);
             }
-            else if (AMCForth.IsValidInt(t, radix))
+            else if (Util.IsValidInt(t, radix))
             {
-                var temp = AMCForth.ToInt(t, radix);
+                var temp = Util.ToInt(t, radix);
 
                 // single-precision
                 Stack.Push(temp);

@@ -22,7 +22,7 @@ namespace Forth.Core
             Stack.Pop();
 
             // buffer pointer is based on source-id
-            Forth.ResetBuffToIn();
+            ResetBuffToIn();
             while (true)
             {
                 Forth.CoreExtWords.ParseName.Call();
@@ -107,6 +107,14 @@ namespace Forth.Core
                     break;
                 }
             }
+        }
+
+        public void ResetBuffToIn()
+        {
+            // retrieve the address of the current buffer pointer
+            Forth.CoreWords.ToIn.Call();
+            // and set its contents to zero
+            Forth.Ram.SetInt(Stack.Pop(), 0);
         }
     }
 }

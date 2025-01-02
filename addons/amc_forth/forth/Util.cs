@@ -1,3 +1,5 @@
+using System;
+using System.Globalization;
 using Godot;
 using Godot.Collections;
 
@@ -76,6 +78,39 @@ namespace Forth
                 _Forth.Ram.SetByte(ptr, c);
                 ptr += 1;
             }
+        }
+
+        public static bool IsValidInt(string word, int radix = 10)
+        {
+            if (radix == 16)
+            {
+                return word.IsValidHexNumber();
+            }
+            return word.IsValidInt();
+        }
+
+        public static bool IsValidLong(string word, int radix = 10)
+        {
+            if (radix == 16)
+            {
+                return long.TryParse(
+                    word,
+                    NumberStyles.AllowHexSpecifier,
+                    CultureInfo.InvariantCulture,
+                    out long _
+                );
+            }
+            return long.TryParse(word, out _);
+        }
+
+        public static int ToInt(string word, int radix = 10)
+        {
+            return Convert.ToInt32(word, radix);
+        }
+
+        public static long ToLong(string word, int radix = 10)
+        {
+            return Convert.ToInt64(word, radix);
         }
     }
 }
