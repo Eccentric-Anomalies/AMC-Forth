@@ -19,12 +19,12 @@ namespace Forth.Core
 
         public override void Call()
         {
-            var literal_val = Forth.Pop();
+            var literal_val = Stack.Pop();
             // copy the execution token
             Forth.Ram.SetInt(Forth.DictTopP, XtX);
             // store the value
-            Forth.Ram.SetInt(Forth.DictTopP + ForthRAM.CellSize, literal_val);
-            Forth.DictTopP += ForthRAM.DCellSize;
+            Forth.Ram.SetInt(Forth.DictTopP + RAM.CellSize, literal_val);
+            Forth.DictTopP += RAM.DCellSize;
             // two cells up
             // preserve dictionary state
             Forth.SaveDictTop();
@@ -34,9 +34,9 @@ namespace Forth.Core
         {
             // execution time functionality of literal
             // return contents of cell after execution token
-            Forth.Push(Forth.Ram.GetInt(Forth.DictIp + ForthRAM.CellSize));
+            Stack.Push(Forth.Ram.GetInt(Forth.DictIp + RAM.CellSize));
             // advance the instruction pointer by one to skip over the data
-            Forth.DictIp += ForthRAM.CellSize;
+            Forth.DictIp += RAM.CellSize;
         }
     }
 }

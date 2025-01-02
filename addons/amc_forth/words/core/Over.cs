@@ -15,7 +15,7 @@ namespace Forth.Core
 
         public override void Call()
         {
-            Forth.Push(Forth.DataStack[Forth.DsP + 1]);
+            Stack.Push(Stack.DataStack[Stack.DsP + 1]);
         }
     }
 }

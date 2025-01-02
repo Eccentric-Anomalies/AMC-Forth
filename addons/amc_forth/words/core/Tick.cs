@@ -20,19 +20,19 @@ namespace Forth.Core
         {
             // retrieve the name token
             Forth.CoreExtWords.ParseName.Call();
-            var len = Forth.Pop(); // length
-            var caddr = Forth.Pop(); // start
+            var len = Stack.Pop(); // length
+            var caddr = Stack.Pop(); // start
             var word = Forth.Util.StrFromAddrN(caddr, len);
             var token_addr_immediate = Forth.FindInDict(word); // look the name up
             if (token_addr_immediate.Addr != 0) // either in user dictionary, a built-in xt, or neither
             {
-                Forth.Push(token_addr_immediate.Addr);
+                Stack.Push(token_addr_immediate.Addr);
             }
             else
             {
                 try
                 {
-                    Forth.Push(FromName(word).Xt);
+                    Stack.Push(FromName(word).Xt);
                 }
                 catch (ArgumentOutOfRangeException e)
                 {

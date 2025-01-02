@@ -15,8 +15,8 @@ namespace Forth.Core
 
         public override void Call()
         {
-            var n = Forth.Pop();
-            Forth.Push(Forth.Pop() - n);
+            var n = Stack.Pop();
+            Stack.Push(Stack.Pop() - n);
         }
     }
 }

@@ -17,10 +17,10 @@ namespace Forth.Core
 
         public override void Call()
         {
-            var n1 = Forth.Pop();
-            var d = Forth.PopDint();
-            Forth.Push((int)(d % n1));
-            Forth.Push((int)(d / n1));
+            var n1 = Stack.Pop();
+            var d = Stack.PopDint();
+            Stack.Push((int)(d % n1));
+            Stack.Push((int)(d / n1));
         }
     }
 }

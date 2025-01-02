@@ -21,15 +21,15 @@ namespace Forth.CoreExt
             // copy the execution token
             Forth.Ram.SetInt(Forth.DictTopP, XtX);
             // The link back
-            Forth.Ram.SetInt(Forth.DictTopP + ForthRAM.CellSize, Forth.CfPopDest());
-            Forth.DictTopP += ForthRAM.DCellSize; // two cells up and done
+            Forth.Ram.SetInt(Forth.DictTopP + RAM.CellSize, Forth.CfPopDest());
+            Forth.DictTopP += RAM.DCellSize; // two cells up and done
             Forth.SaveDictTop(); // preserve the state
         }
 
         public override void CallExec()
         {
             // Unconditionally branch
-            Forth.DictIp = Forth.Ram.GetInt(Forth.DictIp + ForthRAM.CellSize);
+            Forth.DictIp = Forth.Ram.GetInt(Forth.DictIp + RAM.CellSize);
         }
     }
 }

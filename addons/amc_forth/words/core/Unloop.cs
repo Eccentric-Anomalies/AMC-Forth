@@ -15,7 +15,7 @@ namespace Forth.Core
 
         public override void Call()
         {
-            Forth.RPopDint();
+            Stack.RPopDint();
         }
     }
 }

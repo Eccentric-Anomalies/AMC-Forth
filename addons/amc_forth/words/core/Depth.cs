@@ -15,7 +15,7 @@ namespace Forth.Core
 
         public override void Call()
         {
-            Forth.Push(AMCForth.DataStackSize - Forth.DsP);
+            Stack.Push(Stack.DataStackSize - Stack.DsP);
         }
     }
 }

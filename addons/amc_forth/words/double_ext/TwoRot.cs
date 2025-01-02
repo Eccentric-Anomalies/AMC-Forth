@@ -15,10 +15,10 @@ namespace Forth.DoubleExt
 
         public override void Call()
         {
-            var t = Forth.GetDint(4);
-            Forth.SetDint(4, Forth.GetDint(2));
-            Forth.SetDint(2, Forth.GetDint(0));
-            Forth.SetDint(0, t);
+            var t = Stack.GetDint(4);
+            Stack.SetDint(4, Stack.GetDint(2));
+            Stack.SetDint(2, Stack.GetDint(0));
+            Stack.SetDint(0, t);
         }
     }
 }

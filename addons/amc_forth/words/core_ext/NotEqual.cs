@@ -15,14 +15,14 @@ namespace Forth.CoreExt
 
         public override void Call()
         {
-            var t = Forth.Pop();
-            if (t != Forth.Pop())
+            var t = Stack.Pop();
+            if (t != Stack.Pop())
             {
-                Forth.Push(AMCForth.True);
+                Stack.Push(AMCForth.True);
             }
             else
             {
-                Forth.Push(AMCForth.False);
+                Stack.Push(AMCForth.False);
             }
         }
     }

@@ -17,7 +17,7 @@ namespace Forth.CoreExt
 
         public override void Call()
         {
-            Forth.PushDint(Forth.RPopDint());
+            Stack.PushDint(Stack.RPopDint());
         }
     }
 }

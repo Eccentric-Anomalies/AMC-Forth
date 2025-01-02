@@ -17,7 +17,7 @@ namespace Forth.Core
         public override void Call()
         {
             // backwards by one cell, so execution will advance it to the right point
-            Forth.CfPushDest(Forth.DictTopP - ForthRAM.CellSize);
+            Forth.CfPushDest(Forth.DictTopP - RAM.CellSize);
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Forth.Core
 
         public override void Call()
         {
-            Forth.Push(Terminal.BL.ToAsciiBuffer()[0]);
+            Stack.Push(Terminal.BL.ToAsciiBuffer()[0]);
         }
     }
 }

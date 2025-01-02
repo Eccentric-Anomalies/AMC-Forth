@@ -15,8 +15,8 @@ namespace Forth.CommonUse
 
         public override void Call()
         {
-            var n = Forth.Pop();
-            Forth.PushDint(Forth.PopDint() - n);
+            var n = Stack.Pop();
+            Stack.PushDint(Stack.PopDint() - n);
         }
     }
 }

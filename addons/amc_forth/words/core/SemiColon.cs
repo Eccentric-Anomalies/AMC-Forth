@@ -23,7 +23,7 @@ namespace Forth.Core
             );
             Forth.State = false; // clear compile state
             Forth.Ram.SetInt(Forth.DictTopP, XtX);
-            Forth.DictTopP += ForthRAM.CellSize;
+            Forth.DictTopP += RAM.CellSize;
             Forth.SaveDictTop(); // preserve dictionary state
             // check for control flow stack integrity
             if (!Forth.CfStackIsEmpty())

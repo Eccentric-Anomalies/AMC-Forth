@@ -19,7 +19,7 @@ namespace Forth.Core
         {
             Forth.CoreExtWords.ParseName.Call(); // get c-addr u
             Forth.CoreWords.Drop.Call();
-            Forth.Push(Forth.Ram.GetByte(Forth.Pop())); // the first character byte
+            Stack.Push(Forth.Ram.GetByte(Stack.Pop())); // the first character byte
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Forth.Core
 
         public override void Call()
         {
-            Forth.DictTopP += Forth.Pop();
+            Forth.DictTopP += Stack.Pop();
             Forth.SaveDictTop(); // preserve dictionary state
         }
     }

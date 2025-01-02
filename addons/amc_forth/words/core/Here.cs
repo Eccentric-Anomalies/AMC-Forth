@@ -15,7 +15,7 @@ namespace Forth.Core
 
         public override void Call()
         {
-            Forth.Push(Forth.DictTopP);
+            Stack.Push(Forth.DictTopP);
         }
     }
 }

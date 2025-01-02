@@ -15,9 +15,9 @@ namespace Forth.Core
 
         public override void Call()
         {
-            Forth.Push(Forth.DictTopP);
+            Stack.Push(Forth.DictTopP);
             Forth.CoreWords.Aligned.Call();
-            Forth.DictTopP = Forth.Pop();
+            Forth.DictTopP = Stack.Pop();
 
             // preserve dictionary state
             Forth.SaveDictTop();

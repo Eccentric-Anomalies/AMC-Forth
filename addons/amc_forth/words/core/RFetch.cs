@@ -16,9 +16,9 @@ namespace Forth.Core
 
         public override void Call()
         {
-            var t = Forth.RPop();
-            Forth.Push(t);
-            Forth.RPush(t);
+            var t = Stack.RPop();
+            Stack.Push(t);
+            Stack.RPush(t);
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Forth.File
 
         public override void Call()
         {
-            Forth.Push((int)FileAccess.ModeFlags.ReadWrite);
+            Stack.Push((int)FileAccess.ModeFlags.ReadWrite);
         }
     }
 }

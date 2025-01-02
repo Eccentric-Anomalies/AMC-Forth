@@ -15,7 +15,7 @@ namespace Forth.CoreExt
 
         public override void Call()
         {
-            Forth.Push(AMCForth.False);
+            Stack.Push(AMCForth.False);
         }
     }
 }

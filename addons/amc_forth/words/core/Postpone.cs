@@ -19,11 +19,11 @@ namespace Forth.Core
         public override void Call()
         {
             Forth.CoreExtWords.ParseName.Call(); // parse for the next token
-            var len = Forth.Pop();
-            var caddr = Forth.Pop();
+            var len = Stack.Pop();
+            var caddr = Stack.Pop();
             var word = Forth.Util.StrFromAddrN(caddr, len);
             // obtain and push the compile time xt for this word
-            Forth.Push(FromName(word).Xt);
+            Stack.Push(FromName(word).Xt);
             Forth.CoreWords.Comma.Call(); // then store it in the current definition
         }
     }

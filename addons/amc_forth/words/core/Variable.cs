@@ -19,7 +19,7 @@ namespace Forth.Core
         {
             Forth.CoreWords.Create.Call();
             // make room for one cell
-            Forth.DictTopP += ForthRAM.CellSize;
+            Forth.DictTopP += RAM.CellSize;
             // preserve dictionary state
             Forth.SaveDictTop();
         }

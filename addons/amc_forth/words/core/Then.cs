@@ -19,7 +19,7 @@ namespace Forth.Core
             // Note: this only places the forward reference to the position
             // just before this (the caller will step to the next location).
             // No compiled function is needed.
-            Forth.Ram.SetInt(Forth.CfPopOrig(), Forth.DictTopP - ForthRAM.CellSize);
+            Forth.Ram.SetInt(Forth.CfPopOrig(), Forth.DictTopP - RAM.CellSize);
         }
     }
 }

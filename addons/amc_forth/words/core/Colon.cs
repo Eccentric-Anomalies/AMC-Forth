@@ -22,7 +22,7 @@ namespace Forth.Core
             {
                 Forth.State = true; // enter compile state
                 Forth.Ram.SetInt(Forth.DictTopP, XtX);
-                Forth.DictTopP += ForthRAM.CellSize;
+                Forth.DictTopP += RAM.CellSize;
                 // preserve dictionary state
                 Forth.SaveDictTop();
             }
@@ -34,8 +34,8 @@ namespace Forth.Core
             // save the current stack level
             while (!Forth.ExitFlag)
             {
-                Forth.DictIp += ForthRAM.CellSize; // Step to the next item
-                Forth.Push(Forth.Ram.GetInt(Forth.DictIp)); // get the next execution token
+                Forth.DictIp += RAM.CellSize; // Step to the next item
+                Stack.Push(Forth.Ram.GetInt(Forth.DictIp)); // get the next execution token
                 Forth.CoreWords.Execute.Call(); // and do what it says to do!
             }
             Forth.ExitFlag = false; // We are exiting. Reset the flag.

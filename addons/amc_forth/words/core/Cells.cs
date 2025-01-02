@@ -15,7 +15,7 @@ namespace Forth.Core
 
         public override void Call()
         {
-            Forth.Push(ForthRAM.CellSize);
+            Stack.Push(RAM.CellSize);
             Forth.CoreWords.Star.Call();
         }
     }

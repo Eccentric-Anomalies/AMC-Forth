@@ -16,7 +16,7 @@ namespace Forth.Core
 
         public override void Call()
         {
-            byte[] c = { Convert.ToByte(Forth.Pop() & 0x0ff) };
+            byte[] c = { Convert.ToByte(Stack.Pop() & 0x0ff) };
             Forth.Util.PrintTerm(System.Text.Encoding.ASCII.GetString(c));
         }
     }

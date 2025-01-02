@@ -15,11 +15,11 @@ namespace Forth.Core
 
         public override void Call()
         {
-            var l = Forth.Pop();
-            var s = Forth.Pop();
+            var l = Stack.Pop();
+            var s = Stack.Pop();
             for (int i = 0; i < l; i++)
             {
-                Forth.Push(Forth.Ram.GetByte(s + i));
+                Stack.Push(Forth.Ram.GetByte(s + i));
                 Forth.CoreWords.Emit.Call();
             }
         }

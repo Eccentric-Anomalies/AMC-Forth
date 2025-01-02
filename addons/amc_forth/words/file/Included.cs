@@ -21,14 +21,14 @@ namespace Forth.File
             Forth.FileWords.RO.Call();
             //# read only
             Forth.FileWords.OpenFile.Call();
-            var ior = Forth.Pop();
-            var fileid = Forth.Pop();
+            var ior = Stack.Pop();
+            var fileid = Stack.Pop();
             if (ior != 0)
             {
                 Forth.Util.RprintTerm(" File not found");
                 return;
             }
-            Forth.Push(fileid);
+            Stack.Push(fileid);
             Forth.FileWords.IncludeFile.Call();
         }
     }

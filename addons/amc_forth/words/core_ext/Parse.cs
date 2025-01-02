@@ -19,14 +19,14 @@ namespace Forth.CoreExt
         public override void Call()
         {
             var count = 0;
-            var ptr = AMCForth.WordBuffStart + 1;
-            var delim = Forth.Pop();
+            var ptr = Map.WordBuffStart + 1;
+            var delim = Stack.Pop();
             Forth.CoreWords.Source.Call();
-            var source_size = Forth.Pop();
-            var source_start = Forth.Pop();
+            var source_size = Stack.Pop();
+            var source_start = Stack.Pop();
             Forth.CoreWords.ToIn.Call();
-            var ptraddr = Forth.Pop();
-            Forth.Push(ptr);
+            var ptraddr = Stack.Pop();
+            Stack.Push(ptr);
             // parsed text begins here
             while (true)
             {
@@ -48,7 +48,7 @@ namespace Forth.CoreExt
                     break;
                 }
             }
-            Forth.Push(count);
+            Stack.Push(count);
         }
     }
 }

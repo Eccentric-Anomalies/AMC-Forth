@@ -30,9 +30,9 @@ namespace Forth.AMCExt
         {
             // retrieve the name token
             Forth.CoreExtWords.ParseName.Call();
-            var len = Forth.Pop();
+            var len = Stack.Pop();
             // length
-            var caddr = Forth.Pop();
+            var caddr = Stack.Pop();
             // start
             return Forth.Util.StrFromAddrN(caddr, len);
         }

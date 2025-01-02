@@ -15,7 +15,7 @@ namespace Forth.Double
 
         public override void Call()
         {
-            Forth.PushDint(Forth.PopDint() + Forth.PopDint());
+            Stack.PushDint(Stack.PopDint() + Stack.PopDint());
         }
     }
 }

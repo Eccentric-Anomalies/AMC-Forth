@@ -15,8 +15,8 @@ namespace Forth.Double
 
         public override void Call()
         {
-            var fmt = Forth.Ram.GetInt(AMCForth.Base) == 10 ? "F0" : "X";
-            var num = Forth.PopDint();
+            var fmt = Forth.Ram.GetInt(Map.Base) == 10 ? "F0" : "X";
+            var num = Stack.PopDint();
             Forth.Util.PrintTerm(" " + num.ToString(fmt));
         }
     }

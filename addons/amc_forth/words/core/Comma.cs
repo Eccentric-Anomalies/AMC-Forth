@@ -15,8 +15,8 @@ namespace Forth.Core
 
         public override void Call()
         {
-            Forth.Ram.SetInt(Forth.DictTopP, Forth.Pop());
-            Forth.DictTopP += ForthRAM.CellSize;
+            Forth.Ram.SetInt(Forth.DictTopP, Stack.Pop());
+            Forth.DictTopP += RAM.CellSize;
             Forth.SaveDictTop(); // preserve dictionary state
         }
     }

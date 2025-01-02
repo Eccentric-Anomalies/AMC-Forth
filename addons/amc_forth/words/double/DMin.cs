@@ -15,10 +15,10 @@ namespace Forth.Double
 
         public override void Call()
         {
-            var d2 = Forth.PopDint();
-            if (d2 < Forth.GetDint(0))
+            var d2 = Stack.PopDint();
+            if (d2 < Stack.GetDint(0))
             {
-                Forth.SetDint(0, d2);
+                Stack.SetDint(0, d2);
             }
         }
     }

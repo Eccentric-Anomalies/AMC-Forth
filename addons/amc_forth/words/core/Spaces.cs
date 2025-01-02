@@ -15,7 +15,7 @@ namespace Forth.Core
 
         public override void Call()
         {
-            var u = Forth.Pop();
+            var u = Stack.Pop();
             for (int i = 0; i < u; i++)
             {
                 Forth.Util.PrintTerm(Terminal.BL);

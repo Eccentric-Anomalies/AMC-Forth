@@ -15,7 +15,7 @@ namespace Forth.Core
 
         public override void Call()
         {
-            Forth.PushDint((long)Forth.Pop() * Forth.Pop());
+            Stack.PushDint((long)Stack.Pop() * Stack.Pop());
         }
     }
 }

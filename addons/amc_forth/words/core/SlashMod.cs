@@ -15,10 +15,10 @@ namespace Forth.Core
 
         public override void Call()
         {
-            var div = Forth.Pop();
-            var d = Forth.Pop();
-            Forth.Push(d % div);
-            Forth.Push(d / div);
+            var div = Stack.Pop();
+            var d = Stack.Pop();
+            Stack.Push(d % div);
+            Stack.Push(d / div);
         }
     }
 }

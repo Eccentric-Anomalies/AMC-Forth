@@ -20,21 +20,21 @@ namespace Forth.Core
         {
             Forth.Ram.SetInt(Forth.DictTopP, XtX); // copy the execution token
             // The link back
-            Forth.Ram.SetInt(Forth.DictTopP + ForthRAM.CellSize, Forth.CfPopDest());
-            Forth.DictTopP += ForthRAM.DCellSize; // two cells up and done
+            Forth.Ram.SetInt(Forth.DictTopP + RAM.CellSize, Forth.CfPopDest());
+            Forth.DictTopP += RAM.DCellSize; // two cells up and done
         }
 
         public override void CallExec()
         {
             // ( x - )
-            if (Forth.Pop() == 0) // Conditional branch
+            if (Stack.Pop() == 0) // Conditional branch
             {
-                Forth.DictIp = Forth.Ram.GetInt(Forth.DictIp + ForthRAM.CellSize);
+                Forth.DictIp = Forth.Ram.GetInt(Forth.DictIp + RAM.CellSize);
             }
             else
             {
                 // TRUE, so skip over the link and continue executing
-                Forth.DictIp += ForthRAM.CellSize;
+                Forth.DictIp += RAM.CellSize;
             }
         }
     }

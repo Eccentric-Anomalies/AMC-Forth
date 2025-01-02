@@ -17,14 +17,14 @@ namespace Forth.CoreExt
 
         public override void Call()
         {
-            var n = Forth.Pop();
-            if (n >= AMCForth.DataStackSize - Forth.DsP)
+            var n = Stack.Pop();
+            if (n >= Stack.DataStackSize - Stack.DsP)
             {
                 Forth.Util.RprintTerm(" PICK outside data stack");
             }
             else
             {
-                Forth.Push(Forth.DataStack[-n - 1]);
+                Stack.Push(Stack.DataStack[-n - 1]);
             }
         }
     }

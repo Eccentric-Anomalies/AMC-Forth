@@ -18,8 +18,8 @@ namespace Forth.ToolsExt
         public override void Call()
         {
             Forth.Ram.SetInt(Forth.DictTopP, XtX); // copy the execution token
-            Forth.CfPushOrig(Forth.DictTopP + ForthRAM.CellSize); // leave link address on the control stack
-            Forth.DictTopP += ForthRAM.DCellSize; // move two cells up to finish
+            Forth.CfPushOrig(Forth.DictTopP + RAM.CellSize); // leave link address on the control stack
+            Forth.DictTopP += RAM.DCellSize; // move two cells up to finish
             Forth.SaveDictTop(); // preserve dictionary state
         }
 
@@ -28,7 +28,7 @@ namespace Forth.ToolsExt
             // Branch to ELSE if top of stack not TRUE.
             // ( x - )
             // Skip ahead to the address in the next cell
-            Forth.DictIp = Forth.Ram.GetInt(Forth.DictIp + ForthRAM.CellSize);
+            Forth.DictIp = Forth.Ram.GetInt(Forth.DictIp + RAM.CellSize);
         }
     }
 }

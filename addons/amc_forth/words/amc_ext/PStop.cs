@@ -17,11 +17,11 @@ namespace Forth.AMCExt
         {
             Forth.AMCExtWords.PTimer.GetTimerAddress();
             // ( i - addr )
-            var addr = Forth.Pop();
+            var addr = Stack.Pop();
             // ( addr - )
             // clear the entries for the given timer id
             Forth.Ram.SetInt(addr, 0);
-            Forth.Ram.SetInt(addr + ForthRAM.CellSize, 0);
+            Forth.Ram.SetInt(addr + RAM.CellSize, 0);
             // the next time this timer expires, the system will find nothing
             // here for the ID, and it will be cancelled.
         }

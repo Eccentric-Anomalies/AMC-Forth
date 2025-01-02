@@ -18,13 +18,13 @@ namespace Forth.Core
 
         public override void Call()
         {
-            var init_val = Forth.Pop();
+            var init_val = Stack.Pop();
             if (Forth.CreateDictEntryName() != 0)
             {
                 Forth.Ram.SetInt(Forth.DictTopP, XtX); // copy the execution token
                 // store the constant
-                Forth.Ram.SetInt(Forth.DictTopP + ForthRAM.CellSize, init_val);
-                Forth.DictTopP += ForthRAM.DCellSize;
+                Forth.Ram.SetInt(Forth.DictTopP + RAM.CellSize, init_val);
+                Forth.DictTopP += RAM.DCellSize;
                 // two cells up
                 // preserve dictionary state
                 Forth.SaveDictTop();
@@ -34,7 +34,7 @@ namespace Forth.Core
         public override void CallExec()
         {
             // return contents of cell after execution token
-            Forth.Push(Forth.Ram.GetInt(Forth.DictIp + ForthRAM.CellSize));
+            Stack.Push(Forth.Ram.GetInt(Forth.DictIp + RAM.CellSize));
         }
     }
 }

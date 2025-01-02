@@ -16,7 +16,7 @@ namespace Forth.Double
         public override void Call()
         {
             // this assumes doubles are pushed in LS MS order
-            Forth.Pop();
+            Stack.Pop();
         }
     }
 }

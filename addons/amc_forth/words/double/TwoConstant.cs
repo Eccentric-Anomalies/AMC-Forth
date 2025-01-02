@@ -15,13 +15,13 @@ namespace Forth.Double
 
         public override void Call()
         {
-            var init_val = Forth.PopDword();
+            var init_val = Stack.PopDword();
             if (Forth.CreateDictEntryName() != 0)
             {
                 Forth.Ram.SetInt(Forth.DictTopP, XtX); // copy the execution token
                 // store the constant
-                Forth.Ram.SetDword(Forth.DictTopP + ForthRAM.CellSize, init_val);
-                Forth.DictTopP += ForthRAM.CellSize + ForthRAM.DCellSize;
+                Forth.Ram.SetDword(Forth.DictTopP + RAM.CellSize, init_val);
+                Forth.DictTopP += RAM.CellSize + RAM.DCellSize;
 
                 // preserve dictionary state
                 Forth.SaveDictTop();
@@ -31,7 +31,7 @@ namespace Forth.Double
         public override void CallExec()
         {
             // return contents of double cell after execution token
-            Forth.PushDword(Forth.Ram.GetDword(Forth.DictIp + ForthRAM.CellSize));
+            Stack.PushDword(Forth.Ram.GetDword(Forth.DictIp + RAM.CellSize));
         }
     }
 }

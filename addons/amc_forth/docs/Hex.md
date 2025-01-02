@@ -2,7 +2,7 @@
 Sets BASE to 16.
 * ( - )
 * [Source Code](../words/core_ext/Hex.cs)
-* Execution Tokens: 1543520724 (interpreted) and 1006649812 (compiled)
+* Execution Tokens: 1267199594 (interpreted) and 730328682 (compiled)
 
 
 [BACK](builtins.md#Hex)

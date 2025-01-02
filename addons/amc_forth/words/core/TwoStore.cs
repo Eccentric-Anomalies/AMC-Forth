@@ -18,9 +18,9 @@ namespace Forth.Core
 
         public override void Call()
         {
-            var a = Forth.Pop();
-            Forth.Ram.SetInt(a, Forth.Pop());
-            Forth.Ram.SetInt(a + ForthRAM.CellSize, Forth.Pop());
+            var a = Stack.Pop();
+            Forth.Ram.SetInt(a, Stack.Pop());
+            Forth.Ram.SetInt(a + RAM.CellSize, Stack.Pop());
         }
     }
 }

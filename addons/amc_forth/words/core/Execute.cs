@@ -16,13 +16,13 @@ namespace Forth.Core
 
         public override void Call()
         {
-            var xt = Forth.Pop();
+            var xt = Stack.Pop();
             if (IsBuiltInXt(xt))
             {
                 // this xt identifies a built-in function
                 CallXt(xt);
             }
-            else if (xt >= AMCForth.DictStart && xt < AMCForth.DictTop)
+            else if (xt >= Map.DictStart && xt < Map.DictTop)
             {
                 // this xt (probably) identifies an address in the dictionary
                 // save the current ip
@@ -30,7 +30,7 @@ namespace Forth.Core
                 // this is a physical address of an xt
                 Forth.DictIp = xt;
                 // push the xt
-                Forth.Push(Forth.Ram.GetInt(xt));
+                Stack.Push(Forth.Ram.GetInt(xt));
                 // recurse down a layer
                 Call();
                 // restore our ip

@@ -15,7 +15,7 @@ namespace Forth.Core
 
         public override void Call()
         {
-            Forth.Ram.SetByte(Forth.DictTopP, Forth.Pop());
+            Forth.Ram.SetByte(Forth.DictTopP, Stack.Pop());
             Forth.DictTopP += 1;
             Forth.SaveDictTop(); // preserve dictionary state
         }

@@ -16,9 +16,9 @@ namespace Forth.Core
 
         public override void Call()
         {
-            var addr = Forth.Pop();
-            Forth.Push(addr + 1);
-            Forth.Push(Forth.Ram.GetByte(addr));
+            var addr = Stack.Pop();
+            Stack.Push(addr + 1);
+            Stack.Push(Forth.Ram.GetByte(addr));
         }
     }
 }

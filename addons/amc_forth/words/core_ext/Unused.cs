@@ -17,7 +17,7 @@ namespace Forth.CoreExt
 
         public override void Call()
         {
-            Forth.Push(AMCForth.DictTop - Forth.DictTopP);
+            Stack.Push(Map.DictTop - Forth.DictTopP);
         }
     }
 }

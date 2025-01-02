@@ -17,17 +17,17 @@ namespace Forth.String
 
         public override void Call()
         {
-            var u = Forth.Pop();
-            var a2 = Forth.Pop();
-            var a1 = Forth.Pop();
+            var u = Stack.Pop();
+            var a2 = Stack.Pop();
+            var a1 = Stack.Pop();
             var i = u;
 
             // move in descending order a1 -> a2, fast, then slow
             while (i > 0)
             {
-                if (i >= ForthRAM.DCellSize)
+                if (i >= RAM.DCellSize)
                 {
-                    i -= ForthRAM.DCellSize;
+                    i -= RAM.DCellSize;
                     Forth.Ram.SetDword(a2 + i, Forth.Ram.GetDword(a1 + i));
                 }
                 else

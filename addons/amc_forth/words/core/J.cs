@@ -16,7 +16,7 @@ namespace Forth.Core
         public override void Call()
         {
             // reach up into the return stack for the value
-            Forth.Push(Forth.ReturnStack[Forth.RsP + 2]);
+            Stack.Push(Stack.ReturnStack[Stack.RsP + 2]);
         }
     }
 }

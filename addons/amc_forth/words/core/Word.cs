@@ -19,12 +19,12 @@ namespace Forth.Core
         public override void Call()
         {
             Forth.CoreWords.Dup.Call();
-            var delim = Forth.Pop();
+            var delim = Stack.Pop();
             Forth.CoreWords.Source.Call();
-            var source_size = Forth.Pop();
-            var source_start = Forth.Pop();
+            var source_size = Stack.Pop();
+            var source_start = Stack.Pop();
             Forth.CoreWords.ToIn.Call();
-            var ptraddr = Forth.Pop();
+            var ptraddr = Stack.Pop();
             while (true)
             {
                 var t = Forth.Ram.GetByte(source_start + Forth.Ram.GetInt(ptraddr));
@@ -39,11 +39,11 @@ namespace Forth.Core
                 }
             }
             Forth.CoreExtWords.Parse.Call();
-            var count = Forth.Pop();
-            var straddr = Forth.Pop();
+            var count = Stack.Pop();
+            var straddr = Stack.Pop();
             var ret = straddr - 1;
             Forth.Ram.SetByte(ret, count);
-            Forth.Push(ret);
+            Stack.Push(ret);
         }
     }
 }

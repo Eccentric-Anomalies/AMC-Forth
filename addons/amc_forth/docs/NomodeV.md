@@ -2,7 +2,7 @@
 Send MODESOFF command to video terminal.
 * ( - )
 * [Source Code](../words/amc_ext/NomodeV.cs)
-* Execution Tokens: 1139535511 (interpreted) and 602664599 (compiled)
+* Execution Tokens: 1440974109 (interpreted) and 904103197 (compiled)
 
 
 [BACK](builtins.md#NomodeV)

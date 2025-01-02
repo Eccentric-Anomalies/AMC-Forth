@@ -16,7 +16,7 @@ namespace Forth.CoreExt
         public override void Call()
         {
             Forth.CoreWords.Swap.Call();
-            Forth.Push(Forth.DataStack[Forth.DsP + 1]);
+            Stack.Push(Stack.DataStack[Stack.DsP + 1]);
         }
     }
 }

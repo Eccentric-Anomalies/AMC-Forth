@@ -15,14 +15,14 @@ namespace Forth.Double
 
         public override void Call()
         {
-            var t = Forth.PopDint();
-            if (Forth.PopDint() < t)
+            var t = Stack.PopDint();
+            if (Stack.PopDint() < t)
             {
-                Forth.Push(AMCForth.True);
+                Stack.Push(AMCForth.True);
             }
             else
             {
-                Forth.Push(AMCForth.False);
+                Stack.Push(AMCForth.False);
             }
         }
     }

@@ -19,13 +19,13 @@ namespace Forth.Core
             // compilation behavior
             if (Forth.State)
             {
-                Forth.Push("\"".ToAsciiBuffer()[0]);
+                Stack.Push("\"".ToAsciiBuffer()[0]);
                 Forth.CoreExtWords.Parse.Call();
                 // copy the execution token
                 Forth.Ram.SetInt(Forth.DictTopP, XtX);
-                var l = Forth.Pop();
-                var src = Forth.Pop();
-                Forth.DictTopP += ForthRAM.CellSize;
+                var l = Stack.Pop();
+                var src = Stack.Pop();
+                Forth.DictTopP += RAM.CellSize;
                 Forth.Ram.SetByte(Forth.DictTopP, l); // store the length
                 Forth.DictTopP += 1;
                 // compile the string into the dictionary
@@ -41,15 +41,15 @@ namespace Forth.Core
 
         public override void CallExec()
         {
-            var l = Forth.Ram.GetByte(Forth.DictIp + ForthRAM.CellSize);
-            Forth.Push(Forth.DictIp + ForthRAM.CellSize + 1);
+            var l = Forth.Ram.GetByte(Forth.DictIp + RAM.CellSize);
+            Stack.Push(Forth.DictIp + RAM.CellSize + 1);
             // address of the string start
-            Forth.Push(l);
+            Stack.Push(l);
             // length of the string
             // send to the terminal
             Forth.CoreWords.Type.Call();
             // moves to string cell for l in 0..3, then one cell past for l in 4..7, etc.
-            Forth.DictIp += ((l / ForthRAM.CellSize) + 1) * ForthRAM.CellSize;
+            Forth.DictIp += ((l / RAM.CellSize) + 1) * RAM.CellSize;
         }
     }
 }

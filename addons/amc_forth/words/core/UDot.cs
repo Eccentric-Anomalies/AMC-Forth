@@ -8,6 +8,7 @@ namespace Forth.Core
         public UDot(AMCForth forth, string wordset)
             : base(forth, wordset)
         {
+            Salt = "UDot";
             Name = "U.";
             Description = "Display the value of unsigned u, on the top of the stack.";
             StackEffect = "( u - )";
@@ -15,8 +16,8 @@ namespace Forth.Core
 
         public override void Call()
         {
-            var fmt = Forth.Ram.GetInt(AMCForth.Base) == 10 ? "F0" : "X";
-            var num = (uint)Forth.Pop();
+            var fmt = Forth.Ram.GetInt(Map.Base) == 10 ? "F0" : "X";
+            var num = (uint)Stack.Pop();
             Forth.Util.PrintTerm(" " + num.ToString(fmt));
         }
     }

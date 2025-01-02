@@ -18,30 +18,30 @@ namespace Forth.CommonUse
 
         public override void Call()
         {
-            var radix = Forth.Ram.GetInt(AMCForth.Base);
-            var len = Forth.Pop();
+            var radix = Forth.Ram.GetInt(Map.Base);
+            var len = Stack.Pop();
             // length of word
-            var caddr = Forth.Pop();
+            var caddr = Stack.Pop();
             // start of word
             var t = Forth.Util.StrFromAddrN(caddr, len);
-            if (t.Contains(".") && AMCForth.IsValidLong(t.Replace(".", ""), radix))
+            if (t.Contains(".") && Util.IsValidLong(t.Replace(".", ""), radix))
             {
                 var t_strip = t.Replace(".", "");
-                var temp = AMCForth.ToLong(t_strip, radix);
-                Forth.PushDint(temp);
-                Forth.Push(2);
+                var temp = Util.ToLong(t_strip, radix);
+                Stack.PushDint(temp);
+                Stack.Push(2);
             }
-            else if (AMCForth.IsValidInt(t, radix))
+            else if (Util.IsValidInt(t, radix))
             {
-                var temp = AMCForth.ToInt(t, radix);
+                var temp = Util.ToInt(t, radix);
 
                 // single-precision
-                Forth.Push(temp);
-                Forth.Push(1);
+                Stack.Push(temp);
+                Stack.Push(1);
             }
             else // nothing we recognize
             {
-                Forth.Push(0);
+                Stack.Push(0);
             }
         }
     }

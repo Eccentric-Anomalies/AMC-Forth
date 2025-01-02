@@ -17,8 +17,8 @@ namespace Forth.File
 
         public override void Call()
         {
-            Forth.FreeFileId(Forth.Pop());
-            Forth.Push(0);
+            Files.FreeFileId(Stack.Pop());
+            Stack.Push(0);
         }
     }
 }

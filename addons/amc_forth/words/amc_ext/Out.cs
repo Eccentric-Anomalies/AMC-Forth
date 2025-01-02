@@ -16,16 +16,16 @@ namespace Forth.AMCExt
         public override void Call()
         {
             Forth.CoreWords.Dup.Call();
-            var port = Forth.Pop();
+            var port = Stack.Pop();
             Forth.CoreWords.Cells.Call();
             // offset in bytes
-            Forth.Push(AMCForth.IoOutStart);
+            Stack.Push(Map.IoOutStart);
             // address of output block
             Forth.CoreWords.Plus.Call();
             // output address
             Forth.CoreWords.Over.Call();
             // copy value
-            var value = Forth.Pop();
+            var value = Stack.Pop();
             Forth.CoreWords.Store.Call();
             if (Forth.OutputPortMap.ContainsKey(port))
             {

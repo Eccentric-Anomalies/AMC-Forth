@@ -24,11 +24,11 @@ namespace Forth.Core
             while (!Forth.LcfIsEmpty())
             {
                 // destination is on top of the back link
-                Forth.Ram.SetInt(Forth.LcfPop(), Forth.DictTopP + ForthRAM.CellSize);
+                Forth.Ram.SetInt(Forth.LcfPop(), Forth.DictTopP + RAM.CellSize);
             }
             // The link back
-            Forth.Ram.SetInt(Forth.DictTopP + ForthRAM.CellSize, Forth.CfPopDest());
-            Forth.DictTopP += ForthRAM.DCellSize;
+            Forth.Ram.SetInt(Forth.DictTopP + RAM.CellSize, Forth.CfPopDest());
+            Forth.DictTopP += RAM.DCellSize;
             // two cells up and done
             Forth.SaveDictTop(); // preserve dictionary state
         }
@@ -36,28 +36,28 @@ namespace Forth.Core
         public override void CallExec()
         {
             // pull out the increment
-            var n = Forth.Pop();
+            var n = Stack.Pop();
             Forth.CoreExtWords.TwoRFrom.Call(); // Move two loop params to the data stack.
-            var i = (long)Forth.Pop(); // current index
-            var limit = (long)Forth.Pop(); // limit value
+            var i = (long)Stack.Pop(); // current index
+            var limit = (long)Stack.Pop(); // limit value
             var above_before = i >= limit;
             var next_i = i + n;
             var above_after = next_i >= limit;
             if (above_before != above_after)
             {
                 // loop is satisfied
-                Forth.DictIp += ForthRAM.CellSize;
+                Forth.DictIp += RAM.CellSize;
             }
             else
             {
                 // loop must continue
-                Forth.Push((int)limit);
+                Stack.Push((int)limit);
                 // original limit
-                Forth.Push((int)next_i);
+                Stack.Push((int)next_i);
                 // new index
                 // Branch back. The DO or ?DO exec will push the values
                 // back on the return stack
-                Forth.DictIp = Forth.Ram.GetInt(Forth.DictIp + ForthRAM.CellSize);
+                Forth.DictIp = Forth.Ram.GetInt(Forth.DictIp + RAM.CellSize);
             }
         }
     }

@@ -17,7 +17,7 @@ namespace Forth.ToolsExt
 
         public override void Call()
         {
-            Forth.CfStackPick(Forth.Pop());
+            Forth.CfStackPick(Stack.Pop());
         }
     }
 }

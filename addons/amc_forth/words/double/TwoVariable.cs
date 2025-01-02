@@ -18,7 +18,7 @@ namespace Forth.Double
         public override void Call()
         {
             Forth.CoreWords.Create.Call();
-            Forth.DictTopP += ForthRAM.DCellSize; // make room for one cell
+            Forth.DictTopP += RAM.DCellSize; // make room for one cell
             Forth.SaveDictTop(); // preserve dictionary state
         }
     }

@@ -16,7 +16,7 @@ namespace Forth.CoreExt
 
         public override void Call()
         {
-            Forth.Push(Terminal.CR.ToAsciiBuffer()[0]);
+            Stack.Push(Terminal.CR.ToAsciiBuffer()[0]);
             Forth.CoreExtWords.Parse.Call();
             Forth.CoreWords.TwoDrop.Call();
         }

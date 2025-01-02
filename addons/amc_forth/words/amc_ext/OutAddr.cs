@@ -15,7 +15,7 @@ namespace Forth.AMCExt
 
         public override void Call()
         {
-            Forth.Push(Forth.Pop() * ForthRAM.CellSize + AMCForth.IoOutStart);
+            Stack.Push(Stack.Pop() * RAM.CellSize + Map.IoOutStart);
         }
     }
 }

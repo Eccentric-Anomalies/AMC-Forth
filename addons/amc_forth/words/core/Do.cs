@@ -21,7 +21,7 @@ namespace Forth.Core
         {
             Forth.Ram.SetInt(Forth.DictTopP, XtX);
             Forth.CoreWords.Begin.Call(); // mark a destination for a backward branch
-            Forth.DictTopP += ForthRAM.CellSize; // move up to finish
+            Forth.DictTopP += RAM.CellSize; // move up to finish
             Forth.SaveDictTop(); // preserve dictionary state
         }
 

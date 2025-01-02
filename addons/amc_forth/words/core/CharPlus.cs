@@ -15,7 +15,7 @@ namespace Forth.Core
 
         public override void Call()
         {
-            Forth.Push(1);
+            Stack.Push(1);
             Forth.CoreWords.Plus.Call();
         }
     }

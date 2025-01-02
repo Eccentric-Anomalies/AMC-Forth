@@ -19,15 +19,15 @@ namespace Forth.File
         public override void Call()
         {
             var ior = -1;
-            var fam = Forth.Pop();
-            var u = Forth.Pop();
+            var fam = Stack.Pop();
+            var u = Stack.Pop();
             var fileid = 0;
-            var fname = Forth.Util.StrFromAddrN(Forth.Pop(), u);
+            var fname = Forth.Util.StrFromAddrN(Stack.Pop(), u);
             var file = FileAccess.Open("user://" + fname, (FileAccess.ModeFlags)fam);
             file ??= FileAccess.Open("res://" + fname, (FileAccess.ModeFlags)fam);
             if (file != null)
             {
-                fileid = Forth.AssignFileId(file, fam);
+                fileid = Files.AssignFileId(file, fam);
                 if (fileid != 0)
                 {
                     ior = 0;
@@ -37,8 +37,8 @@ namespace Forth.File
                     Forth.Util.RprintTerm("File buffers exhausted"); // failed to allocate a buffer
                 }
             }
-            Forth.Push(fileid);
-            Forth.Push(ior);
+            Stack.Push(fileid);
+            Stack.Push(ior);
         }
     }
 }

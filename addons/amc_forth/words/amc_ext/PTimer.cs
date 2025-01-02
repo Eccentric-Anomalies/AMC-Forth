@@ -23,15 +23,15 @@ namespace Forth.AMCExt
             // ( i n - n i )
             Forth.CoreWords.Dup.Call();
             // ( n i - n i i )
-            var id = Forth.Pop();
+            var id = Stack.Pop();
             // ( n i i - n i )
             GetTimerAddress();
             // ( n i - n addr )
             Forth.CoreWords.Tick.Call();
             // ( n addr - n addr xt )
-            var xt = Forth.Pop();
-            var addr = Forth.Pop();
-            var ms = Forth.Pop();
+            var xt = Stack.Pop();
+            var addr = Stack.Pop();
+            var ms = Stack.Pop();
             // ( - )
             try
             {
@@ -39,15 +39,13 @@ namespace Forth.AMCExt
                 {
                     // only if non-zero and nothing already there
                     Forth.Ram.SetInt(addr, ms);
-                    Forth.Ram.SetInt(addr + ForthRAM.CellSize, xt);
+                    Forth.Ram.SetInt(addr + RAM.CellSize, xt);
                     Forth.StartPeriodicTimer(id, ms, xt);
                 }
             }
             catch (ArgumentOutOfRangeException)
             {
-                Forth.Util.RprintTerm(
-                    $" Timer ID out of range (maximum {AMCForth.PeriodicTimerQty})."
-                );
+                Forth.Util.RprintTerm($" Timer ID out of range (maximum {Map.PeriodicTimerQty}).");
             }
         }
 
@@ -56,10 +54,10 @@ namespace Forth.AMCExt
             // Utility to accept timer id and leave the start address of
             // its msec, xt pair
             // ( id - addr )
-            Forth.Push(ForthRAM.CellSize);
+            Stack.Push(RAM.CellSize);
             Forth.CoreWords.TwoStar.Call();
             Forth.CoreWords.Star.Call();
-            Forth.Push(AMCForth.PeriodicStart);
+            Stack.Push(Map.PeriodicStart);
             Forth.CoreWords.Plus.Call();
         }
     }

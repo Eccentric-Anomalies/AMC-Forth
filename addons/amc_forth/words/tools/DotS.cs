@@ -16,12 +16,12 @@ namespace Forth.Tools
 
         public override void Call()
         {
-            var pointer = AMCForth.DataStackTop;
-            var fmt = Forth.Ram.GetInt(AMCForth.Base) == 10 ? "F0" : "X";
+            var pointer = Stack.DataStackTop;
+            var fmt = Forth.Ram.GetInt(Map.Base) == 10 ? "F0" : "X";
             Forth.Util.RprintTerm("");
-            while (pointer >= Forth.DsP)
+            while (pointer >= Stack.DsP)
             {
-                Forth.Util.PrintTerm(" " + Forth.DataStack[pointer].ToString(fmt));
+                Forth.Util.PrintTerm(" " + Stack.DataStack[pointer].ToString(fmt));
                 pointer -= 1;
             }
             Forth.Util.PrintTerm(" <-Top");

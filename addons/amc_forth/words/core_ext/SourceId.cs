@@ -17,7 +17,7 @@ namespace Forth.CoreExt
 
         public override void Call()
         {
-            Forth.Push(Forth.SourceId);
+            Stack.Push(Forth.SourceId);
         }
     }
 }

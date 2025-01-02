@@ -15,7 +15,7 @@ namespace Forth.Core
 
         public override void Call()
         {
-            Forth.DataStack[Forth.DsP] = ~Forth.DataStack[Forth.DsP];
+            Stack.DataStack[Stack.DsP] = ~Stack.DataStack[Stack.DsP];
         }
     }
 }

@@ -17,11 +17,11 @@ namespace Forth.Double
 
         public override void Call()
         {
-            var n2 = Forth.Pop();
-            var n1 = Forth.Pop();
-            var d1 = Forth.PopDint();
+            var n2 = Stack.Pop();
+            var n1 = Stack.Pop();
+            var d1 = Stack.PopDint();
             var t = (decimal)d1 * n1;
-            Forth.PushDint((long)t / n2);
+            Stack.PushDint((long)t / n2);
         }
     }
 }

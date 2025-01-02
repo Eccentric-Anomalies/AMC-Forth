@@ -17,7 +17,7 @@ namespace Forth.Facility
         public override void Call()
         {
             Forth.Util.PrintTerm(Terminal.CLRSCR);
-            Forth.Push(1);
+            Stack.Push(1);
             Forth.CoreWords.Dup.Call();
             Forth.FacilityWords.AtXY.Call();
         }

@@ -15,10 +15,10 @@ namespace Forth.Core
 
         public override void Call()
         {
-            var n2 = Forth.Pop();
-            if (n2 < Forth.DataStack[Forth.DsP])
+            var n2 = Stack.Pop();
+            if (n2 < Stack.DataStack[Stack.DsP])
             {
-                Forth.DataStack[Forth.DsP] = n2;
+                Stack.DataStack[Stack.DsP] = n2;
             }
         }
     }

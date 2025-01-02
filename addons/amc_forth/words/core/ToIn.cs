@@ -21,12 +21,12 @@ namespace Forth.Core
             // terminal pointer or...
             if (Forth.SourceId == -1)
             {
-                Forth.Push(AMCForth.BuffToIn);
+                Stack.Push(Map.BuffToIn);
             }
             // file buffer pointer
             else if (Forth.SourceId != 0)
             {
-                Forth.Push(Forth.SourceId + AMCForth.FileBuffPtrOffset);
+                Stack.Push(Forth.SourceId + Map.FileBuffPtrOffset);
             }
         }
     }

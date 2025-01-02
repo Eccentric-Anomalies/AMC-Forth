@@ -16,7 +16,7 @@ namespace Forth.Double
 
         public override void Call()
         {
-            Forth.SetDint(0, Math.Abs(Forth.GetDint(0)));
+            Stack.SetDint(0, Math.Abs(Stack.GetDint(0)));
         }
     }
 }

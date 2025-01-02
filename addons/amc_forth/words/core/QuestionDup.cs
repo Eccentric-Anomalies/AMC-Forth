@@ -16,10 +16,10 @@ namespace Forth.Core
 
         public override void Call()
         {
-            var n = Forth.DataStack[Forth.DsP];
+            var n = Stack.DataStack[Stack.DsP];
             if (n != 0)
             {
-                Forth.Push(n);
+                Stack.Push(n);
             }
         }
     }

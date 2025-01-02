@@ -16,8 +16,8 @@ namespace Forth.CommonUse
 
         public override void Call()
         {
-            var n = Forth.Pop();
-            Forth.Push(Convert.ToInt32((Forth.PopDint() / n) & UInt32.MaxValue));
+            var n = Stack.Pop();
+            Stack.Push(Convert.ToInt32((Stack.PopDint() / n) & UInt32.MaxValue));
         }
     }
 }
