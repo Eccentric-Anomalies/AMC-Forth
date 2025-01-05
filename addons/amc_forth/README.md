@@ -34,7 +34,7 @@ Add the [test output file](./tests_out.txt) in your version control system to al
 
 Steps to use the AMC Forth engine in your project:
 
-Copy or import the `addons/amc_forth` and `addons/amc_forth_terminal` directories into your C# Godot project. You may use gdscript or C# with AMC Forth.
+Copy or import the `addons/amc_forth` directory into your C# Godot project. You may use gdscript or C# with AMC Forth.
 
 In your scene file, instantiate and initialize the AMCForth class from within _init() or equivalent:
 
