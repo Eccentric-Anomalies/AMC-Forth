@@ -7,9 +7,17 @@ using Godot;
 namespace Forth
 {
     [GlobalClass]
-    public partial class Docs : Godot.RefCounted
+    public partial class Docs : Node
     {
-        public static void CreateBuiltInsDocuments()
+        AMCForth _Forth;
+
+        public override void _Ready()
+        {
+            base._Ready();
+            CreateBuiltInsDocuments();
+        }
+
+        public void CreateBuiltInsDocuments()
         {
             string BulletEscape(string inp)
             {
@@ -21,6 +29,9 @@ namespace Forth
                 return inp;
             }
 
+            _Forth = new();
+            _Forth.Initialize(this);
+
             var file = Godot.FileAccess.Open(
                 "res://addons/amc_forth/docs/builtins.md",
                 Godot.FileAccess.ModeFlags.Write
@@ -28,9 +39,9 @@ namespace Forth
             file.StoreLine($"# AMC Forth Built-In Words (Ver. {Forth.Version.Ver})");
             var WordSetSet = new SortedSet<string>();
             var WordsSet = new SortedSet<Words>();
-            foreach (string name in Words.AllNames)
+            foreach (string name in _Forth.AllBuiltinNames)
             {
-                var word = Words.FromName(name);
+                var word = _Forth.BuiltinFromName(name);
                 WordSetSet.Add(word.WordSet);
                 WordsSet.Add(word);
             }
@@ -67,6 +78,8 @@ namespace Forth
                 }
             }
             file.Close();
+            _Forth.Cleanup();
+            QueueFree();
         }
     }
 }
