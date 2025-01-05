@@ -41,7 +41,7 @@ namespace Forth.Core
                     t = t.ToUpper(); // use upper case for searching built-ins
                     try
                     {
-                        xt_immediate = new AMCForth.DictResult(FromName(t).Xt, false);
+                        xt_immediate = new AMCForth.DictResult(Forth.BuiltinFromName(t).Xt, false);
                     }
                     catch (ArgumentOutOfRangeException e)
                     {
@@ -55,7 +55,10 @@ namespace Forth.Core
                     // check if it is a built-in immediate or dictionary immediate before storing
                     if (
                         Forth.State
-                        && !((HasName(t) && FromName(t).Immediate) || xt_immediate.IsImmediate)
+                        && !(
+                            (HasName(t) && Forth.BuiltinFromName(t).Immediate)
+                            || xt_immediate.IsImmediate
+                        )
                     )
                     {
                         // Compiling

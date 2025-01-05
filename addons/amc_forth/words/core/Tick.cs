@@ -32,7 +32,7 @@ namespace Forth.Core
             {
                 try
                 {
-                    Stack.Push(FromName(word).Xt);
+                    Stack.Push(Forth.BuiltinFromName(word).Xt);
                 }
                 catch (ArgumentOutOfRangeException e)
                 {

@@ -23,7 +23,7 @@ namespace Forth.Core
             var caddr = Stack.Pop();
             var word = Forth.Util.StrFromAddrN(caddr, len);
             // obtain and push the compile time xt for this word
-            Stack.Push(FromName(word).Xt);
+            Stack.Push(Forth.BuiltinFromName(word).Xt);
             Forth.CoreWords.Comma.Call(); // then store it in the current definition
         }
     }

@@ -44,7 +44,7 @@ namespace Forth.Tools
                 }
             }
             // now go through the built-in names
-            foreach (string entry in AllNames)
+            foreach (string entry in Forth.AllBuiltinNames)
             {
                 word_len = entry.Length;
                 if (col + word_len + 1 >= Terminal.COLUMNS - 2)

@@ -18,7 +18,9 @@ namespace Forth.AMCExt
         {
             try
             {
-                Forth.Util.PrintTerm(" " + FromName(Forth.AMCExtWords.Help.NextWord()).StackEffect);
+                Forth.Util.PrintTerm(
+                    " " + Forth.BuiltinFromName(Forth.AMCExtWords.Help.NextWord()).StackEffect
+                );
             }
             catch (ArgumentOutOfRangeException e)
             {
