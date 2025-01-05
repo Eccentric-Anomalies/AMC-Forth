@@ -8,7 +8,7 @@ Please see the [AMCForth language README](./addons/amc_forth/README.md) for deta
 
 ## AMCForth Terminals
 
-The project includes a couple of [terminal front-ends](./addons/amc_forth/README.md#forth_terminals) for AMCForth.
+The project includes a couple of [terminal front-ends](./addons/amc_forth/README.md#forth-terminals) for AMCForth.
 
 ## Example Godot Scenes
 
