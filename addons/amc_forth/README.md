@@ -12,14 +12,23 @@ AMC Forth is suited to inclusion in your Godot project using the Godot add-on pa
 
 AMCForth currently implements an extensive set of [built-in words](./docs/builtins.md). Each word links to a page with a short description of what it does how it uses the Forth data stack. For debugging purposes, there is also a link to the C# class that implement's the word's functionality, as well as the values of its execution tokens for both interpreted and compiled contexts.
 
+You can automatically regenerate the built-in words documentation by instantiating the `Docs` class in your scene. For example:
+
+```gdscript
+add_child(Docs.new())
+```
+
 ## AMCForth Test Suite
 
-This repository also includes a [Forth test suite](./tests.fth) that can be [INCLUDE](./docs/Include.md)-ed to validate the correctness of the implementation. When executed, a successful run produces NO output to the terminal (i.e. prints "ok"). For example:
+This repository also includes a [Forth test suite](./tests.fth) that can be [INCLUDE](./docs/Include.md)-ed to validate the correctness of the implementation. When executed, a successful run produces a list of tested words. Certain words additional text that the user can verify for correctness. 
 
-```forth
-AMC Forth Ver. 0.0.3
-INCLUDE addons/amc_forth/tests.fth ok
+You can automatically perform the AMCForth test suite and update an output file by instantiating the `Test` class in your scene. For example:
+
+```gdscript
+add_child(Test.new())
 ```
+
+Add the [test output file](./tests_out.txt) in your version control system to alert you when the test results have changed.
 
 ## The AMCForth Class (C#)
 
@@ -34,6 +43,15 @@ var forth = AMCForth.new()
 forth.Initialize(self)
 ```
 
+You may see system warnings when your Godot app closes because AMC Forth typically will have a thread waiting on a semaphore when the Forth instance is destroyed. To avoid this problem, call the `Cleanup` method before closing your app. You can do this by explicitly handling the window close request for your app:
+
+```gdscript
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+		forth.Cleanup()  # call Cleanup on the forth instance
+		get_tree().quit()  # default window close behavior
+```
+
 Output from AMC Forth is handled through a signal named `TerminalOut`. Your code would include something like:
 
 ```gdscript
@@ -46,10 +64,12 @@ to connect the output withal to your own code, where `_on_forth_output` looks li
 func _on_forth_output(_text: String) -> void:
 ```
 
-To send terminal commands to the Forth engine, call the `TerminalIn` method:
+To send terminal commands to the Forth engine, call the `TerminalIn` method. For example, to issue the [WORDS](docs/Words.md) command:
+
 ```gdsript
-forth.TerminalIn(<your input string here>)
+forth.TerminalIn("WORDS" + Terminal.CR)
 ```
+You must follow any single command with the `CR` character.
 
 ## AMCForth Input and Output
 
