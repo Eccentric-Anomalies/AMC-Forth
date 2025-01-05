@@ -4,13 +4,28 @@ extends Node3D
 var _telnet_terminal: ForthTermTelnet
 var _local_terminal: ForthTermLocal
 
+var _forth: AMCForth
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	var forth = AMCForth.new()
-	forth.Initialize(self)
-	_telnet_terminal = ForthTermTelnet.new(forth)
-	_local_terminal = ForthTermLocal.new(forth, $Bezel/Screen.mesh.material)
+	_forth = AMCForth.new()
+	_forth.Initialize(self)
+	# When executing in the Godot IDE,
+	# Generate Documentation File and
+	# Generate Test Suite Output
+	if OS.has_feature("editor"):
+		add_child(Test.new())
+		add_child(Docs.new())
+	_telnet_terminal = ForthTermTelnet.new(_forth)
+	_local_terminal = ForthTermLocal.new(_forth, $Bezel/Screen.mesh.material)
+
+
+# Clean up when closing app
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+		_forth.Cleanup()
+		get_tree().quit()  # default
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

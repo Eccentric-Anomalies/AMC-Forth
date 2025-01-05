@@ -8,19 +8,34 @@ signal input_100(value: int)
 var _telnet_terminal: ForthTermTelnet
 var _local_terminal: ForthTermLocal
 
+var _forth: AMCForth
+
 
 func _ready() -> void:
-	var forth = AMCForth.new()
-	forth.Initialize(self)
-	_telnet_terminal = ForthTermTelnet.new(forth)
-	_local_terminal = ForthTermLocal.new(forth, $Bezel/Screen.material)
+	_forth = AMCForth.new()
+	_forth.Initialize(self)
+	# When executing in the Godot IDE,
+	# Generate Documentation File and
+	# Generate Test Suite Output
+	if OS.has_feature("editor"):
+		add_child(Test.new())
+		add_child(Docs.new())
+	_telnet_terminal = ForthTermTelnet.new(_forth)
+	_local_terminal = ForthTermLocal.new(_forth, $Bezel/Screen.material)
 
 	# outputs
-	forth.AddOutputSignal(99, port_99)  # FIXME test purposes
+	_forth.AddOutputSignal(99, port_99)  # FIXME test purposes
 	port_99.connect(_on_port_99_output)  # FIXME output test
 
 	# inputs
-	forth.AddInputSignal(100, input_100)  # FIXME test input
+	_forth.AddInputSignal(100, input_100)  # FIXME test input
+
+
+# Clean up when closing app
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+		_forth.Cleanup()
+		get_tree().quit()  # default
 
 
 func _process(_delta: float) -> void:
