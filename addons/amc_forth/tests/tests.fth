@@ -7,6 +7,7 @@
 \ Revision history and possibly newer versions can be found at
 \ http://www.forth200x/tests/ttester.fs
 
+.( WORDS TESTED FOR AMCFORTH) CR
 
 VARIABLE ACTUAL-DEPTH \ stack record
 CREATE ACTUAL-RESULTS 20 CELLS ALLOT
@@ -75,7 +76,8 @@ T{  1 BITSSET? -> 0 0 }T         ( Other numbers have at least one bit )
 T{ -1 BITSSET? -> 0 0 }T 
 
 \ CORE WORDS
-\ PLUS
+
+.( PLUS) CR
 T{        0  5 + ->          5 }T
 T{        5  0 + ->          5 }T
 T{        0 -5 + ->         -5 }T
@@ -87,7 +89,7 @@ T{       -1 -2 + ->         -3 }T
 T{       -1  1 + ->          0 }T
 T{ MID-UINT  1 + -> MID-UINT+1 }T
 
-\ MINUS
+.( MINUS) CR
 T{          0  5 - ->       -5 }T
 T{          5  0 - ->        5 }T
 T{          0 -5 - ->        5 }T
@@ -99,7 +101,7 @@ T{         -1 -2 - ->        1 }T
 T{          0  1 - ->       -1 }T
 T{ MID-UINT+1  1 - -> MID-UINT }T
 
-\ COMMA
+.( COMMA) CR
 HERE 1 ,
 HERE 2 ,
 CONSTANT 2ND
@@ -120,23 +122,25 @@ T{ 1S 1ST !  1ST @  -> 1S  }T    \ CAN STORE CELL-WIDE VALUE
 
 \ DOT
 \ DOT QUOTE
-\ ONE PLUS
+
+.( ONE PLUS) CR
 T{        0 1+ ->          1 }T
 T{       -1 1+ ->          0 }T
 T{        1 1+ ->          2 }T
 T{ MID-UINT 1+ -> MID-UINT+1 }T
 
-\ ONE MINUS
+.( ONE MINUS) CR
 T{          2 1- ->        1 }T
 T{          1 1- ->        0 }T
 T{          0 1- ->       -1 }T
 T{ MID-UINT+1 1- -> MID-UINT }T
 
-\ TICK 
+.( TICK) CR
 T{ : GT1 123 ;   ->     }T
 T{ ' GT1 EXECUTE -> 123 }T
 \ STORE
-\ STAR
+
+.( STAR) CR
 T{  0  0 * ->  0 }T          \ TEST IDENTITIES
 T{  0  1 * ->  0 }T
 T{  1  0 * ->  0 }T
@@ -151,7 +155,7 @@ T{ MID-UINT+1 1 RSHIFT 2 *               -> MID-UINT+1 }T
 T{ MID-UINT+1 2 RSHIFT 4 *               -> MID-UINT+1 }T
 T{ MID-UINT+1 1 RSHIFT MID-UINT+1 OR 2 * -> MID-UINT+1 }T
 
-\ STAR SLASH MOD
+.( STAR SLASH MOD) CR
 IFFLOORED    : T*/MOD >R M* R> FM/MOD ;
 IFSYM        : T*/MOD >R M* R> SM/REM ;
 T{       0 2       1 */MOD ->       0 2       1 T*/MOD }T
@@ -174,7 +178,7 @@ T{      -7 2      -3 */MOD ->      -7 2      -3 T*/MOD }T
 T{ MAX-INT 2 MAX-INT */MOD -> MAX-INT 2 MAX-INT T*/MOD }T
 T{ MIN-INT 2 MIN-INT */MOD -> MIN-INT 2 MIN-INT T*/MOD }T 
 
-\ STAR SLASH
+.( STAR SLASH) CR
 IFFLOORED    : T*/ T*/MOD SWAP DROP ;
 IFSYM        : T*/ T*/MOD SWAP DROP ;
 
@@ -198,7 +202,7 @@ T{      -7 2      -3 */ ->      -7 2      -3 T*/ }T
 T{ MAX-INT 2 MAX-INT */ -> MAX-INT 2 MAX-INT T*/ }T
 T{ MIN-INT 2 MIN-INT */ -> MIN-INT 2 MIN-INT T*/ }T 
 
-\ SLASH MOD
+.( SLASH MOD) CR
 IFFLOORED    : T/MOD >R S>D R> FM/MOD ;
 IFSYM        : T/MOD >R S>D R> SM/REM ;
 
@@ -224,7 +228,7 @@ T{ MIN-INT       1 /MOD -> MIN-INT       1 T/MOD }T
 T{ MAX-INT MAX-INT /MOD -> MAX-INT MAX-INT T/MOD }T
 T{ MIN-INT MIN-INT /MOD -> MIN-INT MIN-INT T/MOD }T 
 
-\ SLASH
+.( SLASH) CR
 IFFLOORED    : T/ T/MOD SWAP DROP ;
 IFSYM        : T/ T/MOD SWAP DROP ;
 
@@ -253,19 +257,20 @@ T{ MIN-INT MIN-INT / -> MIN-INT MIN-INT T/ }T
 \ COLON
 \ SEMI COLON
 \ QUESTION DO
-\ QUESTION DUP
+
+.( QUESTION DUP) CR
 T{ -1 ?DUP -> -1 -1 }T
 T{  0 ?DUP ->  0    }T
 T{  1 ?DUP ->  1  1 }T
 
 
-\ PLUS STORE
+.( PLUS STORE) CR
 T{  0 1ST !        ->   }T
 T{  1 1ST +!       ->   }T
 T{    1ST @        -> 1 }T
 T{ -1 1ST +! 1ST @ -> 0 }T
 
-\ PLUS LOOP
+.( PLUS LOOP) CR
 T{ : GD2 DO I -1 +LOOP ; -> }T
 T{        1          4 GD2 -> 4 3 2  1 }T
 T{       -1          2 GD2 -> 2 1 0 -1 }T
@@ -320,7 +325,7 @@ T{  0 0 MAX-UINT -ustep gd8 -> 256 }T
 T{  0 MAX-INT MIN-INT step gd8 -> 256 }T
 T{  0 MIN-INT MAX-INT -step gd8 -> 256 }T
 
-\ LESS THAN
+.( LESS THAN) CR
 T{       0       1 < -> <TRUE>  }T
 T{       1       2 < -> <TRUE>  }T
 T{      -1       0 < -> <TRUE>  }T
@@ -338,7 +343,7 @@ T{       0 MIN-INT < -> <FALSE> }T
 T{ MAX-INT MIN-INT < -> <FALSE> }T
 T{ MAX-INT       0 < -> <FALSE> }T
 
-\ EQUAL
+.( EQUAL) CR
 T{  0  0 = -> <TRUE>  }T
 T{  1  1 = -> <TRUE>  }T
 T{ -1 -1 = -> <TRUE>  }T
@@ -347,7 +352,7 @@ T{ -1  0 = -> <FALSE> }T
 T{  0  1 = -> <FALSE> }T
 T{  0 -1 = -> <FALSE> }T
 
-\ GREATER THAN
+.( GREATER THAN) CR
 T{       0       1 > -> <FALSE> }T
 T{       1       2 > -> <FALSE> }T
 T{      -1       0 > -> <FALSE> }T
@@ -365,14 +370,14 @@ T{       0 MIN-INT > -> <TRUE>  }T
 T{ MAX-INT MIN-INT > -> <TRUE>  }T
 T{ MAX-INT       0 > -> <TRUE>  }T
 
-\ ZERO LESS THAN
+.( ZERO LESS THAN) CR
 T{       0 0< -> <FALSE> }T
 T{      -1 0< -> <TRUE>  }T
 T{ MIN-INT 0< -> <TRUE>  }T
 T{       1 0< -> <FALSE> }T
 T{ MAX-INT 0< -> <FALSE> }T
 
-\ ZERO EQUAL
+.( ZERO EQUAL) CR
 T{        0 0= -> <TRUE>  }T
 T{        1 0= -> <FALSE> }T
 T{        2 0= -> <FALSE> }T
@@ -382,14 +387,15 @@ T{ MIN-INT  0= -> <FALSE> }T
 T{ MAX-INT  0= -> <FALSE> }T
 
 \ TWO STORE
-\ TWO STAR
+
+.( TWO STAR) CR
 T{   0S 2*       ->   0S }T
 T{    1 2*       ->    2 }T
 T{ 4000 2*       -> 8000 }T
 T{   1S 2* 1 XOR ->   1S }T
 T{  MSB 2*       ->   0S }T
 
-\ TWO SLASH
+.( TWO SLASH) CR
 T{          0S 2/ ->   0S }T
 T{           1 2/ ->    0 }T
 T{        4000 2/ -> 2000 }T
@@ -398,23 +404,23 @@ T{    1S 1 XOR 2/ ->   1S }T
 T{ MSB 2/ MSB AND ->  MSB }T
 
 \ TWO FETCH
-\ TWO DROP
+.( TWO DROP) CR
 T{ 1 2 2DROP -> }T
 
-\ TWO DUP
+.( TWO DUP) CR
 T{ 1 2 2DUP -> 1 2 1 2 }T
 
-\ TWO OVER
+.( TWO OVER) CR
 T{ 1 2 3 4 2OVER -> 1 2 3 4 1 2 }T
 
-\ TWO SWAP
+.( TWO SWAP) CR
 T{ 1 2 3 4 2SWAP -> 3 4 1 2 }T
 
-\ TO BODY
+.( TO BODY) CR
 T{  CREATE CR0 ->      }T
 T{ ' CR0 >BODY -> HERE }T
 
-\ TO R
+.( TO R) CR
 T{ : GR1 >R R> ; -> }T
 T{ : GR2 >R R@ R> DROP ; -> }T
 T{ 123 GR1 -> 123 }T
@@ -423,13 +429,14 @@ T{  1S GR1 ->  1S }T
 
 \ TO IN
 \ FETCH
-\ ABS
+
+.( ABS) CR
 T{       0 ABS ->          0 }T
 T{       1 ABS ->          1 }T
 T{      -1 ABS ->          1 }T
 T{ MIN-INT ABS -> MID-UINT+1 }T
 
-\ ALIGN
+.( ALIGN) CR
 ALIGN 1 ALLOT HERE ALIGN HERE 3 CELLS ALLOT
 CONSTANT A-ADDR CONSTANT UA-ADDR
 T{ UA-ADDR ALIGNED -> A-ADDR }T
@@ -442,7 +449,8 @@ T{    1234 A-ADDR CELL+ !    A-ADDR CELL+ @  ->    1234 }T
 T{ 123 456 A-ADDR CELL+ 2!   A-ADDR CELL+ 2@ -> 123 456 }T
 
 \ ALIGNED
-\ ALLOT
+
+.( ALLOT) CR
 HERE 1 ALLOT
 HERE
 CONSTANT 2NDA
@@ -464,18 +472,18 @@ T{ 0S 1S AND -> 0S }T
 T{ 1S 0S AND -> 0S }T
 T{ 1S 1S AND -> 1S }T
 
-\ BASE
+.( BASE) CR
 : GN2 \ ( -- 16 10 )
    BASE @ >R HEX BASE @ DECIMAL BASE @ R> BASE ! ;
 T{ GN2 -> 16 10 }T
 DECIMAL
 
 \ BEGIN
-\ BL
+.( BL) CR
 T{ BL -> 32 }T
 
 \ CELL PLUS
-\ CELLS
+.( CELLS) CR
 : BITS ( X -- U )
    0 SWAP BEGIN DUP WHILE
      DUP MSB AND IF >R 1+ R> THEN 2*
@@ -486,7 +494,7 @@ T{ 1 CELLS 1 <         -> <FALSE> }T
 T{ 1 CELLS 1 CHARS MOD ->    0    }T
 T{ 1S BITS 10 <        -> <FALSE> }T
 
-\ C COMMA
+.( C COMMA) CR
 HERE 1 C,
 HERE 2 C,
 CONSTANT 2NDC
@@ -502,19 +510,20 @@ T{       4 2NDC C! ->        }T
 T{ 1STC C@ 2NDC C@ ->   3 4  }T
 
 \ CHAR PLUS
-\ CHARS
+
+.( CHARS) CR
 ( CHARACTERS >= 1 AU, <= SIZE OF CELL, >= 8 BITS )
 T{ 1 CHARS 1 <       -> <FALSE> }T
 T{ 1 CHARS 1 CELLS > -> <FALSE> }T
 
-\ CONSTANT
+.( CONSTANT) CR
 T{ 123 CONSTANT X123 -> }T
 T{ X123 -> 123 }T
 T{ : EQU CONSTANT ; -> }T
 T{ X123 EQU Y123 -> }T
 T{ Y123 -> 123 }T
 
-\ COUNT
+.( COUNT) CR
 T{ GT1STRING COUNT -> GT1STRING CHAR+ 3 }T
 
 \ CREATE
