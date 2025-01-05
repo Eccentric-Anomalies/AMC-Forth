@@ -21,16 +21,15 @@ namespace Forth
             get => _name;
             set
             {
-                _nameDict[value] = this; // associate <Forth Word> to its C# instance
                 _name = value;
-                AssignXt(); // requires name to be set, sets Xt and XtX
-                _xtDict[Xt] = this; // associate Xt and XtX with their C# instance
-                _xtDict[XtX] = this;
+                _saltedName = Salt + _name;
+                Xt = (int)(AMCForth.BuiltInXtMask + (AMCForth.BuiltInMask & _saltedName.Hash()));
+                XtX = (int)(AMCForth.BuiltInXtXMask + (AMCForth.BuiltInMask & _saltedName.Hash()));
+                CheckXtDuplicates(); // requires name to be set, sets Xt and XtX
+                Forth.BuiltinNameDict[value] = this; // associate <Forth Word> to its C# instance
+                Forth.BuiltinXtDict[Xt] = this; // associate Xt and XtX with their C# instance
+                Forth.BuiltinXtDict[XtX] = this;
             }
-        }
-        public static List<string> AllNames
-        {
-            get => new(_nameDict.Keys);
         }
         public string Description;
         public string StackEffect;
@@ -39,9 +38,8 @@ namespace Forth
         public int XtX; // built-in compiled execution token
 
         private string _name;
+        private string _saltedName;
         protected string Salt = ""; // define BEFORE Name in overriding classes (if collision).
-        static Dictionary<string, Words> _nameDict = new();
-        static Dictionary<int, Words> _xtDict = new();
 
         public Words(AMCForth forth, string wordset)
         {
@@ -56,12 +54,9 @@ namespace Forth
 
         public virtual void CallExec() { }
 
-        private void AssignXt()
+        private void CheckXtDuplicates()
         {
-            var salted = Salt + _name;
-            Xt = (int)(AMCForth.BuiltInXtMask + (AMCForth.BuiltInMask & salted.Hash()));
-            XtX = (int)(AMCForth.BuiltInXtXMask + (AMCForth.BuiltInMask & salted.Hash()));
-            if (_xtDict.ContainsKey(Xt) || _xtDict.ContainsKey(XtX))
+            if (Forth.BuiltinXtDict.ContainsKey(Xt) || Forth.BuiltinXtDict.ContainsKey(XtX))
             {
                 throw new InvalidOperationException(
                     "Duplicate Forth word was defined (hash collision): (" + _name + ")"
@@ -69,31 +64,16 @@ namespace Forth
             }
         }
 
-        public static bool HasName(string name)
+        public bool HasName(string name)
         {
-            return _nameDict.ContainsKey(name);
+            return Forth.BuiltinNameDict.ContainsKey(name);
         }
 
-        public static Words FromName(string name)
+        public Words FromXt(int xt)
         {
-            if (_nameDict.ContainsKey(name))
+            if (Forth.BuiltinXtDict.ContainsKey(xt))
             {
-                return _nameDict[name];
-            }
-            else
-            {
-                throw new ArgumentOutOfRangeException(
-                    name,
-                    "Name is not recognized as a Forth built-in."
-                );
-            }
-        }
-
-        public static Words FromXt(int xt)
-        {
-            if (_xtDict.ContainsKey(xt))
-            {
-                return _xtDict[xt];
+                return Forth.BuiltinXtDict[xt];
             }
             else
             {
@@ -110,7 +90,7 @@ namespace Forth
             return (xt & (AMCForth.BuiltInXtMask | AMCForth.BuiltInXtXMask)) != 0;
         }
 
-        public static void CallXt(int xt)
+        public void CallXt(int xt)
         {
             var word = FromXt(xt);
             if ((xt & AMCForth.BuiltInXtMask) != 0)
