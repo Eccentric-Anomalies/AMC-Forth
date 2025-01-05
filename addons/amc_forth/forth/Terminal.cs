@@ -12,7 +12,7 @@ namespace Forth
         public const string LF = "\u000A";
         public const string CRLF = "\r\n";
         public const string ESC = "\u001B";
-        public static string DEL_LEFT = "\u007F";
+        public const string DEL_LEFT = "\u007F";
         public const string BL = " ";
         public const string DEL = "\u001B[3~";
         public const string UP = "\u001B[A";
