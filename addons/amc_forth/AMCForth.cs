@@ -42,8 +42,29 @@ public partial class AMCForth : Godot.RefCounted
     public const uint BuiltInXtMask = 0x040000000;
     public const uint BuiltInXtXMask = 0x020000000;
 
-    // Ensure we don't generate tokens that are larger than the CELL_SIZE
+    // Built-in name management
+    public Dictionary<string, Words> BuiltinNameDict = new();
+    public Dictionary<int, Words> BuiltinXtDict = new();
+    public List<string> AllBuiltinNames
+    {
+        get => new(BuiltinNameDict.Keys);
+    }
 
+    // Get builtin word implementation from its name
+    public Words BuiltinFromName(string name)
+    {
+        if (BuiltinNameDict.ContainsKey(name))
+        {
+            return BuiltinNameDict[name];
+        }
+        else
+        {
+            throw new ArgumentOutOfRangeException(
+                name,
+                "Name is not recognized as a Forth built-in."
+            );
+        }
+    }
 
     public const uint BuiltInMask = ~(XtUnusedMask | BuiltInXtMask | BuiltInXtXMask);
 
@@ -134,7 +155,7 @@ public partial class AMCForth : Godot.RefCounted
 
     // Input event list of incoming PortEvent data
     public List<PortEvent> InputPortEvents = new();
-    private static Mutex InputPortMutex = new Mutex();
+    private Mutex InputPortMutex;
 
     public readonly struct TimerStruct
     {
@@ -806,13 +827,13 @@ public partial class AMCForth : Godot.RefCounted
         _CfPush(temp);
     }
 
-    // PRIVATES
-
     // This will cascade instantiation of all the Forth implementation classes
     public void Initialize(Godot.Node node)
     {
         // save the instantiating node
         _Node = node;
+
+        InputPortMutex = new();
 
         // seed the randomizer
         GD.Randomize();
@@ -843,12 +864,6 @@ public partial class AMCForth : Godot.RefCounted
         ToolsExtWords = new(this);
         AMCExtWords = new(this);
 
-        // Generate Documentation File
-        if (OS.HasFeature("editor"))
-        {
-            Docs.CreateBuiltInsDocuments();
-        }
-
         // set the terminal link in the dictionary
         Ram.SetInt(DictP, -1);
 
@@ -877,6 +892,13 @@ public partial class AMCForth : Godot.RefCounted
         GD.Print(GetBanner());
     }
 
+    // Shut down this instance gracefully, freeing system resources, etc.
+    public void Cleanup()
+    {
+        // wake up the input thread with nothing to do
+        _InputReady.Post();
+    }
+
     // AMC Forth name with version
     protected static string GetBanner()
     {
@@ -885,7 +907,8 @@ public partial class AMCForth : Godot.RefCounted
 
     protected void InputThread()
     {
-        while (true)
+        bool quit = false;
+        while (!quit)
         {
             _InputReady.Wait();
 
@@ -930,12 +953,16 @@ public partial class AMCForth : Godot.RefCounted
                     CallDeferred("RemoveTimer", id);
                 }
             }
-            else
+            else if (_TerminalPad.Length != 0)
             {
-                // no input events, must be terminal input line
+                // no input events, text available on input
                 _OutputDone = false;
                 InterpretTerminalLine();
                 _OutputDone = true;
+            }
+            else // we have been signaled with nothing to do. quit.
+            {
+                quit = true;
             }
         }
     }
