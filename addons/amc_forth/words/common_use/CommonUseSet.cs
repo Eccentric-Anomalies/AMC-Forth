@@ -8,6 +8,7 @@ namespace Forth.CommonUse
     [GlobalClass]
     public partial class CommonUseSet : Godot.RefCounted
     {
+        public CommaQuote CommaQuote;
         public TwoPlus TwoPlus;
         public TwoMinus TwoMinus;
         public MMinus MMinus;
@@ -19,6 +20,7 @@ namespace Forth.CommonUse
 
         public CommonUseSet(AMCForth _forth)
         {
+            CommaQuote = new(_forth, Wordset);
             TwoPlus = new(_forth, Wordset);
             TwoMinus = new(_forth, Wordset);
             MMinus = new(_forth, Wordset);
