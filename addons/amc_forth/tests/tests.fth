@@ -101,7 +101,7 @@ T{         -1 -2 - ->        1 }T
 T{          0  1 - ->       -1 }T
 T{ MID-UINT+1  1 - -> MID-UINT }T
 
-.( COMMA HERE --> OK IF BLANK \/) CR
+.( COMMA HERE STORE and TWO FETCH --> OK IF BLANK \/) CR
 HERE 1 ,
 HERE 2 ,
 CONSTANT 2ND
@@ -119,9 +119,6 @@ T{           1ST 2@ -> 6 5 }T
 T{       2 1 1ST 2! ->     }T
 T{           1ST 2@ -> 2 1 }T
 T{ 1S 1ST !  1ST @  -> 1S  }T    \ CAN STORE CELL-WIDE VALUE
-
-\ DOT
-\ DOT QUOTE
 
 .( ONE PLUS --> OK IF BLANK \/) CR
 T{        0 1+ ->          1 }T
@@ -142,9 +139,6 @@ T{ ' GT1 EXECUTE -> 123 }T
 .( BRACKET TICK --> OK IF BLANK \/) CR
 T{ : GT2 ['] GT1 ; IMMEDIATE -> }T
 T{ GT2 EXECUTE -> 123 }T
-
-
-\ STORE
 
 .( STAR --> OK IF BLANK \/) CR
 T{  0  0 * ->  0 }T          \ TEST IDENTITIES
@@ -260,7 +254,15 @@ T{ MIN-INT       1 / -> MIN-INT       1 T/ }T
 T{ MAX-INT MAX-INT / -> MAX-INT MAX-INT T/ }T
 T{ MIN-INT MIN-INT / -> MIN-INT MIN-INT T/ }T 
 
-\ COLON
+.( COLON --> OK IF BLANK \/) CR
+T{ : NOP : POSTPONE ; ; -> }T
+T{ NOP NOP1 NOP NOP2 -> }T
+T{ NOP1 -> }T
+T{ NOP2 -> }T
+\ The following tests the dictionary search order:
+T{ : GDX   123 ;    : GDX   GDX 234 ; -> }T
+T{ GDX -> 123 234 }T 
+
 \ SEMI COLON
 \ QUESTION DO
 
@@ -409,7 +411,6 @@ T{          1S 2/ ->   1S }T \ MSB PROPOGATED
 T{    1S 1 XOR 2/ ->   1S }T
 T{ MSB 2/ MSB AND ->  MSB }T
 
-\ TWO FETCH
 .( TWO DROP --> OK IF BLANK \/) CR
 T{ 1 2 2DROP -> }T
 
@@ -433,8 +434,7 @@ T{ 123 GR1 -> 123 }T
 T{ 123 GR2 -> 123 }T
 T{  1S GR1 ->  1S }T 
 
-\ TO IN
-\ FETCH
+.( TO IN IS NOT TESTED) CR
 
 .( ABS --> OK IF BLANK \/) CR
 T{       0 ABS ->          0 }T
@@ -442,7 +442,7 @@ T{       1 ABS ->          1 }T
 T{      -1 ABS ->          1 }T
 T{ MIN-INT ABS -> MID-UINT+1 }T
 
-.( ALIGN --> OK IF BLANK \/) CR
+.( ALIGN ALIGNED --> OK IF BLANK \/) CR
 ALIGN 1 ALLOT HERE ALIGN HERE 3 CELLS ALLOT
 CONSTANT A-ADDR CONSTANT UA-ADDR
 T{ UA-ADDR ALIGNED -> A-ADDR }T
@@ -454,8 +454,6 @@ T{       3 A-ADDR CELL+ C!   A-ADDR CELL+ C@ ->       3 }T
 T{    1234 A-ADDR CELL+ !    A-ADDR CELL+ @  ->    1234 }T
 T{ 123 456 A-ADDR CELL+ 2!   A-ADDR CELL+ 2@ -> 123 456 }T
 
-\ ALIGNED
-
 .( ALLOT HERE --> OK IF BLANK \/) CR
 HERE 1 ALLOT
 HERE
@@ -464,7 +462,7 @@ CONSTANT 1STA
 T{ 1STA 2NDA U< -> <TRUE> }T    \ HERE MUST GROW WITH ALLOT
 T{      1STA 1+ ->   2NDA }T    \ ... BY ONE ADDRESS UNIT 
 
-\ AND
+.( AND INVERT --> OK IF BLANK \/) CR
 T{ 0 0 AND -> 0 }T
 T{ 0 1 AND -> 0 }T
 T{ 1 0 AND -> 0 }T
@@ -484,7 +482,6 @@ T{ 1S 1S AND -> 1S }T
 T{ GN2 -> 16 10 }T
 DECIMAL
 
-\ BEGIN
 .( BL --> OK IF BLANK \/) CR
 T{ BL -> 32 }T
 
@@ -500,7 +497,7 @@ T{ 1 CELLS 1 <         -> <FALSE> }T
 T{ 1 CELLS 1 CHARS MOD ->    0    }T
 T{ 1S BITS 10 <        -> <FALSE> }T
 
-.( C COMMA and CHAR PLUS and CHARS --> OK IF BLANK \/) CR
+.( C COMMA and CHAR PLUS and CHARS FETCH --> OK IF BLANK \/) CR
 HERE 1 C,
 HERE 2 C,
 CONSTANT 2NDC
@@ -543,7 +540,7 @@ T{ 1 DUP -> 1 1 }T
 T{ 1 2 DROP -> 1 }T
 T{ 0   DROP ->   }T
 
-.( EMIT ." U. CR \/  \/  \/) CR
+.( EMIT DOT and DOT QUOTE and U DOT and CR \/  \/  \/) CR
 : OUTPUT-TEST
   [ BASE @ HEX ]
   BASE @ HEX
@@ -667,8 +664,8 @@ T{ 1 GD6 -> 1 }T
 T{ 2 GD6 -> 3 }T
 T{ 3 GD6 -> 4 1 2 }T
 
-\ UNTIL
-\ WHILE
+\ UNTIL BEGIN
+\ WHILE BEGIN
 \ WORD
 \ TYPE
 \ UM STAR
