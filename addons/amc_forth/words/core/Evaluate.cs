@@ -10,17 +10,15 @@ namespace Forth.Core
             : base(forth, wordset)
         {
             Name = "EVALUATE";
-            Description = "Use c-addr, u as the buffer start and interpret as Forth source.";
-            StackEffect = "( i*x c-addr u - j*x )";
+            Description =
+                "Evaluate Forth code from SOURCE buffer. Unlike Standard Forth,"
+                + " EVALUATE is for AMCForth internal use only and may not be called from"
+                + " user code.";
+            StackEffect = "( - )";
         }
 
         public override void Call()
         {
-            // we can discard the buffer location, since we use the source_id
-            // to identify the buffer
-            Stack.Pop();
-            Stack.Pop();
-
             // buffer pointer is based on source-id
             ResetBuffToIn();
             while (true)

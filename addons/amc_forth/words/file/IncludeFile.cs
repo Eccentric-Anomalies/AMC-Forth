@@ -38,8 +38,6 @@ namespace Forth.File
                 u2 = Stack.Pop();
                 if (u2 != 0) // process the line read, if any
                 {
-                    Stack.Push(buff_data);
-                    Stack.Push(u2);
                     Forth.CoreWords.Evaluate.Call();
                 }
             }

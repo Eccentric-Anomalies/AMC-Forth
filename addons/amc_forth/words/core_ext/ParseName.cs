@@ -9,8 +9,8 @@ namespace Forth.CoreExt
             : base(forth, wordset)
         {
             Name = "PARSE-NAME";
-            Description = "If the data-space pointer is not aligned, reserve space to align it.";
-            StackEffect = "( - )";
+            Description = "Skip leading space delimiters. Parse name delimited by space.";
+            StackEffect = "( name - c-addr u )";
         }
 
         public override void Call()

@@ -979,8 +979,6 @@ public partial class AMCForth : Godot.RefCounted
         {
             Ram.SetByte(Map.BuffSourceStart + i, bytes_input[i]);
         }
-        Stack.Push(Map.BuffSourceStart);
-        Stack.Push(bytes_input.Length);
         SourceId = -1;
         CoreWords.Evaluate.Call();
         Util.RprintTerm(" ok");
