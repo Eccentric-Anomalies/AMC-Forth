@@ -24,6 +24,7 @@ namespace Forth.Core
         public Begin Begin;
         public BL BL;
         public BracketCare BracketCare;
+        public BracketTick BracketTick;
         public Care Care;
         public CellPlus CellPlus;
         public CComma CComma;
@@ -143,6 +144,7 @@ namespace Forth.Core
             Begin = new(_forth, Wordset);
             BL = new(_forth, Wordset);
             BracketCare = new(_forth, Wordset);
+            BracketTick = new(_forth, Wordset);
             Care = new(_forth, Wordset);
             CComma = new(_forth, Wordset);
             CellPlus = new(_forth, Wordset);

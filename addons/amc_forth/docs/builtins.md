@@ -84,6 +84,8 @@
 
 ### <a name="LeftBracket"></a>[\[](LeftBracket.md)
 
+### <a name="BracketTick"></a>[[&apos;]](BracketTick.md)
+
 ### <a name="BracketCare"></a>[[CHAR]](BracketCare.md)
 
 ### <a name="RightBracket"></a>[\]](RightBracket.md)
