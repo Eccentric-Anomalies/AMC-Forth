@@ -77,7 +77,7 @@ T{ -1 BITSSET? -> 0 0 }T
 
 \ CORE WORDS
 
-.( PLUS) CR
+.( PLUS --> OK IF BLANK \/) CR
 T{        0  5 + ->          5 }T
 T{        5  0 + ->          5 }T
 T{        0 -5 + ->         -5 }T
@@ -89,7 +89,7 @@ T{       -1 -2 + ->         -3 }T
 T{       -1  1 + ->          0 }T
 T{ MID-UINT  1 + -> MID-UINT+1 }T
 
-.( MINUS) CR
+.( MINUS --> OK IF BLANK \/) CR
 T{          0  5 - ->       -5 }T
 T{          5  0 - ->        5 }T
 T{          0 -5 - ->        5 }T
@@ -101,7 +101,7 @@ T{         -1 -2 - ->        1 }T
 T{          0  1 - ->       -1 }T
 T{ MID-UINT+1  1 - -> MID-UINT }T
 
-.( COMMA) CR
+.( COMMA HERE --> OK IF BLANK \/) CR
 HERE 1 ,
 HERE 2 ,
 CONSTANT 2ND
@@ -123,24 +123,30 @@ T{ 1S 1ST !  1ST @  -> 1S  }T    \ CAN STORE CELL-WIDE VALUE
 \ DOT
 \ DOT QUOTE
 
-.( ONE PLUS) CR
+.( ONE PLUS --> OK IF BLANK \/) CR
 T{        0 1+ ->          1 }T
 T{       -1 1+ ->          0 }T
 T{        1 1+ ->          2 }T
 T{ MID-UINT 1+ -> MID-UINT+1 }T
 
-.( ONE MINUS) CR
+.( ONE MINUS --> OK IF BLANK \/) CR
 T{          2 1- ->        1 }T
 T{          1 1- ->        0 }T
 T{          0 1- ->       -1 }T
 T{ MID-UINT+1 1- -> MID-UINT }T
 
-.( TICK) CR
+.( TICK EXECUTE --> OK IF BLANK \/) CR
 T{ : GT1 123 ;   ->     }T
 T{ ' GT1 EXECUTE -> 123 }T
+
+.( BRACKET TICK --> OK IF BLANK \/) CR
+T{ : GT2 ['] GT1 ; IMMEDIATE -> }T
+T{ GT2 EXECUTE -> 123 }T
+
+
 \ STORE
 
-.( STAR) CR
+.( STAR --> OK IF BLANK \/) CR
 T{  0  0 * ->  0 }T          \ TEST IDENTITIES
 T{  0  1 * ->  0 }T
 T{  1  0 * ->  0 }T
@@ -155,7 +161,7 @@ T{ MID-UINT+1 1 RSHIFT 2 *               -> MID-UINT+1 }T
 T{ MID-UINT+1 2 RSHIFT 4 *               -> MID-UINT+1 }T
 T{ MID-UINT+1 1 RSHIFT MID-UINT+1 OR 2 * -> MID-UINT+1 }T
 
-.( STAR SLASH MOD) CR
+.( STAR SLASH MOD --> OK IF BLANK \/) CR
 IFFLOORED    : T*/MOD >R M* R> FM/MOD ;
 IFSYM        : T*/MOD >R M* R> SM/REM ;
 T{       0 2       1 */MOD ->       0 2       1 T*/MOD }T
@@ -178,7 +184,7 @@ T{      -7 2      -3 */MOD ->      -7 2      -3 T*/MOD }T
 T{ MAX-INT 2 MAX-INT */MOD -> MAX-INT 2 MAX-INT T*/MOD }T
 T{ MIN-INT 2 MIN-INT */MOD -> MIN-INT 2 MIN-INT T*/MOD }T 
 
-.( STAR SLASH) CR
+.( STAR SLASH --> OK IF BLANK \/) CR
 IFFLOORED    : T*/ T*/MOD SWAP DROP ;
 IFSYM        : T*/ T*/MOD SWAP DROP ;
 
@@ -202,7 +208,7 @@ T{      -7 2      -3 */ ->      -7 2      -3 T*/ }T
 T{ MAX-INT 2 MAX-INT */ -> MAX-INT 2 MAX-INT T*/ }T
 T{ MIN-INT 2 MIN-INT */ -> MIN-INT 2 MIN-INT T*/ }T 
 
-.( SLASH MOD) CR
+.( SLASH MOD --> OK IF BLANK \/) CR
 IFFLOORED    : T/MOD >R S>D R> FM/MOD ;
 IFSYM        : T/MOD >R S>D R> SM/REM ;
 
@@ -228,7 +234,7 @@ T{ MIN-INT       1 /MOD -> MIN-INT       1 T/MOD }T
 T{ MAX-INT MAX-INT /MOD -> MAX-INT MAX-INT T/MOD }T
 T{ MIN-INT MIN-INT /MOD -> MIN-INT MIN-INT T/MOD }T 
 
-.( SLASH) CR
+.( SLASH --> OK IF BLANK \/) CR
 IFFLOORED    : T/ T/MOD SWAP DROP ;
 IFSYM        : T/ T/MOD SWAP DROP ;
 
@@ -258,19 +264,19 @@ T{ MIN-INT MIN-INT / -> MIN-INT MIN-INT T/ }T
 \ SEMI COLON
 \ QUESTION DO
 
-.( QUESTION DUP) CR
+.( QUESTION DUP --> OK IF BLANK \/) CR
 T{ -1 ?DUP -> -1 -1 }T
 T{  0 ?DUP ->  0    }T
 T{  1 ?DUP ->  1  1 }T
 
 
-.( PLUS STORE) CR
+.( PLUS STORE --> OK IF BLANK \/) CR
 T{  0 1ST !        ->   }T
 T{  1 1ST +!       ->   }T
 T{    1ST @        -> 1 }T
 T{ -1 1ST +! 1ST @ -> 0 }T
 
-.( PLUS LOOP) CR
+.( PLUS LOOP and DO I --> OK IF BLANK \/) CR
 T{ : GD2 DO I -1 +LOOP ; -> }T
 T{        1          4 GD2 -> 4 3 2  1 }T
 T{       -1          2 GD2 -> 2 1 0 -1 }T
@@ -325,7 +331,7 @@ T{  0 0 MAX-UINT -ustep gd8 -> 256 }T
 T{  0 MAX-INT MIN-INT step gd8 -> 256 }T
 T{  0 MIN-INT MAX-INT -step gd8 -> 256 }T
 
-.( LESS THAN) CR
+.( LESS THAN --> OK IF BLANK \/) CR
 T{       0       1 < -> <TRUE>  }T
 T{       1       2 < -> <TRUE>  }T
 T{      -1       0 < -> <TRUE>  }T
@@ -343,7 +349,7 @@ T{       0 MIN-INT < -> <FALSE> }T
 T{ MAX-INT MIN-INT < -> <FALSE> }T
 T{ MAX-INT       0 < -> <FALSE> }T
 
-.( EQUAL) CR
+.( EQUAL --> OK IF BLANK \/) CR
 T{  0  0 = -> <TRUE>  }T
 T{  1  1 = -> <TRUE>  }T
 T{ -1 -1 = -> <TRUE>  }T
@@ -352,7 +358,7 @@ T{ -1  0 = -> <FALSE> }T
 T{  0  1 = -> <FALSE> }T
 T{  0 -1 = -> <FALSE> }T
 
-.( GREATER THAN) CR
+.( GREATER THAN --> OK IF BLANK \/) CR
 T{       0       1 > -> <FALSE> }T
 T{       1       2 > -> <FALSE> }T
 T{      -1       0 > -> <FALSE> }T
@@ -370,14 +376,14 @@ T{       0 MIN-INT > -> <TRUE>  }T
 T{ MAX-INT MIN-INT > -> <TRUE>  }T
 T{ MAX-INT       0 > -> <TRUE>  }T
 
-.( ZERO LESS THAN) CR
+.( ZERO LESS THAN --> OK IF BLANK \/) CR
 T{       0 0< -> <FALSE> }T
 T{      -1 0< -> <TRUE>  }T
 T{ MIN-INT 0< -> <TRUE>  }T
 T{       1 0< -> <FALSE> }T
 T{ MAX-INT 0< -> <FALSE> }T
 
-.( ZERO EQUAL) CR
+.( ZERO EQUAL --> OK IF BLANK \/) CR
 T{        0 0= -> <TRUE>  }T
 T{        1 0= -> <FALSE> }T
 T{        2 0= -> <FALSE> }T
@@ -388,14 +394,14 @@ T{ MAX-INT  0= -> <FALSE> }T
 
 \ TWO STORE
 
-.( TWO STAR) CR
+.( TWO STAR --> OK IF BLANK \/) CR
 T{   0S 2*       ->   0S }T
 T{    1 2*       ->    2 }T
 T{ 4000 2*       -> 8000 }T
 T{   1S 2* 1 XOR ->   1S }T
 T{  MSB 2*       ->   0S }T
 
-.( TWO SLASH) CR
+.( TWO SLASH --> OK IF BLANK \/) CR
 T{          0S 2/ ->   0S }T
 T{           1 2/ ->    0 }T
 T{        4000 2/ -> 2000 }T
@@ -404,23 +410,23 @@ T{    1S 1 XOR 2/ ->   1S }T
 T{ MSB 2/ MSB AND ->  MSB }T
 
 \ TWO FETCH
-.( TWO DROP) CR
+.( TWO DROP --> OK IF BLANK \/) CR
 T{ 1 2 2DROP -> }T
 
-.( TWO DUP) CR
+.( TWO DUP --> OK IF BLANK \/) CR
 T{ 1 2 2DUP -> 1 2 1 2 }T
 
-.( TWO OVER) CR
+.( TWO OVER --> OK IF BLANK \/) CR
 T{ 1 2 3 4 2OVER -> 1 2 3 4 1 2 }T
 
-.( TWO SWAP) CR
+.( TWO SWAP --> OK IF BLANK \/) CR
 T{ 1 2 3 4 2SWAP -> 3 4 1 2 }T
 
-.( TO BODY) CR
+.( TO BODY and CREATE --> OK IF BLANK \/) CR
 T{  CREATE CR0 ->      }T
 T{ ' CR0 >BODY -> HERE }T
 
-.( TO R) CR
+.( TO R --> OK IF BLANK \/) CR
 T{ : GR1 >R R> ; -> }T
 T{ : GR2 >R R@ R> DROP ; -> }T
 T{ 123 GR1 -> 123 }T
@@ -430,13 +436,13 @@ T{  1S GR1 ->  1S }T
 \ TO IN
 \ FETCH
 
-.( ABS) CR
+.( ABS --> OK IF BLANK \/) CR
 T{       0 ABS ->          0 }T
 T{       1 ABS ->          1 }T
 T{      -1 ABS ->          1 }T
 T{ MIN-INT ABS -> MID-UINT+1 }T
 
-.( ALIGN) CR
+.( ALIGN --> OK IF BLANK \/) CR
 ALIGN 1 ALLOT HERE ALIGN HERE 3 CELLS ALLOT
 CONSTANT A-ADDR CONSTANT UA-ADDR
 T{ UA-ADDR ALIGNED -> A-ADDR }T
@@ -450,7 +456,7 @@ T{ 123 456 A-ADDR CELL+ 2!   A-ADDR CELL+ 2@ -> 123 456 }T
 
 \ ALIGNED
 
-.( ALLOT) CR
+.( ALLOT HERE --> OK IF BLANK \/) CR
 HERE 1 ALLOT
 HERE
 CONSTANT 2NDA
@@ -472,18 +478,18 @@ T{ 0S 1S AND -> 0S }T
 T{ 1S 0S AND -> 0S }T
 T{ 1S 1S AND -> 1S }T
 
-.( BASE) CR
+.( BASE DECIMAL HEX --> OK IF BLANK \/) CR
 : GN2 \ ( -- 16 10 )
    BASE @ >R HEX BASE @ DECIMAL BASE @ R> BASE ! ;
 T{ GN2 -> 16 10 }T
 DECIMAL
 
 \ BEGIN
-.( BL) CR
+.( BL --> OK IF BLANK \/) CR
 T{ BL -> 32 }T
 
 \ CELL PLUS
-.( CELLS) CR
+.( CELLS --> OK IF BLANK \/) CR
 : BITS ( X -- U )
    0 SWAP BEGIN DUP WHILE
      DUP MSB AND IF >R 1+ R> THEN 2*
@@ -494,7 +500,7 @@ T{ 1 CELLS 1 <         -> <FALSE> }T
 T{ 1 CELLS 1 CHARS MOD ->    0    }T
 T{ 1S BITS 10 <        -> <FALSE> }T
 
-.( C COMMA) CR
+.( C COMMA and CHAR PLUS and CHARS --> OK IF BLANK \/) CR
 HERE 1 C,
 HERE 2 C,
 CONSTANT 2NDC
@@ -509,34 +515,38 @@ T{ 1STC C@ 2NDC C@ ->   3 2  }T
 T{       4 2NDC C! ->        }T
 T{ 1STC C@ 2NDC C@ ->   3 4  }T
 
-\ CHAR PLUS
 
-.( CHARS) CR
+.( CHARS --> OK IF BLANK \/) CR
 ( CHARACTERS >= 1 AU, <= SIZE OF CELL, >= 8 BITS )
 T{ 1 CHARS 1 <       -> <FALSE> }T
 T{ 1 CHARS 1 CELLS > -> <FALSE> }T
 
-.( CONSTANT) CR
+.( CONSTANT --> OK IF BLANK \/) CR
 T{ 123 CONSTANT X123 -> }T
 T{ X123 -> 123 }T
 T{ : EQU CONSTANT ; -> }T
 T{ X123 EQU Y123 -> }T
 T{ Y123 -> 123 }T
 
-.( COUNT) CR
+.( COUNT --> OK IF BLANK \/) CR
 T{ GT1STRING COUNT -> GT1STRING CHAR+ 3 }T
 
-\ CREATE
-\ DECIMAL
-\ DEPTH
-\ DO
-\ DUP
-\ DROP
-\ ELSE
-\ EMIT ." U. CR
-HEX
-BASE @
+.( DEPTH --> OK IF BLANK \/) CR
+T{ 0 1 DEPTH -> 0 1 2 }T
+T{   0 DEPTH -> 0 1   }T
+T{     DEPTH -> 0     }T
+
+.( DUP --> OK IF BLANK \/) CR
+T{ 1 DUP -> 1 1 }T
+
+.( DROP --> OK IF BLANK \/) CR
+T{ 1 2 DROP -> 1 }T
+T{ 0   DROP ->   }T
+
+.( EMIT ." U. CR \/  \/  \/) CR
 : OUTPUT-TEST
+  [ BASE @ HEX ]
+  BASE @ HEX
    ." YOU SHOULD SEE THE STANDARD GRAPHIC CHARACTERS:" CR
    41 BL DO I EMIT LOOP CR
    61 41 DO I EMIT LOOP CR
@@ -554,24 +564,74 @@ BASE @
    ." YOU SHOULD SEE THE NUMBER RANGES OF SIGNED AND UNSIGNED NUMBERS:" CR
    ." SIGNED: " MIN-INT . MAX-INT . CR
    ." UNSIGNED: " 0 U. MAX-UINT U. CR
+   BASE !
+   [ BASE ! ]
 ;
 T{ OUTPUT-TEST -> }T
-BASE !
 
 .( EVALUATE IS NOT TESTED AND MAY NOT BE CALLED FROM USER CODE) CR
 
-\ EXECUTE
-\ EXIT
-\ HERE
-\ I
-\ IF
-\ IMMEDIATE
-\ INVERT
-\ J
-\ LEAVE
-\ LITERAL
-\ LSHIFT
-\ LOOP
+.( IF ELSE --> OK IF BLANK \/) CR
+T{ : GI1 IF 123 THEN ; -> }T
+T{ : GI2 IF 123 ELSE 234 THEN ; -> }T
+T{  0 GI1 ->     }T
+T{  1 GI1 -> 123 }T
+T{ -1 GI1 -> 123 }T
+T{  0 GI2 -> 234 }T
+T{  1 GI2 -> 123 }T
+T{ -1 GI1 -> 123 }T
+
+\ Multiple ELSEs in an IF statement
+: melse IF 1 ELSE 2 ELSE 3 ELSE 4 ELSE 5 THEN ;
+T{ <FALSE> melse -> 2 4 }T
+T{ <TRUE>  melse -> 1 3 5 }T
+
+.( IMMEDIATE IS NOT TESTED) CR
+
+
+.( INVERT --> OK IF BLANK \/) CR
+T{ 0S INVERT -> 1S }T
+T{ 1S INVERT -> 0S }T
+
+.( J --> OK IF BLANK \/) CR
+T{ : GD3 DO 1 0 DO J LOOP LOOP ; -> }T
+T{          4        1 GD3 ->  1 2 3   }T
+T{          2       -1 GD3 -> -1 0 1   }T
+T{ MID-UINT+1 MID-UINT GD3 -> MID-UINT }T
+
+T{ : GD4 DO 1 0 DO J LOOP -1 +LOOP ; -> }T
+T{        1          4 GD4 -> 4 3 2 1             }T
+T{       -1          2 GD4 -> 2 1 0 -1            }T
+T{ MID-UINT MID-UINT+1 GD4 -> MID-UINT+1 MID-UINT }T 
+
+.( LEAVE I --> OK IF BLANK \/) CR
+T{ : GD5 123 SWAP 0 DO 
+     I 4 > IF DROP 234 LEAVE THEN 
+   LOOP ; -> }T
+T{ 1 GD5 -> 123 }T
+T{ 5 GD5 -> 123 }T
+T{ 6 GD5 -> 234 }T
+
+.( LITERAL --> OK IF BLANK \/) CR
+T{ : GT3 GT2 LITERAL ; -> }T
+T{ GT3 -> ' GT1 }T
+
+.( LSHIFT --> OK IF BLANK \/) CR
+BASE @ HEX
+T{   1 0 LSHIFT ->    1 }T
+T{   1 1 LSHIFT ->    2 }T
+T{   1 2 LSHIFT ->    4 }T
+T{   1 F LSHIFT -> 8000 }T      \ BIGGEST GUARANTEED SHIFT
+T{  1S 1 LSHIFT 1 XOR -> 1S }T
+T{ MSB 1 LSHIFT ->    0 }T
+BASE !
+
+.( LOOP DO I --> OK IF BLANK \/) CR
+T{ : GD1 DO I LOOP ; -> }T
+T{          4        1 GD1 ->  1 2 3   }T
+T{          2       -1 GD1 -> -1 0 1   }T
+T{ MID-UINT+1 MID-UINT GD1 -> MID-UINT }T
+
 \ M STAR
 \ MAX
 \ MIN
@@ -594,7 +654,19 @@ BASE !
 \ SWAP
 \ THEN
 \ U LESS THAN
-\ UNLOOP
+
+.( UNLOOP EXIT DO I --> OK IF BLANK \/) CR
+
+T{ : GD6 ( PAT: {0 0},{0 0}{1 0}{1 1},{0 0}{1 0}{1 1}{2 0}{2 1}{2 2} ) 
+      0 SWAP 0 DO 
+         I 1+ 0 DO 
+           I J + 3 = IF I UNLOOP I UNLOOP EXIT THEN 1+ 
+         LOOP 
+      LOOP ; -> }T
+T{ 1 GD6 -> 1 }T
+T{ 2 GD6 -> 3 }T
+T{ 3 GD6 -> 4 1 2 }T
+
 \ UNTIL
 \ WHILE
 \ WORD
