@@ -19,9 +19,13 @@ namespace Forth.Core
 
         public override void Call()
         {
-            Forth.CfStackRoll(1);
+            // grab and set one (and ONLY one) WHILE origin
+            if (Forth.CfIsOrig())
+            {
+                // account for backward link in next cell
+                Forth.Ram.SetInt(Forth.CfPopOrig(), Forth.DictTopP + RAM.CellSize);
+            }
             Forth.CoreExtWords.Again.Call();
-            Forth.CoreWords.Then.Call();
         }
     }
 }

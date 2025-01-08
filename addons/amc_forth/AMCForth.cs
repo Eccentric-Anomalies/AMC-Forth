@@ -791,11 +791,22 @@ public partial class AMCForth : Godot.RefCounted
     // pop an DEST word
     public int CfPopDest()
     {
-        if (CfIsDest())
+        Stack<ControlFlowItem> tempStack = new();
+        ControlFlowItem temp;
+        // move any Orig entries out of the way
+        int i = 0;
+        while (CfIsOrig())
         {
-            return _CfPop().Addr;
+            i++;
+            tempStack.Push(_CfPop());
         }
-        throw new InvalidOperationException("Control structure expected DEST but sees ORIG.");
+        var CfDestAddr = _CfPop().Addr;
+        // put Orig entries back
+        for (; i > 0; i--)
+        {
+            _CfPush(tempStack.Pop());
+        }
+        return CfDestAddr;
     }
 
     // control flow stack is empty
