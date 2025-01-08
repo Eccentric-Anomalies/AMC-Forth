@@ -82,7 +82,6 @@ namespace Forth.Core
         public PlusLoop PlusLoop;
         public PlusStore PlusStore;
         public Postpone Postpone;
-        public QuestionDo QuestionDo;
         public QuestionDup QuestionDup;
         public Repeat Repeat;
         public RFetch RFetch;
@@ -202,7 +201,6 @@ namespace Forth.Core
             PlusLoop = new(_forth, Wordset);
             PlusStore = new(_forth, Wordset);
             Postpone = new(_forth, Wordset);
-            QuestionDo = new(_forth, Wordset);
             QuestionDup = new(_forth, Wordset);
             Repeat = new(_forth, Wordset);
             RFetch = new(_forth, Wordset);

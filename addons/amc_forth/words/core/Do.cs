@@ -20,7 +20,8 @@ namespace Forth.Core
         public override void Call()
         {
             Forth.Ram.SetInt(Forth.DictTopP, XtX);
-            Forth.CoreWords.Begin.Call(); // mark a destination for a backward branch
+            // mark THIS cell as a destination for a backward branch
+            Forth.CfPushDest(Forth.DictTopP);
             Forth.DictTopP += RAM.CellSize; // move up to finish
             Forth.SaveDictTop(); // preserve dictionary state
         }

@@ -42,8 +42,8 @@ namespace Forth.Core
             Forth.CoreWords.Equal.Call(); // Check for equal
             if (Stack.Pop() == 0)
             {
-                // not matched, branch back. The DO exec will push the values
-                // back on the return stack.
+                // not matched, branch back, placing loop parameters on the return stack
+                Forth.CoreExtWords.TwoToR.Call();
                 Forth.DictIp = Forth.Ram.GetInt(Forth.DictIp + RAM.CellSize);
             }
             else

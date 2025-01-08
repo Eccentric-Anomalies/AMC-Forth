@@ -26,6 +26,7 @@ namespace Forth.CoreExt
         public Parse Parse;
         public ParseName ParseName;
         public Pick Pick;
+        public QuestionDo QuestionDo;
         public SourceId SourceId;
         public To To;
         public True True;
@@ -55,6 +56,7 @@ namespace Forth.CoreExt
             Parse = new(_forth, Wordset);
             ParseName = new(_forth, Wordset);
             Pick = new(_forth, Wordset);
+            QuestionDo = new(_forth, Wordset);
             SourceId = new(_forth, Wordset);
             To = new(_forth, Wordset);
             True = new(_forth, Wordset);

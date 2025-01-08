@@ -54,9 +54,8 @@ namespace Forth.Core
                 Stack.Push((int)limit);
                 // original limit
                 Stack.Push((int)next_i);
-                // new index
-                // Branch back. The DO or ?DO exec will push the values
-                // back on the return stack
+                // not matched, branch back, placing loop parameters on the return stack
+                Forth.CoreExtWords.TwoToR.Call();
                 Forth.DictIp = Forth.Ram.GetInt(Forth.DictIp + RAM.CellSize);
             }
         }

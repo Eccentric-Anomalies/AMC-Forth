@@ -1,6 +1,6 @@
 using Godot;
 
-namespace Forth.Core
+namespace Forth.CoreExt
 {
     [GlobalClass]
     public partial class QuestionDo : Forth.Words
@@ -19,10 +19,10 @@ namespace Forth.Core
         public override void Call()
         {
             Forth.Ram.SetInt(Forth.DictTopP, XtX);
-            // mark PREV cell as a destination for a backward branch
-            Forth.CfPushDest(Forth.DictTopP - RAM.CellSize);
+            // mark NEXT cell as a destination for a backward branch
+            Forth.CfPushDest(Forth.DictTopP + RAM.CellSize);
             // leave link address on the control stack
-            Forth.CfPushOrig(Forth.DictTopP + RAM.CellSize);
+            Forth.LcfPush(Forth.DictTopP + RAM.CellSize);
             Forth.DictTopP += RAM.DCellSize; // move up to finish
             Forth.SaveDictTop(); // preserve dictionary state
         }

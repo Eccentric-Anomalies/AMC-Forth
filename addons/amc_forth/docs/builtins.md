@@ -70,8 +70,6 @@
 
 ### <a name="Store"></a>[!](Store.md)
 
-### <a name="QuestionDo"></a>[?DO](QuestionDo.md)
-
 ### <a name="QuestionDup"></a>[?DUP](QuestionDup.md)
 
 ### <a name="Dot"></a>[.](Dot.md)
@@ -291,6 +289,8 @@
 ### <a name="Xor"></a>[XOR](Xor.md)
 
 ## CORE EXT
+### <a name="QuestionDo"></a>[?DO](QuestionDo.md)
+
 ### <a name="DotLeftParenthesis"></a>[.(](DotLeftParenthesis.md)
 
 ### <a name="BackSlash"></a>[\\](BackSlash.md)
