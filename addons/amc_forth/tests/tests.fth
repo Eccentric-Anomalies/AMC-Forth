@@ -808,7 +808,12 @@ T{ -1 NEGATE ->  1 }T
 T{  2 NEGATE -> -2 }T
 T{ -2 NEGATE ->  2 }T
 
-\ OR
+.( OR --> OK IF BLANK \/) CR
+T{ 0S 0S OR -> 0S }T
+T{ 0S 1S OR -> 1S }T
+T{ 1S 0S OR -> 1S }T
+T{ 1S 1S OR -> 1S }T
+
 \ OVER
 \ POSTPONE
 \ R FETCH
