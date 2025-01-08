@@ -957,6 +957,22 @@ T{ MID-UINT+1          4 UM* ->           0 2 }T
 T{         1S          2 UM* -> 1S 1 LSHIFT 1 }T
 T{   MAX-UINT   MAX-UINT UM* ->    1 1 INVERT }T 
 
-\ UM SLASH MOD
-\ VARIABLE
-\ XOR
+.( UM SLASH MOD --> OK IF BLANK \/) CR
+T{        0            0        1 UM/MOD -> 0        0 }T
+T{        1            0        1 UM/MOD -> 0        1 }T
+T{        1            0        2 UM/MOD -> 1        0 }T
+T{        3            0        2 UM/MOD -> 1        1 }T
+T{ MAX-UINT        2 UM*        2 UM/MOD -> 0 MAX-UINT }T
+T{ MAX-UINT        2 UM* MAX-UINT UM/MOD -> 0        2 }T
+T{ MAX-UINT MAX-UINT UM* MAX-UINT UM/MOD -> 0 MAX-UINT }T
+
+.( VARIABLE --> OK IF BLANK \/) CR
+T{ VARIABLE V1 ->     }T
+T{    123 V1 ! ->     }T
+T{        V1 @ -> 123 }T
+
+.( XOR --> OK IF BLANK \/) CR
+T{ 0S 0S XOR -> 0S }T
+T{ 0S 1S XOR -> 1S }T
+T{ 1S 0S XOR -> 1S }T
+T{ 1S 1S XOR -> 0S }T
