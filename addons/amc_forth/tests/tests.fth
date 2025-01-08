@@ -936,7 +936,13 @@ T{ 4 GI5 -> 4 5 123 }T
 T{ 5 GI5 -> 5 123 }T 
 
 
-\ WORD
+.( WORD --> OK IF BLANK \/) CR
+ : GS3 WORD COUNT SWAP C@ ;
+T{ BL GS3 HELLO -> 5 CHAR H }T
+T{ CHAR " GS3 GOODBYE" -> 7 CHAR G }T
+T{ BL GS3 
+   DROP -> 0 }T \ Blank lines return zero-length strings 
+
 \ TYPE
 \ UM STAR
 \ UM SLASH MOD
