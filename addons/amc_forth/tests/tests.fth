@@ -489,7 +489,7 @@ T{ 1 2 3 4 2SWAP -> 3 4 1 2 }T
 T{  CREATE CR0 ->      }T
 T{ ' CR0 >BODY -> HERE }T
 
-.( TO R --> OK IF BLANK \/) CR
+.( TO R and R FETCH--> OK IF BLANK \/) CR
 T{ : GR1 >R R> ; -> }T
 T{ : GR2 >R R@ R> DROP ; -> }T
 T{ 123 GR1 -> 123 }T
@@ -814,10 +814,11 @@ T{ 0S 1S OR -> 1S }T
 T{ 1S 0S OR -> 1S }T
 T{ 1S 1S OR -> 1S }T
 
-\ OVER
-\ POSTPONE
-\ R FETCH
-\ REPEAT
+.( OVER --> OK IF BLANK \/) CR
+T{ 1 2 OVER -> 1 2 1 }T
+
+.( POSTPONE IS NOT FULLY IMPLEMENTED AND SHOULD NOT BE USED) CR
+
 \ ROT
 \ R SHIFT
 \ S QUOTE
@@ -842,8 +843,29 @@ T{ 1 GD6 -> 1 }T
 T{ 2 GD6 -> 3 }T
 T{ 3 GD6 -> 4 1 2 }T
 
-\ UNTIL BEGIN
-\ WHILE BEGIN
+.( UNTIL BEGIN --> OK IF BLANK \/) CR
+T{ : GI4 BEGIN DUP 1+ DUP 5 > UNTIL ; -> }T
+T{ 3 GI4 -> 3 4 5 6 }T
+T{ 5 GI4 -> 5 6 }T
+T{ 6 GI4 -> 6 7 }T
+
+.( WHILE BEGIN REPEAT --> OK IF BLANK \/) CR
+T{ : GI3 BEGIN DUP 5 < WHILE DUP 1+ REPEAT ; -> }T
+T{ 0 GI3 -> 0 1 2 3 4 5 }T
+T{ 4 GI3 -> 4 5 }T
+T{ 5 GI3 -> 5 }T
+T{ 6 GI3 -> 6 }T
+
+T{ : GI5 BEGIN DUP 2 > WHILE 
+      DUP 5 < WHILE DUP 1+ REPEAT 
+      123 ELSE 345 THEN ; -> }T
+T{ 1 GI5 -> 1 345 }T
+T{ 2 GI5 -> 2 345 }T
+T{ 3 GI5 -> 3 4 5 123 }T
+T{ 4 GI5 -> 4 5 123 }T
+T{ 5 GI5 -> 5 123 }T
+
+
 \ WORD
 \ TYPE
 \ UM STAR
