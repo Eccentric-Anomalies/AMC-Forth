@@ -831,11 +831,60 @@ T{    4 2 RSHIFT -> 1 }T
 T{ 8000 F RSHIFT -> 1 }T              \ Biggest
 T{  MSB 1 RSHIFT MSB AND ->   0 }T    \ RSHIFT zero fills MSBs
 T{  MSB 1 RSHIFT     2*  -> MSB }T
-BASE ! DECIMAL
+BASE !
 
-\ S QUOTE
-\ S TO D
-\ SM SLASH REM
+.( S QUOTE --> OK IF BLANK \/) CR
+BASE @ HEX
+T{ : GC4 S" XY" ; ->   }T
+T{ GC4 SWAP DROP  -> 2 }T
+T{ GC4 DROP DUP C@ SWAP CHAR+ C@ -> 58 59 }T
+
+: GC5 S" A String"2DROP ; \ There is no space between the " and 2DROP
+T{ GC5 -> }T 
+BASE !
+
+.( S TO D --> OK IF BLANK \/) CR
+T{       0 S>D ->       0  0 }T
+T{       1 S>D ->       1  0 }T
+T{       2 S>D ->       2  0 }T
+T{      -1 S>D ->      -1 -1 }T
+T{      -2 S>D ->      -2 -1 }T
+T{ MIN-INT S>D -> MIN-INT -1 }T
+T{ MAX-INT S>D -> MAX-INT  0 }T
+
+.( SM SLASH REM --> OK IF BLANK \/) CR
+T{       0 S>D              1 SM/REM ->  0       0 }T
+T{       1 S>D              1 SM/REM ->  0       1 }T
+T{       2 S>D              1 SM/REM ->  0       2 }T
+T{      -1 S>D              1 SM/REM ->  0      -1 }T
+T{      -2 S>D              1 SM/REM ->  0      -2 }T
+T{       0 S>D             -1 SM/REM ->  0       0 }T
+T{       1 S>D             -1 SM/REM ->  0      -1 }T
+T{       2 S>D             -1 SM/REM ->  0      -2 }T
+T{      -1 S>D             -1 SM/REM ->  0       1 }T
+T{      -2 S>D             -1 SM/REM ->  0       2 }T
+T{       2 S>D              2 SM/REM ->  0       1 }T
+T{      -1 S>D             -1 SM/REM ->  0       1 }T
+T{      -2 S>D             -2 SM/REM ->  0       1 }T
+T{       7 S>D              3 SM/REM ->  1       2 }T
+T{       7 S>D             -3 SM/REM ->  1      -2 }T
+T{      -7 S>D              3 SM/REM -> -1      -2 }T
+T{      -7 S>D             -3 SM/REM -> -1       2 }T
+T{ MAX-INT S>D              1 SM/REM ->  0 MAX-INT }T
+T{ MIN-INT S>D              1 SM/REM ->  0 MIN-INT }T
+T{ MAX-INT S>D        MAX-INT SM/REM ->  0       1 }T
+T{ MIN-INT S>D        MIN-INT SM/REM ->  0       1 }T
+T{      1S 1                4 SM/REM ->  3 MAX-INT }T
+T{       2 MIN-INT M*       2 SM/REM ->  0 MIN-INT }T
+T{       2 MIN-INT M* MIN-INT SM/REM ->  0       2 }T
+T{       2 MAX-INT M*       2 SM/REM ->  0 MAX-INT }T
+T{       2 MAX-INT M* MAX-INT SM/REM ->  0       2 }T
+T{ MIN-INT MIN-INT M* MIN-INT SM/REM ->  0 MIN-INT }T
+T{ MIN-INT MAX-INT M* MIN-INT SM/REM ->  0 MAX-INT }T
+T{ MIN-INT MAX-INT M* MAX-INT SM/REM ->  0 MIN-INT }T
+T{ MAX-INT MAX-INT M* MAX-INT SM/REM ->  0 MAX-INT }T
+
+
 \ SOURCE
 \ SPACE
 \ SPACES
