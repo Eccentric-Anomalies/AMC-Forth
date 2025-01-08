@@ -819,8 +819,20 @@ T{ 1 2 OVER -> 1 2 1 }T
 
 .( POSTPONE IS NOT FULLY IMPLEMENTED AND SHOULD NOT BE USED) CR
 
-\ ROT
-\ R SHIFT
+.( ROT --> OK IF BLANK \/) CR
+T{ 1 2 3 ROT -> 2 3 1 }T
+
+.( R SHIFT --> OK IF BLANK \/) CR
+BASE @ HEX
+T{    1 0 RSHIFT -> 1 }T
+T{    1 1 RSHIFT -> 0 }T
+T{    2 1 RSHIFT -> 1 }T
+T{    4 2 RSHIFT -> 1 }T
+T{ 8000 F RSHIFT -> 1 }T              \ Biggest
+T{  MSB 1 RSHIFT MSB AND ->   0 }T    \ RSHIFT zero fills MSBs
+T{  MSB 1 RSHIFT     2*  -> MSB }T
+BASE ! DECIMAL
+
 \ S QUOTE
 \ S TO D
 \ SM SLASH REM

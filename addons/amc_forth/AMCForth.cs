@@ -792,7 +792,6 @@ public partial class AMCForth : Godot.RefCounted
     public int CfPopDest()
     {
         Stack<ControlFlowItem> tempStack = new();
-        ControlFlowItem temp;
         // move any Orig entries out of the way
         int i = 0;
         while (CfIsOrig())
