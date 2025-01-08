@@ -75,5 +75,6 @@ LOOP DO I --> OK IF BLANK \/
 M STAR --> OK IF BLANK \/
 MAX --> OK IF BLANK \/
 MIN --> OK IF BLANK \/
+MOD --> OK IF BLANK \/
 UNLOOP EXIT DO I --> OK IF BLANK \/
  ok
