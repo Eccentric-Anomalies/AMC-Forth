@@ -15,7 +15,7 @@ namespace Forth.Core
 
         public override void Call()
         {
-            Stack.PushDword((ulong)Stack.Pop() * (ulong)Stack.Pop());
+            Stack.PushDword((ulong)(uint)Stack.Pop() * (uint)Stack.Pop());
         }
     }
 }

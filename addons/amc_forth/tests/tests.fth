@@ -602,7 +602,7 @@ T{ 1 DUP -> 1 1 }T
 T{ 1 2 DROP -> 1 }T
 T{ 0   DROP ->   }T
 
-.( EMIT DOT and DOT QUOTE and U DOT and CR SPACE SPACES \/  \/  \/) CR
+.( EMIT DOT and DOT QUOTE and U DOT and CR SPACE SPACES TYPE \/  \/  \/) CR
 : OUTPUT-TEST
   [ BASE @ HEX ]
   BASE @ HEX
@@ -943,8 +943,20 @@ T{ CHAR " GS3 GOODBYE" -> 7 CHAR G }T
 T{ BL GS3 
    DROP -> 0 }T \ Blank lines return zero-length strings 
 
-\ TYPE
-\ UM STAR
+.( UM STAR --> OK IF BLANK \/) CR
+T{ 0 0 UM* -> 0 0 }T
+T{ 0 1 UM* -> 0 0 }T
+T{ 1 0 UM* -> 0 0 }T
+T{ 1 2 UM* -> 2 0 }T
+T{ 2 1 UM* -> 2 0 }T
+T{ 3 3 UM* -> 9 0 }T
+
+T{ MID-UINT+1 1 RSHIFT 2 UM* ->  MID-UINT+1 0 }T
+T{ MID-UINT+1          2 UM* ->           0 1 }T
+T{ MID-UINT+1          4 UM* ->           0 2 }T
+T{         1S          2 UM* -> 1S 1 LSHIFT 1 }T
+T{   MAX-UINT   MAX-UINT UM* ->    1 1 INVERT }T 
+
 \ UM SLASH MOD
 \ VARIABLE
 \ XOR
