@@ -705,7 +705,24 @@ T{ MIN-INT MIN-INT M* ->       0 MSB 1 RSHIFT   }T
 T{ MAX-INT MIN-INT M* ->     MSB MSB 2/         }T
 T{ MAX-INT MAX-INT M* ->       1 MSB 2/ INVERT  }T
 
-\ MAX
+.( MAX --> OK IF BLANK \/) CR
+T{       0       1 MAX ->       1 }T
+T{       1       2 MAX ->       2 }T
+T{      -1       0 MAX ->       0 }T
+T{      -1       1 MAX ->       1 }T
+T{ MIN-INT       0 MAX ->       0 }T
+T{ MIN-INT MAX-INT MAX -> MAX-INT }T
+T{       0 MAX-INT MAX -> MAX-INT }T
+T{       0       0 MAX ->       0 }T
+T{       1       1 MAX ->       1 }T
+T{       1       0 MAX ->       1 }T
+T{       2       1 MAX ->       2 }T
+T{       0      -1 MAX ->       0 }T
+T{       1      -1 MAX ->       1 }T
+T{       0 MIN-INT MAX ->       0 }T
+T{ MAX-INT MIN-INT MAX -> MAX-INT }T
+T{ MAX-INT       0 MAX -> MAX-INT }T
+
 \ MIN
 \ MOD
 \ MOVE
