@@ -54,6 +54,7 @@ namespace Forth.Core
         public Evaluate Evaluate;
         public Execute Execute;
         public Exit Exit;
+        public Fill Fill;
         public Here Here;
         public I I;
         public If If;
@@ -171,6 +172,7 @@ namespace Forth.Core
             Evaluate = new(_forth, Wordset);
             Execute = new(_forth, Wordset);
             Exit = new(_forth, Wordset);
+            Fill = new(_forth, Wordset);
             GreaterThan = new(_forth, Wordset);
             LeftParenthesis = new(_forth, Wordset);
             Fetch = new(_forth, Wordset);
