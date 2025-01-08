@@ -106,7 +106,7 @@ T{         -1 -2 - ->        1 }T
 T{          0  1 - ->       -1 }T
 T{ MID-UINT+1  1 - -> MID-UINT }T
 
-.( COMMA HERE STORE and TWO FETCH --> OK IF BLANK \/) CR
+.( COMMA HERE STORE FETCH and CELL PLUS and TWO FETCH and TWO STORE --> OK IF BLANK \/) CR
 HERE 1 ,
 HERE 2 ,
 CONSTANT 2ND
@@ -456,8 +456,6 @@ T{ MAX-UINT 0= -> <FALSE> }T
 T{ MIN-INT  0= -> <FALSE> }T
 T{ MAX-INT  0= -> <FALSE> }T
 
-\ TWO STORE
-
 .( TWO STAR --> OK IF BLANK \/) CR
 T{   0S 2*       ->   0S }T
 T{    1 2*       ->    2 }T
@@ -489,12 +487,12 @@ T{ 1 2 3 4 2SWAP -> 3 4 1 2 }T
 T{  CREATE CR0 ->      }T
 T{ ' CR0 >BODY -> HERE }T
 
-.( TO R and R FETCH--> OK IF BLANK \/) CR
+.( TO R and R FETCH and R FROM --> OK IF BLANK \/) CR
 T{ : GR1 >R R> ; -> }T
 T{ : GR2 >R R@ R> DROP ; -> }T
 T{ 123 GR1 -> 123 }T
 T{ 123 GR2 -> 123 }T
-T{  1S GR1 ->  1S }T 
+T{  1S GR1 ->  1S }T
 
 .( TO IN IS NOT TESTED) CR
 
@@ -547,7 +545,7 @@ DECIMAL
 .( BL --> OK IF BLANK \/) CR
 T{ BL -> 32 }T
 
-\ CELL PLUS
+
 .( CELLS --> OK IF BLANK \/) CR
 : BITS ( X -- U )
    0 SWAP BEGIN DUP WHILE
@@ -559,7 +557,7 @@ T{ 1 CELLS 1 <         -> <FALSE> }T
 T{ 1 CELLS 1 CHARS MOD ->    0    }T
 T{ 1S BITS 10 <        -> <FALSE> }T
 
-.( C COMMA and CHAR PLUS and CHARS FETCH --> OK IF BLANK \/) CR
+.( C COMMA and CHAR PLUS and C FETCH and C STORE and CHARS --> OK IF BLANK \/) CR
 HERE 1 C,
 HERE 2 C,
 CONSTANT 2NDC
@@ -574,6 +572,13 @@ T{ 1STC C@ 2NDC C@ ->   3 2  }T
 T{       4 2NDC C! ->        }T
 T{ 1STC C@ 2NDC C@ ->   3 4  }T
 
+.( BRACKET CHAR --> OK IF BLANK \/) CR
+BASE @ HEX
+T{ : GC1 [CHAR] X     ; -> }T
+T{ : GC2 [CHAR] HELLO ; -> }T
+T{ GC1 -> 58 }T
+T{ GC2 -> 48 }T
+BASE !
 
 .( CHARS --> OK IF BLANK \/) CR
 ( CHARACTERS >= 1 AU, <= SIZE OF CELL, >= 8 BITS )
@@ -669,6 +674,17 @@ T{ : GD5 123 SWAP 0 DO
 T{ 1 GD5 -> 123 }T
 T{ 5 GD5 -> 123 }T
 T{ 6 GD5 -> 234 }T
+
+.( LEFT BRACKET and RIGHT BRACKET --> OK IF BLANK \/) CR
+BASE @ HEX
+T{ : GC3 [ GC1 ] LITERAL ; -> }T
+T{ GC3 -> 58 }T
+BASE !
+
+.( LEFT PARENTHESIS  --> OK IF BLANK \/) CR
+\ There is no space either side of the ).
+T{ ( A comment)1234 -> 1234 }T  \ This is modified from original
+T{ : pc1 ( A comment)1234 ; pc1 -> 1234 }T 
 
 .( LITERAL --> OK IF BLANK \/) CR
 T{ : GT3 GT2 LITERAL ; -> }T
