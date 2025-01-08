@@ -602,7 +602,7 @@ T{ 1 DUP -> 1 1 }T
 T{ 1 2 DROP -> 1 }T
 T{ 0   DROP ->   }T
 
-.( EMIT DOT and DOT QUOTE and U DOT and CR \/  \/  \/) CR
+.( EMIT DOT and DOT QUOTE and U DOT and CR SPACE SPACES \/  \/  \/) CR
 : OUTPUT-TEST
   [ BASE @ HEX ]
   BASE @ HEX
@@ -630,7 +630,7 @@ T{ OUTPUT-TEST -> }T
 
 .( EVALUATE IS NOT TESTED AND MAY NOT BE CALLED FROM USER CODE) CR
 
-.( IF ELSE --> OK IF BLANK \/) CR
+.( IF ELSE THEN --> OK IF BLANK \/) CR
 T{ : GI1 IF 123 THEN ; -> }T
 T{ : GI2 IF 123 ELSE 234 THEN ; -> }T
 T{  0 GI1 ->     }T
@@ -868,7 +868,7 @@ T{      -1 S>D             -1 SM/REM ->  0       1 }T
 T{      -2 S>D             -2 SM/REM ->  0       1 }T
 T{       7 S>D              3 SM/REM ->  1       2 }T
 T{       7 S>D             -3 SM/REM ->  1      -2 }T
-T{      -7 S>D              3 SM/REM -> -1      -2 }T
+T{      -7 S>D              3 SM/REM -> -1      -2 }T   \ MODIFIED FR. ORIG.
 T{      -7 S>D             -3 SM/REM -> -1       2 }T
 T{ MAX-INT S>D              1 SM/REM ->  0 MAX-INT }T
 T{ MIN-INT S>D              1 SM/REM ->  0 MIN-INT }T
@@ -884,16 +884,26 @@ T{ MIN-INT MAX-INT M* MIN-INT SM/REM ->  0 MAX-INT }T
 T{ MIN-INT MAX-INT M* MAX-INT SM/REM ->  0 MIN-INT }T
 T{ MAX-INT MAX-INT M* MAX-INT SM/REM ->  0 MAX-INT }T
 
+.( SOURCE IS NOT TESTED) CR
 
-\ SOURCE
-\ SPACE
-\ SPACES
-\ SWAP
-\ THEN
-\ U LESS THAN
+.( SWAP --> OK IF BLANK \/) CR
+T{ 1 2 SWAP -> 2 1 }T
+
+.( U LESS THAN --> OK IF BLANK \/) CR
+T{        0        1 U< -> <TRUE>  }T
+T{        1        2 U< -> <TRUE>  }T
+T{        0 MID-UINT U< -> <TRUE>  }T
+T{        0 MAX-UINT U< -> <TRUE>  }T
+T{ MID-UINT MAX-UINT U< -> <TRUE>  }T
+T{        0        0 U< -> <FALSE> }T
+T{        1        1 U< -> <FALSE> }T
+T{        1        0 U< -> <FALSE> }T
+T{        2        1 U< -> <FALSE> }T
+T{ MID-UINT        0 U< -> <FALSE> }T
+T{ MAX-UINT        0 U< -> <FALSE> }T
+T{ MAX-UINT MID-UINT U< -> <FALSE> }T
 
 .( UNLOOP EXIT DO I --> OK IF BLANK \/) CR
-
 T{ : GD6 ( PAT: {0 0},{0 0}{1 0}{1 1},{0 0}{1 0}{1 1}{2 0}{2 1}{2 2} ) 
       0 SWAP 0 DO 
          I 1+ 0 DO 
