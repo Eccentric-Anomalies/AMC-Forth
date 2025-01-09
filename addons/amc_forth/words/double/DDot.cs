@@ -17,7 +17,7 @@ namespace Forth.Double
         {
             var fmt = Forth.Ram.GetInt(Map.Base) == 10 ? "F0" : "X";
             var num = Stack.PopDint();
-            Forth.Util.PrintTerm(" " + num.ToString(fmt));
+            Forth.Util.PrintTerm(num.ToString(fmt) + " ");
         }
     }
 }

@@ -27,10 +27,12 @@ namespace Forth.CoreExt
         public ParseName ParseName;
         public Pick Pick;
         public QuestionDo QuestionDo;
+        public DotR DotR;
         public SourceId SourceId;
         public To To;
         public True True;
         public Tuck Tuck;
+        public UDotR UDotR;
         public ULessThan ULessThan;
         public Unused Unused;
         public Value Value;
@@ -57,10 +59,12 @@ namespace Forth.CoreExt
             ParseName = new(_forth, Wordset);
             Pick = new(_forth, Wordset);
             QuestionDo = new(_forth, Wordset);
+            DotR = new(_forth, Wordset);
             SourceId = new(_forth, Wordset);
             To = new(_forth, Wordset);
             True = new(_forth, Wordset);
             Tuck = new(_forth, Wordset);
+            UDotR = new(_forth, Wordset);
             ULessThan = new(_forth, Wordset);
             Unused = new(_forth, Wordset);
             Value = new(_forth, Wordset);

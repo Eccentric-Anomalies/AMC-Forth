@@ -8,6 +8,7 @@ namespace Forth.Double
     public partial class DoubleSet : Godot.RefCounted
     {
         public DDot DDot;
+        public DDotR DDotR;
         public DMinus DMinus;
         public DPlus DPlus;
         public DLessThan DLessThan;
@@ -31,6 +32,7 @@ namespace Forth.Double
         public DoubleSet(AMCForth _forth)
         {
             DDot = new(_forth, Wordset);
+            DDotR = new(_forth, Wordset);
             DMinus = new(_forth, Wordset);
             DPlus = new(_forth, Wordset);
             DLessThan = new(_forth, Wordset);

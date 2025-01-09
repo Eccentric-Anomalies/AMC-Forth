@@ -295,6 +295,8 @@
 
 ### <a name="DotLeftParenthesis"></a>[.(](DotLeftParenthesis.md)
 
+### <a name="DotR"></a>[.R](DotR.md)
+
 ### <a name="BackSlash"></a>[\\](BackSlash.md)
 
 ### <a name="NotEqual"></a>[&lt;&gt;](NotEqual.md)
@@ -337,6 +339,8 @@
 
 ### <a name="Tuck"></a>[TUCK](Tuck.md)
 
+### <a name="UDotR"></a>[U.R](UDotR.md)
+
 ### <a name="ULessThan"></a>[U&gt;](ULessThan.md)
 
 ### <a name="Unused"></a>[UNUSED](Unused.md)
@@ -353,6 +357,8 @@
 ### <a name="DMinus"></a>[D-](DMinus.md)
 
 ### <a name="DDot"></a>[D.](DDot.md)
+
+### <a name="DDotR"></a>[D.R](DDotR.md)
 
 ### <a name="DPlus"></a>[D+](DPlus.md)
 

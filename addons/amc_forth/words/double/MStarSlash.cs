@@ -1,3 +1,4 @@
+using System;
 using Godot;
 
 namespace Forth.Double
@@ -21,7 +22,7 @@ namespace Forth.Double
             var n1 = Stack.Pop();
             var d1 = Stack.PopDint();
             var t = (decimal)d1 * n1;
-            Stack.PushDint((long)t / n2);
+            Stack.PushDint((long)Math.Ceiling(t / n2));
         }
     }
 }

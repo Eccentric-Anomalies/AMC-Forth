@@ -1067,6 +1067,7 @@ T{ TRUE -> <TRUE> }T
 T{ TRUE -> 0 INVERT }T
 
 .( TUCK IS NOT TESTED) CR
+.( DOT R IS NOT TESTED) CR
 .( TWO R FETCH IS NOT TESTED) CR
 .( TWO R FROM IS NOT TESTED) CR
 .( TWO TO R IS NOT TESTED) CR
@@ -1086,6 +1087,7 @@ T{ MAX-UINT        0 U< -> <FALSE> }T
 T{ MAX-UINT MID-UINT U< -> <FALSE> }T
 
 .( UNUSED IS NOT TESTED) CR
+.( U DOT R IS NOT TESTED) CR
 
 .( VALUE and TO --> OK IF BLANK \/) CR
 T{  111 VALUE v1 -> }T
@@ -1130,6 +1132,24 @@ T{       1. DABS -> 1.       }T
 T{      -1. DABS -> 1.       }T
 T{ MAX-2INT DABS -> MAX-2INT }T
 T{ MIN-2INT 1. D+ DABS -> MAX-2INT }T 
+
+.( D DOT R and D DOT --> OK IF OUTPUT VERIFIED \/ \/ \/) CR
+MAX-2INT 71 73 M*/ 2CONSTANT dbl1
+MIN-2INT 73 79 M*/ 2CONSTANT dbl2
+\ THIS IS NOT THE WAY THIS TEST SHOULD WORK, BUT...
+: DoubleOutput
+   ." You should see lines duplicated:" CR
+   ."      8970676912557384689" CR
+   5 SPACES dbl1 D. CR
+   ."         8970676912557384689" CR
+   5 SPACES dbl1 19 3 + D.R CR
+   ."      -8522862768232894101" CR
+   5 SPACES dbl2 D. CR
+   ."           -8522862768232894101" CR
+   5 SPACES dbl2 20 5 + D.R CR
+;
+
+T{ DoubleOutput -> }T 
 
 .(  --> OK IF BLANK \/) CR
 .(  --> OK IF BLANK \/) CR

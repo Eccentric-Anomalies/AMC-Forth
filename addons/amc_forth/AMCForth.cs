@@ -991,7 +991,7 @@ public partial class AMCForth : Godot.RefCounted
         }
         SourceId = -1;
         CoreWords.Evaluate.Call();
-        Util.RprintTerm(" ok");
+        Util.RprintTerm("ok");
     }
 
     // return echo text that refreshes the current edit
