@@ -24,7 +24,7 @@ namespace Forth.Tools
                 Forth.Util.PrintTerm(" " + Stack.DataStack[pointer].ToString(fmt));
                 pointer -= 1;
             }
-            Forth.Util.PrintTerm(" <-Top");
+            Forth.Util.PrintTerm(" <-Top ");
         }
     }
 }
