@@ -1,3 +1,4 @@
+.( WORDS TESTED FOR AMCFORTH) CR
 \ Test tools for AMC Forth. Derived from the following:
 
 \ (C) 1995 JOHNS HOPKINS UNIVERSITY / APPLIED PHYSICS LABORATORY
@@ -7,7 +8,7 @@
 \ Revision history and possibly newer versions can be found at
 \ http://www.forth200x/tests/ttester.fs
 
-.( WORDS TESTED FOR AMCFORTH) CR
+
 
 VARIABLE ACTUAL-DEPTH \ stack record
 CREATE ACTUAL-RESULTS 20 CELLS ALLOT
@@ -80,7 +81,7 @@ T{  0 BITSSET? -> 0 }T           ( Zero is all bits clear )
 T{  1 BITSSET? -> 0 0 }T         ( Other numbers have at least one bit )
 T{ -1 BITSSET? -> 0 0 }T 
 
-\ CORE WORDS
+.( *** CORE WORDS ***) CR
 
 .( PLUS --> OK IF BLANK \/) CR
 T{        0  5 + ->          5 }T
@@ -992,3 +993,89 @@ T{ 0S 0S XOR -> 0S }T
 T{ 0S 1S XOR -> 1S }T
 T{ 1S 0S XOR -> 1S }T
 T{ 1S 1S XOR -> 0S }T
+
+.( *** CORE EXT WORDS ***) CR
+
+.( AGAIN IS NOT TESTED) CR
+.( BACK SLASH IS NOT TESTED) CR
+
+.( BUFFER COLON NIP --> OK IF BLANK \/) CR
+DECIMAL
+T{ 127 CHARS BUFFER: TBUF1 -> }T
+T{ 127 CHARS BUFFER: TBUF2 -> }T \ Buffer is aligned
+T{ TBUF1 ALIGNED -> TBUF1 }T \ Buffers do not overlap
+T{ TBUF2 TBUF1 - ABS 127 CHARS < -> <FALSE> }T \ Buffer can be written to
+1 CHARS CONSTANT /CHAR
+: TFULL? ( c-addr n char -- flag )
+   TRUE 2SWAP CHARS OVER + SWAP ?DO
+     OVER I C@ = AND
+   /CHAR +LOOP NIP
+;
+
+T{ TBUF1 127 CHAR * FILL   ->        }T
+T{ TBUF1 127 CHAR * TFULL? -> <TRUE> }T
+
+T{ TBUF1 127 0 FILL   ->        }T
+T{ TBUF1 127 0 TFULL? -> <TRUE> }T
+
+.( C QUOTE and NUMBER QUESTION --> OK IF BLANK \/) CR
+T{ : cq1 C" 123" ; -> }T
+T{ : cq2 C" " ;    -> }T
+T{ cq1 COUNT NUMBER? -> 123 1 }T
+T{ cq2 COUNT NUMBER? ->  0   }T 
+
+.( DOT LEFT PARENTHESIS IS NOT TESTED) CR
+
+.( FALSE --> OK IF BLANK \/) CR
+T{ FALSE -> 0 }T
+T{ FALSE -> <FALSE> }T 
+
+.( MARKER IS NOT TESTED) CR
+.( NOT EQUAL IS NOT TESTED) CR
+.( PARSE IS NOT TESTED) CR
+
+.( PARSE-NAME COMPARE --> OK IF BLANK \/) CR
+T{ PARSE-NAME abcd S" abcd" COMPARE -> 0 }T
+T{ PARSE-NAME   abcde   S" abcde" COMPARE -> 0 }T
+
+\ test empty parse area
+T{ PARSE-NAME 
+   NIP -> 0 }T    \ empty line
+T{ PARSE-NAME    
+   NIP -> 0 }T    \ line with white space
+
+T{ : parse-name-test ( "name1" "name2" -- n ) 
+   PARSE-NAME PARSE-NAME COMPARE ; -> }T
+
+T{ parse-name-test abcd abcd -> 0 }T
+T{ parse-name-test  abcd   abcd   -> 0 }T
+T{ parse-name-test abcde abcdf -> -1 }T
+T{ parse-name-test abcdf abcde -> 1 }T
+T{ parse-name-test abcde abcde 
+    -> 0 }T
+T{ parse-name-test abcde abcde  
+    -> 0 }T    \ line with white space 
+
+.(  --> OK IF BLANK \/) CR
+.(  --> OK IF BLANK \/) CR
+.(  --> OK IF BLANK \/) CR
+.(  --> OK IF BLANK \/) CR
+.(  --> OK IF BLANK \/) CR
+.(  --> OK IF BLANK \/) CR
+.(  --> OK IF BLANK \/) CR
+.(  --> OK IF BLANK \/) CR
+.(  --> OK IF BLANK \/) CR
+.(  --> OK IF BLANK \/) CR
+.(  --> OK IF BLANK \/) CR
+.(  --> OK IF BLANK \/) CR
+.(  --> OK IF BLANK \/) CR
+.(  --> OK IF BLANK \/) CR
+.(  --> OK IF BLANK \/) CR
+.(  --> OK IF BLANK \/) CR
+.(  --> OK IF BLANK \/) CR
+.(  --> OK IF BLANK \/) CR
+.(  --> OK IF BLANK \/) CR
+.(  --> OK IF BLANK \/) CR
+.(  --> OK IF BLANK \/) CR
+.(  --> OK IF BLANK \/) CR
+.(  --> OK IF BLANK \/) CR

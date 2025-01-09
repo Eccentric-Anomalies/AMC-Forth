@@ -40,7 +40,7 @@ namespace Forth
         public const int FileBuffPtrOffset = RAM.CellSize;
 
         // location of pointer
-        public const int FileBuffDataOffset = RAM.CellSize * 2;
+        public const int FileBuffDataOffset = RAM.CellSize * 3; // Leave a cell between buff ptr and data
 
         // location of buff data
         public const int FileBuffSize = 0x0100;
@@ -54,13 +54,8 @@ namespace Forth
         public const int BuffToIn = FileBuffTop;
         public const int BuffToInTop = BuffToIn + RAM.CellSize;
 
-        // Temporary word storage (used by WORD)
-        public const int WordBuffSize = 0x0100;
-        public const int WordBuffStart = BuffToInTop;
-        public const int WordBuffTop = WordBuffStart + WordBuffSize;
-
         // BASE cell
-        public const int Base = WordBuffTop;
+        public const int Base = BuffToInTop;
 
         // DICT_TOP_PTR cell
         public const int DictTopPtr = Base + RAM.CellSize;

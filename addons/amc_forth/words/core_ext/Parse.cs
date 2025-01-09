@@ -19,19 +19,21 @@ namespace Forth.CoreExt
         public override void Call()
         {
             var count = 0;
-            var ptr = Map.WordBuffStart + 1;
             var delim = Stack.Pop();
+            // Get the input buffer location
             Forth.CoreWords.Source.Call();
             var source_size = Stack.Pop();
             var source_start = Stack.Pop();
+            // Get the input buffer index address
             Forth.CoreWords.ToIn.Call();
             var ptraddr = Stack.Pop();
-            Stack.Push(ptr);
-            // parsed text begins here
+            // Returned string starts right here
+            Stack.Push(source_start + Forth.Ram.GetInt(ptraddr));
             while (true)
             {
+                // get the next character in the input buffer
                 var t = Forth.Ram.GetByte(source_start + Forth.Ram.GetInt(ptraddr));
-                // increment the input pointer
+                // increment the input pointer on a non-zero character
                 if (t != 0)
                 {
                     Forth.Ram.SetInt(ptraddr, Forth.Ram.GetInt(ptraddr) + 1);
@@ -39,8 +41,6 @@ namespace Forth.CoreExt
                 // a null character also stops the parse
                 if (t != 0 && t != delim)
                 {
-                    Forth.Ram.SetByte(ptr, t);
-                    ptr += 1;
                     count += 1;
                 }
                 else
@@ -48,6 +48,7 @@ namespace Forth.CoreExt
                     break;
                 }
             }
+            // return found string length
             Stack.Push(count);
         }
     }
