@@ -24,7 +24,7 @@ namespace Forth.CoreExt
             var caddr = Stack.Pop(); // start
             var word = Forth.Util.StrFromAddrN(caddr, len);
             var token_addr_immediate = Forth.FindInDict(word);
-            if (token_addr_immediate.Addr != 0)
+            if (token_addr_immediate.Addr == 0)
             {
                 Forth.Util.PrintUnknownWord(word);
             }

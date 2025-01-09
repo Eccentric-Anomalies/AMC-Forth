@@ -1056,9 +1056,49 @@ T{ parse-name-test abcde abcde
 T{ parse-name-test abcde abcde  
     -> 0 }T    \ line with white space 
 
-.(  --> OK IF BLANK \/) CR
-.(  --> OK IF BLANK \/) CR
-.(  --> OK IF BLANK \/) CR
+.( PICK IS NOT TESTED) CR
+.( SOURCE-ID IS NOT TESTED) CR
+
+.( TRUE --> OK IF BLANK \/) CR
+T{ TRUE -> <TRUE> }T
+T{ TRUE -> 0 INVERT }T
+
+.( TUCK IS NOT TESTED) CR
+.( TWO R FETCH IS NOT TESTED) CR
+.( TWO R FROM IS NOT TESTED) CR
+.( TWO TO R IS NOT TESTED) CR
+
+.( U LESS THAN --> OK IF BLANK \/) CR
+T{        0        1 U< -> <TRUE>  }T
+T{        1        2 U< -> <TRUE>  }T
+T{        0 MID-UINT U< -> <TRUE>  }T
+T{        0 MAX-UINT U< -> <TRUE>  }T
+T{ MID-UINT MAX-UINT U< -> <TRUE>  }T
+T{        0        0 U< -> <FALSE> }T
+T{        1        1 U< -> <FALSE> }T
+T{        1        0 U< -> <FALSE> }T
+T{        2        1 U< -> <FALSE> }T
+T{ MID-UINT        0 U< -> <FALSE> }T
+T{ MAX-UINT        0 U< -> <FALSE> }T
+T{ MAX-UINT MID-UINT U< -> <FALSE> }T
+
+.( UNUSED IS NOT TESTED) CR
+
+.( VALUE and TO --> OK IF BLANK \/) CR
+T{  111 VALUE v1 -> }T
+T{ -999 VALUE v2 -> }T
+T{ v1 ->  111 }T
+T{ v2 -> -999 }T
+T{ 222 TO v1 -> }T
+T{ v1 -> 222 }T
+T{ : vd1 v1 ; -> }T
+T{ vd1 -> 222 }T
+T{ : vd2 TO v2 ; -> }T
+T{ v2 -> -999 }T
+T{ -333 vd2 -> }T
+T{ v2 -> -333 }T
+T{ v1 ->  222 }T 
+
 .(  --> OK IF BLANK \/) CR
 .(  --> OK IF BLANK \/) CR
 .(  --> OK IF BLANK \/) CR
