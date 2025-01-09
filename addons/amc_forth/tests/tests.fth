@@ -81,7 +81,9 @@ T{  0 BITSSET? -> 0 }T           ( Zero is all bits clear )
 T{  1 BITSSET? -> 0 0 }T         ( Other numbers have at least one bit )
 T{ -1 BITSSET? -> 0 0 }T 
 
+CR 
 .( *** CORE WORDS ***) CR
+CR 
 
 .( PLUS --> OK IF BLANK \/) CR
 T{        0  5 + ->          5 }T
@@ -994,8 +996,9 @@ T{ 0S 1S XOR -> 1S }T
 T{ 1S 0S XOR -> 1S }T
 T{ 1S 1S XOR -> 0S }T
 
+CR 
 .( *** CORE EXT WORDS ***) CR
-
+CR 
 .( AGAIN IS NOT TESTED) CR
 .( BACK SLASH IS NOT TESTED) CR
 
@@ -1099,7 +1102,35 @@ T{ -333 vd2 -> }T
 T{ v2 -> -333 }T
 T{ v1 ->  222 }T 
 
-.(  --> OK IF BLANK \/) CR
+.( ZERO GREATER THAN IS NOT TESTED) CR
+.( ZERO NOT EQUAL IS NOT TESTED) CR
+
+CR 
+.( *** COMMON USE WORDS ***) CR
+CR 
+
+.( COMMA QUOTE IS NOT TESTED) CR
+.( M MINUS IS NOT TESTED) CR
+.( M SLASH IS NOT TESTED) CR
+.( NOT IS NOT TESTED) CR
+.( TWO MINUS IS NOT TESTED) CR
+.( TWO PLUS IS NOT TESTED) CR
+
+CR 
+.( *** DOUBLE WORDS ***) CR
+CR 
+
+1S MAX-INT 2CONSTANT MAX-2INT \ 01...1
+0 MIN-INT 2CONSTANT MIN-2INT \ 10...0
+MAX-2INT 2/ 2CONSTANT HI-2INT \ 001...1
+MIN-2INT 2/ 2CONSTANT LO-2INT \ 110...0 
+
+.( DABS --> OK IF BLANK \/) CR
+T{       1. DABS -> 1.       }T
+T{      -1. DABS -> 1.       }T
+T{ MAX-2INT DABS -> MAX-2INT }T
+T{ MIN-2INT 1. D+ DABS -> MAX-2INT }T 
+
 .(  --> OK IF BLANK \/) CR
 .(  --> OK IF BLANK \/) CR
 .(  --> OK IF BLANK \/) CR
