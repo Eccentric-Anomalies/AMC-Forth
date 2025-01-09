@@ -28,7 +28,7 @@ You can automatically perform the AMCForth test suite and update an output file 
 add_child(Test.new())
 ```
 
-Add the [test output file](./tests_out.txt) in your version control system to alert you when the test results have changed.
+Add the [test output file](.tests/tests_out.txt) in your version control system to alert you when the test results have changed.
 
 ## The AMCForth Class (C#)
 
