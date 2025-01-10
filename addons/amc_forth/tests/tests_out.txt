@@ -154,23 +154,23 @@ You should see lines duplicated:
      -8522862768232894101 
           -8522862768232894101
           -8522862768232894101 
- --> OK IF BLANK \/
- --> OK IF BLANK \/
- --> OK IF BLANK \/
- --> OK IF BLANK \/
- --> OK IF BLANK \/
- --> OK IF BLANK \/
- --> OK IF BLANK \/
- --> OK IF BLANK \/
- --> OK IF BLANK \/
- --> OK IF BLANK \/
- --> OK IF BLANK \/
- --> OK IF BLANK \/
- --> OK IF BLANK \/
- --> OK IF BLANK \/
- --> OK IF BLANK \/
- --> OK IF BLANK \/
- --> OK IF BLANK \/
+D EQUALS --> OK IF BLANK \/
+D LESS THAN --> OK IF BLANK \/
+D MAX --> OK IF BLANK \/
+D MIN --> OK IF BLANK \/
+D MINUS --> OK IF BLANK \/
+D NEGATE --> OK IF BLANK \/
+D PLUS --> OK IF BLANK \/
+D TO S --> OK IF BLANK \/
+D TWO SLASH --> OK IF BLANK \/
+D TWO STAR --> OK IF BLANK \/
+D ZERO EQUAL --> OK IF BLANK \/
+D ZERO LESS --> OK IF BLANK \/
+M PLUS --> OK IF BLANK \/
+M STAR / --> OK IF BLANK \/
+TWO CONSTANT --> OK IF BLANK \/
+TWO LITERAL --> OK IF BLANK \/
+TWO VARIABLE --> OK IF BLANK \/
  --> OK IF BLANK \/
  --> OK IF BLANK \/
 ok

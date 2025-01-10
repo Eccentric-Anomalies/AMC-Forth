@@ -1,4 +1,5 @@
 using System;
+using System.Numerics;
 using Godot;
 
 namespace Forth.Double
@@ -20,9 +21,16 @@ namespace Forth.Double
         {
             var n2 = Stack.Pop();
             var n1 = Stack.Pop();
-            var d1 = Stack.PopDint();
-            var t = (decimal)d1 * n1;
-            Stack.PushDint((long)Math.Ceiling(t / n2));
+            var d1 = (BigInteger)Stack.PopDint();
+            var result = d1 * n1 / n2;
+            if (result > 0)
+            {
+                Stack.PushDword((ulong)result);
+            }
+            else
+            {
+                Stack.PushDint((long)result);
+            }
         }
     }
 }
