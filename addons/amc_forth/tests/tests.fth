@@ -8,7 +8,7 @@
 \ Revision history and possibly newer versions can be found at
 \ http://www.forth200x/tests/ttester.fs
 
-
+MARKER CLEANUP    \ To restore original dictionary
 
 VARIABLE ACTUAL-DEPTH \ stack record
 CREATE ACTUAL-RESULTS 20 CELLS ALLOT
@@ -1033,7 +1033,6 @@ T{ cq2 COUNT NUMBER? ->  0   }T
 T{ FALSE -> 0 }T
 T{ FALSE -> <FALSE> }T 
 
-.( MARKER IS NOT TESTED) CR
 .( NOT EQUAL IS NOT TESTED) CR
 .( PARSE IS NOT TESTED) CR
 
@@ -1405,5 +1404,82 @@ T{ 2v2 2@ -> -2 -1 }T
 T{ 2VARIABLE 2v3 IMMEDIATE 5 6 2v3 2! -> }T
 T{ 2v3 2@ -> 5 6 }T 
 
-.(  --> OK IF BLANK \/) CR
-.(  --> OK IF BLANK \/) CR
+
+CR 
+.( *** DOUBLE EXT WORDS ***) CR
+CR 
+
+.( TWO ROT --> OK IF BLANK \/) CR
+T{       1.       2. 3. 2ROT ->       2. 3.       1. }T
+T{ MAX-2INT MIN-2INT 1. 2ROT -> MIN-2INT 1. MAX-2INT }T 
+
+CR 
+.( *** FACILITY WORDS ***) CR
+CR 
+
+.( AT XY IS NOT TESTED) CR
+.( PAGE IS NOT TESTED) CR
+
+CR 
+.( *** FILE WORDS ***) CR
+CR 
+
+.( FILE WORDS ARE NOT TESTED) CR
+
+CR 
+.( *** STRING WORDS ***) CR
+CR 
+
+T{ : s1 S" abcdefghijklmnopqrstuvwxyz" ; -> }T   \ Prerequisite
+T{ : s6 S" 12345" ; -> }T     \ From SEARCH test
+
+.( C MOVE IS NOT TESTED) CR
+.( C MOVE UP IS NOT TESTED) CR
+
+.( COMPARE --> OK IF BLANK \/) CR
+CREATE PAD 50 ALLOT   \ create our own PAD
+T{ s1        s1 COMPARE ->  0  }T
+T{ s1  PAD SWAP CMOVE   ->     }T    \ Copy s1 to PAD
+T{ s1  PAD OVER COMPARE ->  0  }T
+T{ s1     PAD 6 COMPARE ->  1  }T
+T{ PAD 10    s1 COMPARE -> -1  }T
+T{ s1     PAD 0 COMPARE ->  1  }T
+T{ PAD  0    s1 COMPARE -> -1  }T
+T{ s1        s6 COMPARE ->  1  }T
+T{ s6        s1 COMPARE -> -1  }T
+
+: "abdde" S" abdde" ;
+: "abbde" S" abbde" ;
+: "abcdf" S" abcdf" ;
+: "abcdee" S" abcdee" ;
+
+T{ s1 "abdde"  COMPARE -> -1 }T
+T{ s1 "abbde"  COMPARE ->  1 }T
+T{ s1 "abcdf"  COMPARE -> -1 }T
+T{ s1 "abcdee" COMPARE ->  1 }T
+
+: s11 S" 0abc" ;
+: s12 S" 0aBc" ;
+
+T{ s11 s12 COMPARE ->  1 }T
+T{ s12 s11 COMPARE -> -1 }T
+
+CR 
+.( *** TOOLS EXT WORDS ***) CR
+CR 
+
+.( AHEAD --> OK IF BLANK \/) CR
+T{ : pt1 AHEAD 1111 2222 THEN 3333 ; -> }T
+T{ pt1 -> 3333 }T 
+
+.( CS PICK IS NOT TESTED) CR
+.( CS ROLL IS NOT TESTED) CR
+
+CR 
+.( *** TOOLS WORDS ***) CR
+CR 
+
+.( WORDS MARKER --> OK IF OUTPUT VERIFIED \/ \/ \/) CR
+CLEANUP
+WORDS
+
