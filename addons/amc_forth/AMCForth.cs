@@ -851,7 +851,7 @@ public partial class AMCForth : Godot.RefCounted
         // create a config file
         _Config = new();
         // the top of the dictionary can't overlap the high-memory stuff
-        System.Diagnostics.Debug.Assert(Map.DictTop < Map.PeriodicStart);
+        System.Diagnostics.Debug.Assert(Map.TopOfAllocatedRam < Map.PeriodicStart);
         Ram = new();
         Ram.Allocate(Map.RamSize);
         Util = new();
