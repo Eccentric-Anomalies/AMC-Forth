@@ -71,6 +71,15 @@ forth.TerminalIn("WORDS" + Terminal.CR)
 ```
 You must follow any single command with the `CR` character.
 
+### Executing External Code
+
+Use the `TerminalIn` method to execute an external Forth source file using the [INCLUDE](docs/Include.md) command:
+
+```gdsript
+forth.TerminalIn("system.fth" + Terminal.CR)
+```
+Note that the `INCLUDE` word will look for your file in `res://` first, then `user://`. To check for existence of a source file, use [FILE-STATUS](docs/FileStatus.md) first.
+
 ## AMCForth Input and Output
 
 The AMC Forth engine mimics an abstract microcomputer, with memory-mapped I/O. By default, there are 128 32-bit input ports and 128 32-bit output ports. To use this, define your own input and output signals, e.g.:
@@ -150,7 +159,7 @@ In your Forth code, you can send data to an output port using the custom AMC For
 
 With this, every time you `OUT` a value to port 99 from inside AMCForth, it will print to the Godot console.
 
-### Timers
+## Timers
 
 AMCForth also includes custom words for creating and stopping periodic timers. For example, [P-TIMER](docs/PTimer.md) creates a periodic timer and associates it with a built-in or custom word:
 
@@ -165,7 +174,7 @@ To cancel a timer, use the custom word: [P-STOP](docs/PStop.md)
 5 P-STOP  ( stops the timer with ID=5)
 ```
 
-### Saving and Restoring Runtime State
+## Saving and Restoring Runtime State
 
 AMCForth `LoadSnapshot` and `SaveSnapshot` methods read and write an image of the system RAM to `user://ForthState.cfg`. Within Forth itself, the custom built-in words
 [LOAD-SNAP](docs/LoadSnap.md) and [SAVE-SNAP](docs/SaveSnap.md) do the same thing.
