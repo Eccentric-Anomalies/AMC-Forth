@@ -12,7 +12,8 @@ namespace Forth.File
             Description =
                 "Read and interpret the given file. Save the current input "
                 + "source specification, store the fileid in SOURCE-ID and "
-                + "make this file the input source. Read and interpret lines until EOF.";
+                + "make this file the input source. Read and interpret lines until EOF ."
+                + "Check user:// first, then res://.";
             StackEffect = "( fileid - )";
         }
 

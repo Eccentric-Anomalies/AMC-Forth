@@ -9,7 +9,9 @@ namespace Forth.FileExt
             : base(forth, wordset)
         {
             Name = "INCLUDE";
-            Description = "Parse the following word and use as file name with INCLUDED.";
+            Description =
+                "Parse the following word and use as file name with INCLUDED. "
+                + "Check user:// first, then res://.";
             StackEffect = "( i*x 'filename' - j*x )";
         }
 

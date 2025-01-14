@@ -12,7 +12,7 @@ namespace Forth.File
             Description =
                 "Same as INCLUDE-FILE, except file is specified by its name, as a "
                 + "caddr and length u. The file is opened and its fileid is stored in "
-                + "SOURCE-ID.";
+                + "SOURCE-ID. Check user:// first, then res://.";
             StackEffect = "( i*x c-addr u - j*x )";
         }
 
