@@ -78,7 +78,7 @@ Use the `TerminalIn` method to execute an external Forth source file using the [
 ```gdsript
 forth.TerminalIn("system.fth" + Terminal.CR)
 ```
-Note that the `INCLUDE` word will look for your file in `res://` first, then `user://`. To check for existence of a source file, use [FILE-STATUS](docs/FileStatus.md) first.
+Note that the `INCLUDE` word will look for your file in `user://` first, then `res://`. To check for existence of a source file, use [FILE-STATUS](docs/FileStatus.md) first.
 
 ## AMCForth Input and Output
 
