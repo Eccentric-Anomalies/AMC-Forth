@@ -24,6 +24,7 @@ namespace Forth.Core
         public Begin Begin;
         public BL BL;
         public BracketCare BracketCare;
+        public BracketNumber BracketNumber;
         public BracketTick BracketTick;
         public Care Care;
         public CellPlus CellPlus;
@@ -56,6 +57,7 @@ namespace Forth.Core
         public Exit Exit;
         public Fill Fill;
         public Here Here;
+        public Hold Hold;
         public I I;
         public If If;
         public Immediate Immediate;
@@ -75,6 +77,9 @@ namespace Forth.Core
         public Move Move;
         public MStar MStar;
         public Negate Negate;
+        public NumberBracket NumberBracket;
+        public NumberSign NumberSign;
+        public NumberSignS NumberSignS;
         public OnePlus OnePlus;
         public OneMinus OneMinus;
         public Or Or;
@@ -91,6 +96,7 @@ namespace Forth.Core
         public Rot Rot;
         public RShift RShift;
         public SemiColon SemiColon;
+        public Sign Sign;
         public Slash Slash;
         public SlashMod SlashMod;
         public SmSlashRem SmSlashRem;
@@ -144,6 +150,7 @@ namespace Forth.Core
             Begin = new(_forth, Wordset);
             BL = new(_forth, Wordset);
             BracketCare = new(_forth, Wordset);
+            BracketNumber = new(_forth, Wordset);
             BracketTick = new(_forth, Wordset);
             Care = new(_forth, Wordset);
             CComma = new(_forth, Wordset);
@@ -176,6 +183,7 @@ namespace Forth.Core
             GreaterThan = new(_forth, Wordset);
             LeftParenthesis = new(_forth, Wordset);
             Fetch = new(_forth, Wordset);
+            Hold = new(_forth, Wordset);
             Here = new(_forth, Wordset);
             I = new(_forth, Wordset);
             If = new(_forth, Wordset);
@@ -195,6 +203,9 @@ namespace Forth.Core
             Move = new(_forth, Wordset);
             MStar = new(_forth, Wordset);
             Negate = new(_forth, Wordset);
+            NumberBracket = new(_forth, Wordset);
+            NumberSign = new(_forth, Wordset);
+            NumberSignS = new(_forth, Wordset);
             OnePlus = new(_forth, Wordset);
             OneMinus = new(_forth, Wordset);
             Or = new(_forth, Wordset);
@@ -212,6 +223,7 @@ namespace Forth.Core
             RShift = new(_forth, Wordset);
             SQuote = new(_forth, Wordset);
             SemiColon = new(_forth, Wordset);
+            Sign = new(_forth, Wordset);
             Slash = new(_forth, Wordset);
             SlashMod = new(_forth, Wordset);
             SmSlashRem = new(_forth, Wordset);

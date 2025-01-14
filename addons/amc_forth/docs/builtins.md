@@ -100,6 +100,12 @@
 
 ### <a name="SlashMod"></a>[/MOD](SlashMod.md)
 
+### <a name="NumberSign"></a>[#](NumberSign.md)
+
+### <a name="NumberBracket"></a>[#&gt;](NumberBracket.md)
+
+### <a name="NumberSignS"></a>[#S](NumberSignS.md)
+
 ### <a name="Plus"></a>[\+](Plus.md)
 
 ### <a name="PlusStore"></a>[+!](PlusStore.md)
@@ -107,6 +113,8 @@
 ### <a name="PlusLoop"></a>[+LOOP](PlusLoop.md)
 
 ### <a name="LessThan"></a>[&lt;](LessThan.md)
+
+### <a name="BracketNumber"></a>[&lt;#](BracketNumber.md)
 
 ### <a name="Equal"></a>[=](Equal.md)
 
@@ -206,6 +214,8 @@
 
 ### <a name="Here"></a>[HERE](Here.md)
 
+### <a name="Hold"></a>[HOLD](Hold.md)
+
 ### <a name="I"></a>[I](I.md)
 
 ### <a name="If"></a>[IF](If.md)
@@ -255,6 +265,8 @@
 ### <a name="SQuote"></a>[S&quot;](SQuote.md)
 
 ### <a name="SToD"></a>[S&gt;D](SToD.md)
+
+### <a name="Sign"></a>[SIGN](Sign.md)
 
 ### <a name="SmSlashRem"></a>[SM/REM](SmSlashRem.md)
 

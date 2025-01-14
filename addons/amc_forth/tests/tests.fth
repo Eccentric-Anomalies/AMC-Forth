@@ -81,9 +81,53 @@ T{  0 BITSSET? -> 0 }T           ( Zero is all bits clear )
 T{  1 BITSSET? -> 0 0 }T         ( Other numbers have at least one bit )
 T{ -1 BITSSET? -> 0 0 }T 
 
+DECIMAL
+16 CONSTANT MAX-BASE
+: COUNT-BITS
+   0 0 INVERT BEGIN DUP WHILE >R 1+ R> 2* REPEAT DROP ;
+COUNT-BITS 2* CONSTANT #BITS-UD    \ NUMBER OF BITS IN UD 
+
+
 CR 
 .( *** CORE WORDS ***) CR
 CR 
+
+.( NUMBER SIGN and NUMBER BRACKET and BRACKET NUMBER --> OK IF BLANK \/) CR
+: GP3 <# 1 0 # # #> S" 01" COMPARE ;
+T{ GP3 -> 0 }T
+
+.( NUMBER SIGN S --> OK IF BLANK \/) CR
+: GP4 <# 1 0 #S #> S" 1" COMPARE ;
+T{ GP4 -> 0 }T
+: GP5
+   BASE @ 0
+   MAX-BASE 1+ 2 DO     \ FOR EACH POSSIBLE BASE
+     I BASE !             \ TBD: ASSUMES BASE WORKS
+       I 0 <# #S #> S" 10" COMPARE OR
+   LOOP
+   SWAP BASE ! ;
+T{ GP5 -> 0 }T 
+: GP6
+   BASE @ >R 2 BASE !
+   MAX-UINT MAX-UINT <# #S #>   \ MAXIMUM UD TO BINARY
+   R> BASE !                       \ S: C-ADDR U
+   DUP #BITS-UD = SWAP
+   0 DO                             \ S: C-ADDR FLAG
+     OVER C@ [CHAR] 1 = AND    \ ALL ONES
+     >R CHAR+ R>
+   LOOP SWAP DROP ;
+T{ GP6 -> <TRUE> }T 
+
+
+.( HOLD --> OK IF BLANK \/) CR
+HEX
+: GP1 <# 41 HOLD 42 HOLD 0 0 #> S" BA" COMPARE ;
+T{ GP1 -> 0 }T
+
+DECIMAL
+.( SIGN --> OK IF BLANK \/) CR
+: GP2 <# -1 SIGN 0 SIGN -1 SIGN 0 0 #> S" --" COMPARE ;
+T{ GP2 -> 0 }T
 
 .( PLUS --> OK IF BLANK \/) CR
 T{        0  5 + ->          5 }T

@@ -117,6 +117,9 @@ public partial class AMCForth : Godot.RefCounted
     // 0 default, -1 ram buffer, else file id
     public Stack<int> SourceIdStack = new();
 
+    // pointer for constructing formatted numbers
+    public int NumFormatBuffPointer = 0;
+
     // Forth : exit flag (true if exit has been called)
     public bool ExitFlag = false;
 
@@ -769,13 +772,21 @@ public partial class AMCForth : Godot.RefCounted
     // check for ORIG at top of stack
     public bool CfIsOrig()
     {
-        return _ControlFlowStack.Peek().AddrType == CFType.Orig;
+        if (_ControlFlowStack.Count > 0)
+        {
+            return _ControlFlowStack.Peek().AddrType == CFType.Orig;
+        }
+        return false;
     }
 
     // check for DEST at top of stack
     public bool CfIsDest()
     {
-        return _ControlFlowStack.Peek().AddrType == CFType.Dest;
+        if (_ControlFlowStack.Count > 0)
+        {
+            return _ControlFlowStack.Peek().AddrType == CFType.Dest;
+        }
+        return false;
     }
 
     // pop an ORIG word
