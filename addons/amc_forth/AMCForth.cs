@@ -248,25 +248,34 @@ public partial class AMCForth : Godot.RefCounted
     public void SaveSnapshot()
     {
         _Config.Clear();
-        Files.CloseAllFiles();
-        Ram.SaveState(_Config);
+        SaveState(_Config);
         _Config.Save(ConfigFileName);
     }
 
     // restore Forth memory and state
     public void LoadSnapshot()
     {
+        _Config.Load(ConfigFileName);
+        LoadState(_Config);
+    }
+
+    public void SaveState(ConfigFile Config, string Section = "ram", string Key = "image")
+    {
+        Files.CloseAllFiles();
+        Ram.SaveState(_Config, Section, Key);
+    }
+
+    // restore Forth memory and state
+    public void LoadState(ConfigFile Config, string Section = "ram", string Key = "image")
+    {
         // stop all periodic timers
         RemoveAllTimers();
-
         // if a timer comes in, it should see nothing to do
         _Config.Load(ConfigFileName);
-        Ram.LoadState(_Config);
-
+        Ram.LoadState(_Config, Section, Key);
         // restore shadowed registers
         RestoreDictP();
         RestoreDictTop();
-
         // start all configured periodic timers
         RestoreAllTimers();
     }

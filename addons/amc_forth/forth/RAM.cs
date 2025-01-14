@@ -33,15 +33,15 @@ namespace Forth
         protected byte[] _Ram;
 
         // save ram state
-        public void SaveState(Godot.ConfigFile config)
+        public void SaveState(ConfigFile config, string Section, string Key)
         {
-            config.SetValue("ram", "image", _Ram);
+            config.SetValue(Section, Key, _Ram);
         }
 
         // restore ram state
-        public void LoadState(Godot.ConfigFile config)
+        public void LoadState(ConfigFile config, string Section, string Key)
         {
-            _Ram = config.GetValue("ram", "image").AsByteArray();
+            _Ram = config.GetValue(Section, Key).AsByteArray();
         }
 
         // allocate memory for RAM and a DCELL_SIZE scratchpad

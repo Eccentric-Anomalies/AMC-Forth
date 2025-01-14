@@ -58,7 +58,7 @@ Output from AMC Forth is handled through a signal named `TerminalOut`. Your code
 forth.TerminalOut.connect(_on_forth_output)
 ```
 
-to connect the output withal to your own code, where `_on_forth_output` looks like:
+connect the output signal to your own code, where `_on_forth_output` looks like:
 
 ```gdscript
 func _on_forth_output(_text: String) -> void:
@@ -163,6 +163,45 @@ To cancel a timer, use the custom word: [P-STOP](docs/PStop.md)
 
 ```forth
 5 P-STOP  ( stops the timer with ID=5)
+```
+
+### Saving and Restoring Runtime State
+
+AMCForth `LoadSnapshot` and `SaveSnapshot` methods read and write an image of the system RAM to `user://ForthState.cfg`. Within Forth itself, the custom built-in words
+[LOAD-SNAP](docs/LoadSnap.md) and [SAVE-SNAP](docs/SaveSnap.md) do the same thing.
+
+If you are using AMCForth within your own application, you may want to use the application ConfigFile object by using:
+
+```c#
+LoadState(ConfigFile Config, string Section = "ram", string Key = "image")
+```
+
+and
+
+
+```c#
+SaveState(ConfigFile Config, string Section = "ram", string Key = "image")
+```
+
+You can use the default Section and Key identifiers or define your own. So, for example:
+
+```gdscript
+var _forth: AMCForth
+var _config = ConfigFile.new()
+var _path = "user://appdata.cfg"
+
+func _ready() -> void:
+	_forth = AMCForth.new()
+	_forth.Initialize(self)
+
+func load() -> void:
+	var err = _config.load(_path)
+	_forth.LoadState(_config, "computer", "memory")
+
+func save() -> void:
+	_forth.SaveState(_config, "computer", "memory")
+	_config.save(_path)
+
 ```
 
 ## Forth Terminals
