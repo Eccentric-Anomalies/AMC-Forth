@@ -20,8 +20,6 @@ var _us_key_map: Dictionary
 
 var _screen_ram: PackedInt32Array
 
-var _col: int
-var _row: int
 var _cursor: Vector2i = Vector2i(1, 1)
 var _save_cursor: Vector2i = Vector2i(1, 1)
 var _mode: int = 0
@@ -44,7 +42,7 @@ var _blank
 func _init_handlers() -> void:
 	_sp_chars = {
 		BSP: _do_bsp,
-		CR: _do_cr,
+		CR_CHAR: _do_cr,
 		LF: _do_lf,
 		DEL_LEFT: _do_del_left,
 		DEL: _do_del,
@@ -64,6 +62,7 @@ func _init_handlers() -> void:
 		BLINK: _do_blink,
 		REVERSE: _do_reverse,
 		INVISIBLE: _do_invisible,
+		ATXY_START: _do_atxy_start,
 	}
 
 
@@ -206,7 +205,7 @@ func _init(_forth: AMCForth, screen_material: ShaderMaterial) -> void:
 	super(_forth)
 	_init_keymaps()
 	_init_handlers()
-	_blank = BL.to_ascii_buffer()[0]
+	_blank = BL_CHAR.to_ascii_buffer()[0]
 	# shader setup
 	_screen_ram = PackedInt32Array()
 	_screen_ram.resize(SCREEN_WIDTH * SCREEN_HEIGHT)
@@ -267,9 +266,7 @@ func _on_forth_output(_text: String) -> void:
 		for sch in _sp_chars_keys:  # look for longest special chars first!
 			if text.find(sch) == 0:
 				# do the thing
-				_sp_chars[sch].call()
-				# remove the special character(s)
-				text = text.substr(sch.length())
+				text = _sp_chars[sch].call(text)
 				sp_found = true
 				break
 		# if no special character, display one character
@@ -321,115 +318,180 @@ func _go_home() -> void:
 	_set_screen_cursor()
 
 
-func _do_bsp() -> void:  # is this different from left cursor?
+func _move_left() -> void:
 	if _cursor.x > 1:
 		_cursor.x -= 1
 		_set_screen_cursor()
 
 
-func _do_cr() -> void:
+# ESCAPE CODE HANDLERS
+
+
+func _do_atxy_start(_text: String) -> String:
+	var h_pos := _text.find("H")
+	if h_pos != -1:
+		var ret := _text.substr(h_pos + 1)  # get everything past H
+		var text := _text.substr(ATXY_START.length())
+		var semi_pos := text.find(";")
+		var col := text.substr(0, semi_pos).to_int()
+		var row := text.substr(semi_pos + 1).to_int()
+		_cursor.x = col
+		_cursor.y = row
+		_set_screen_cursor()
+		return ret
+	# not actually ATXY, return whatever's left
+	return _text.substr(ATXY_START.length())
+
+
+func _do_bsp(text: String) -> String:  # is this different from left cursor?
+	if _cursor.x > 1:
+		_cursor.x -= 1
+		_set_screen_cursor()
+	# remove the special character(s)
+	return text.substr(BSP.length())
+
+
+func _do_cr(text: String) -> String:
 	_cursor.x = 1
 	_set_screen_cursor()
+	# remove the special character(s)
+	return text.substr(CR_CHAR.length())
 
 
-func _do_lf() -> void:
+func _do_lf(text: String) -> String:
 	if _cursor.y < SCREEN_HEIGHT:
 		_cursor.y += 1
 		_set_screen_cursor()
 	else:
 		_line_feed()
+	# remove the special character(s)
+	return text.substr(LF.length())
 
 
-func _do_esc() -> void:
+func _do_esc(text: String) -> String:
 	_char_at_cursor(1)  # display a diamond
 	_advance_cursor()
+	# remove the special character(s)
+	return text.substr(ESC.length())
 
 
-func _do_del_left() -> void:
-	_do_left()
+func _do_del_left(text: String) -> String:
+	_move_left()
 	_char_at_cursor(0)
+	# remove the special character(s)
+	return text.substr(DEL_LEFT.length())
 
 
-func _do_del() -> void:
+func _do_del(text: String) -> String:
 	_char_at_cursor(0)
+	# remove the special character(s)
+	return text.substr(DEL.length())
 
 
-func _do_up() -> void:
+func _do_up(text: String) -> String:
 	if _cursor.y > 1:
 		_cursor.y -= 1
 		_set_screen_cursor()
+	# remove the special character(s)
+	return text.substr(UP.length())
 
 
-func _do_down() -> void:
+func _do_down(text: String) -> String:
 	if _cursor.y < SCREEN_HEIGHT:
 		_cursor.y += 1
 		_set_screen_cursor()
+	# remove the special character(s)
+	return text.substr(DOWN.length())
 
 
-func _do_right() -> void:
+func _do_right(text: String) -> String:
 	if _cursor.x < SCREEN_WIDTH:
 		_cursor.x += 1
 		_set_screen_cursor()
+	# remove the special character(s)
+	return text.substr(RIGHT.length())
 
 
-func _do_left() -> void:
-	if _cursor.x > 1:
-		_cursor.x -= 1
-		_set_screen_cursor()
+func _do_left(text: String) -> String:
+	_move_left()
+	# remove the special character(s)
+	return text.substr(LEFT.length())
 
 
-func _do_clrline() -> void:
+func _do_clrline(text: String) -> String:
 	var x = (_cursor.y - 1) * SCREEN_WIDTH
 	for i in SCREEN_WIDTH:
 		_screen_ram[x + i] = _blank
 	_set_screen_contents()
+	# remove the special character(s)
+	return text.substr(CLRLINE.length())
 
 
-func _do_clrscr() -> void:
+func _do_clrscr(text: String) -> String:
 	_screen_ram.fill(_blank)
 	_go_home()
 	_set_screen_contents()
+	# remove the special character(s)
+	return text.substr(CLRSCR.length())
 
 
-func _do_pushxy() -> void:
+func _do_pushxy(text: String) -> String:
 	_save_cursor = _cursor
 	_save_mode = _mode
+	# remove the special character(s)
+	return text.substr(PUSHXY.length())
 
 
-func _do_popxy() -> void:
+func _do_popxy(text: String) -> String:
 	_cursor = _save_cursor
 	_mode = _save_mode
 	_set_screen_cursor()
+	# remove the special character(s)
+	return text.substr(POPXY.length())
 
 
 # Display modes
 
 
-func _do_modesoff() -> void:
+func _do_modesoff(text: String) -> String:
 	_mode = 0
+	# remove the special character(s)
+	return text.substr(MODESOFF.length())
 
 
-func _do_bold() -> void:
+func _do_bold(text: String) -> String:
 	_mode |= BOLD_MASK
 	_mode &= ~LOWINTENSITY
+	# remove the special character(s)
+	return text.substr(BOLD.length())
 
 
-func _do_lowint() -> void:
+func _do_lowint(text: String) -> String:
 	_mode |= LOWINTENSITY
 	_mode &= ~BOLD_MASK
+	# remove the special character(s)
+	return text.substr(LOWINT.length())
 
 
-func _do_underline() -> void:
+func _do_underline(text: String) -> String:
 	_mode |= UNDERLINE_MASK
+	# remove the special character(s)
+	return text.substr(UNDERLINE.length())
 
 
-func _do_blink() -> void:
+func _do_blink(text: String) -> String:
 	_mode |= BLINK_MASK
+	# remove the special character(s)
+	return text.substr(BLINK.length())
 
 
-func _do_reverse() -> void:
+func _do_reverse(text: String) -> String:
 	_mode |= REVERSE_MASK
+	# remove the special character(s)
+	return text.substr(REVERSE.length())
 
 
-func _do_invisible() -> void:
+func _do_invisible(text: String) -> String:
 	_mode |= INVISIBLE_MASK
+	# remove the special character(s)
+	return text.substr(INVISIBLE.length())

@@ -8,12 +8,12 @@ const SCREEN_WIDTH := 80
 const SCREEN_HEIGHT := 24
 
 const BSP = "\u0008"
-const CR = "\u000D"
+const CR_CHAR = "\u000D"
 const LF = "\u000A"
 const CRLF = "\r\n"
 const ESC = "\u001B"
 const DEL_LEFT = "\u007F"
-const BL = " "
+const BL_CHAR = " "
 const DEL = "\u001B[3~"
 const UP = "\u001B[A"
 const DOWN = "\u001B[B"
@@ -30,6 +30,7 @@ const UNDERLINE = "\u001B[4m"
 const BLINK = "\u001B[5m"
 const REVERSE = "\u001B[7m"
 const INVISIBLE = "\u001B[8m"
+const ATXY_START = "\u001B["
 
 var forth: AMCForth
 var blank_line: PackedInt32Array
