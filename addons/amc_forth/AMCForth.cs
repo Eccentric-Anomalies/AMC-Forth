@@ -225,6 +225,7 @@ public partial class AMCForth : Godot.RefCounted
     protected System.Threading.Thread _Thread;
     protected Godot.Semaphore _InputReady;
     protected bool _OutputDone;
+    protected bool Quit = false;
 
     // Client connect count
     protected int _ClientConnections = 0;
@@ -630,12 +631,10 @@ public partial class AMCForth : Godot.RefCounted
     // Utility function to service periodic timer expirations
     protected void HandleTimeout(int id)
     {
-        if (!TimerEvents.Contains(id)) // don't allow timer events to stack..
-        {
-            TimerEvents.Enqueue(id);
-            // bump the semaphore count
-            _InputReady.Post();
-        }
+        // Timer events are enqueued, even if there are previous unhandled
+        // events on the stack.
+        TimerEvents.Enqueue(id);
+        _InputReady.Post(); // Notify the event thread
     }
 
     // Stop a timer without erasing the map entry
@@ -926,6 +925,7 @@ public partial class AMCForth : Godot.RefCounted
     public void Cleanup()
     {
         // wake up the input thread with nothing to do
+        Quit = true;
         _InputReady.Post();
     }
 
@@ -937,8 +937,7 @@ public partial class AMCForth : Godot.RefCounted
 
     protected void InputThread()
     {
-        bool quit = false;
-        while (!quit)
+        while (!Quit)
         {
             _InputReady.Wait();
 
@@ -983,16 +982,12 @@ public partial class AMCForth : Godot.RefCounted
                     CallDeferred("RemoveTimer", id);
                 }
             }
-            else if (_TerminalPad.Length != 0)
+            else
             {
                 // no input events, text available on input
                 _OutputDone = false;
                 InterpretTerminalLine();
                 _OutputDone = true;
-            }
-            else // we have been signaled with nothing to do. quit.
-            {
-                quit = true;
             }
         }
     }
