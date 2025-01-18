@@ -160,20 +160,24 @@ public partial class AMCForth : Godot.RefCounted
     public List<PortEvent> InputPortEvents = new();
     private Mutex InputPortMutex;
 
-    public readonly struct TimerStruct
+    public struct TimerStruct
     {
         public TimerStruct(int msec, int xt, Timer timer)
         {
-            MSec = msec;
+            MSec = (uint)msec;
             Xt = xt;
             Timer = timer;
+            Start = Time.GetTicksMsec();
+            Correction = 0;
         }
 
-        public int MSec { get; }
+        public uint MSec { get; }
         public int Xt { get; }
         public Timer Timer { get; }
+        public ulong Start { get; set; } // system msec when timer is first started
+        public int Correction { get; set; } // msec correction currently applied
 
-        public override string ToString() => $"({MSec}, {Xt}, {Timer})";
+        public override string ToString() => $"({MSec}, {Xt}, {Timer}, {Start}, {Correction})";
     }
 
     // Periodic timer list
@@ -633,6 +637,36 @@ public partial class AMCForth : Godot.RefCounted
     {
         // Timer events are enqueued, even if there are previous unhandled
         // events on the stack.
+        // Check accuracy of timeout and tweak timeout as needed
+        var PeriodicTimer = PeriodicTimerMap[id];
+        // Only adjust timeout for periods greater than 10 msec
+        // See: https://docs.godotengine.org/en/stable/classes/class_timer.html#class-timer-property-wait-time
+        if (PeriodicTimer.MSec >= 10)
+        {
+            var TimerError = (Time.GetTicksMsec() - PeriodicTimer.Start) % PeriodicTimer.MSec;
+            if (TimerError != 0)
+            {
+                if (TimerError <= PeriodicTimer.MSec / 2) // clock was slow
+                {
+                    PeriodicTimer.Correction -= 1; // use a shorter timeout next time
+                }
+                else
+                {
+                    PeriodicTimer.Correction += 1; // use a longer timeout next time
+                }
+            }
+            var CorrectedTimeout = PeriodicTimer.MSec;
+            // only correct timer if the resulting timeout is > 0 and
+            // correcting will result in a positive timeout value
+            if (
+                PeriodicTimer.Correction != 0
+                && (long)PeriodicTimer.MSec + PeriodicTimer.Correction > 0
+            )
+            {
+                CorrectedTimeout = (uint)((int)PeriodicTimer.MSec + PeriodicTimer.Correction);
+            }
+            PeriodicTimer.Timer.WaitTime = CorrectedTimeout / 1000.0;
+        }
         TimerEvents.Enqueue(id);
         _InputReady.Post(); // Notify the event thread
     }
