@@ -641,7 +641,7 @@ public partial class AMCForth : Godot.RefCounted
         var PeriodicTimer = PeriodicTimerMap[id];
         // Only adjust timeout for periods greater than 10 msec
         // See: https://docs.godotengine.org/en/stable/classes/class_timer.html#class-timer-property-wait-time
-        if (PeriodicTimer.MSec >= 10)
+        if (PeriodicTimer.MSec >= 50)
         {
             var TimerError = (Time.GetTicksMsec() - PeriodicTimer.Start) % PeriodicTimer.MSec;
             if (TimerError != 0)
