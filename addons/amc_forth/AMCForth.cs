@@ -158,7 +158,8 @@ public partial class AMCForth : Godot.RefCounted
 
     // Input event list of incoming PortEvent data
     public List<PortEvent> InputPortEvents = new();
-    private Mutex InputPortMutex;
+    private Mutex InputPortMutex; // Protect access to input port structures in RAM
+    private Mutex RamMutex; // Protect external access to RAM image
 
     public struct TimerStruct
     {
@@ -266,13 +267,16 @@ public partial class AMCForth : Godot.RefCounted
 
     public void SaveState(ConfigFile Config, string Section = "ram", string Key = "image")
     {
+        RamMutex.Lock(); // no collision with Forth thread
         Files.CloseAllFiles();
         Ram.SaveState(_Config, Section, Key);
+        RamMutex.Unlock();
     }
 
     // restore Forth memory and state
     public void LoadState(ConfigFile Config, string Section = "ram", string Key = "image")
     {
+        RamMutex.Lock(); // no collision with Forth thread
         // stop all periodic timers
         RemoveAllTimers();
         // if a timer comes in, it should see nothing to do
@@ -283,6 +287,7 @@ public partial class AMCForth : Godot.RefCounted
         RestoreDictTop();
         // start all configured periodic timers
         RestoreAllTimers();
+        RamMutex.Unlock();
     }
 
     // handle editing input strings in interactive mode
@@ -639,7 +644,7 @@ public partial class AMCForth : Godot.RefCounted
         // events on the stack.
         // Check accuracy of timeout and tweak timeout as needed
         var PeriodicTimer = PeriodicTimerMap[id];
-        // Only adjust timeout for periods greater than 10 msec
+        // Only adjust timeout for periods greater than 50 msec
         // See: https://docs.godotengine.org/en/stable/classes/class_timer.html#class-timer-property-wait-time
         if (PeriodicTimer.MSec >= 50)
         {
@@ -897,6 +902,7 @@ public partial class AMCForth : Godot.RefCounted
         _Node = node;
 
         InputPortMutex = new();
+        RamMutex = new();
 
         // seed the randomizer
         GD.Randomize();
@@ -974,6 +980,8 @@ public partial class AMCForth : Godot.RefCounted
         while (!Quit)
         {
             _InputReady.Wait();
+            // Obtain RAM Mutex for Forth thread
+            RamMutex.Lock();
 
             // preferentially handle input port signals
             InputPortMutex.Lock();
@@ -1023,6 +1031,8 @@ public partial class AMCForth : Godot.RefCounted
                 InterpretTerminalLine();
                 _OutputDone = true;
             }
+            // Release RAM Mutex
+            RamMutex.Unlock();
         }
     }
 
