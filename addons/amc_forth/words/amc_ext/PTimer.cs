@@ -13,7 +13,10 @@ namespace Forth.AMCExt
             Description =
                 "Start a periodic timer with id i, and interval n (msec) that "
                 + "calls execution token given by <name>. Does nothing if the id "
-                + "is in use. Usage: <id> <msec> P-TIMER <name>";
+                + "is in use. Usage: <id> <msec> P-TIMER <name>. Note: Timeouts "
+                + "less than 10 msec will suffer from long-term timing drift. Each timeout "
+                + "10 msec or greater may be slightly inaccurate, but will average to "
+                + "the correct period with no long-term drift.";
             StackEffect = "( 'name' i n - )";
         }
 
