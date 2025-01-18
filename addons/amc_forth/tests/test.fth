@@ -1,36 +1,44 @@
-VARIABLE ACTUAL-DEPTH \ stack record
-CREATE ACTUAL-RESULTS 20 CELLS ALLOT
-VARIABLE START-DEPTH
-VARIABLE XCURSOR \ for ...}T
-VARIABLE ERROR-XT
+( === CLOCK.FTH === )
 
-: ERROR ERROR-XT @ EXECUTE ; \ for vectoring of error reporting
+( === PERIODIC TIMER HANDLERS === )
+( MSEC TICK COUNT )
+( TICK STORAGE )
+2VARIABLE MSEC-COUNT
+10 CONSTANT MSEC-INTERVAL
+( TICK HANDLER )
+: HANDLE-TICK-MSEC 
+    MSEC-COUNT 2@   ( fetch the dword msec count )
+    MSEC-INTERVAL   ( fetch the msec period )
+    M+              ( add them )
+    MSEC-COUNT 2!   ( update the dword count )
+    ;
 
-' TYPE ERROR-XT !
+( SECONDS COMPUTATION AND DISPLAY )
+( SECONDS STORAGE )
+VARIABLE SEC-COUNT
+: COMPUTE-SECONDS
+    MSEC-COUNT 2@   ( fetch the dword msec count )
+    1000 M/         ( divide by msec per sec )
+    SEC-COUNT !     ( store it )
+    ;
 
-: T{ \ ( -- ) record the pre-test depth.
-   DEPTH START-DEPTH ! 0 XCURSOR ! ;
+( SECONDS DISPLAY )
+: DISPLAY-SECONDS
+    PUSH-XY         ( save display cursor )
+    35 1 AT-XY      ( position near top center )
+    SEC-COUNT @     ( retrieve seconds count )
+    10 U.R          ( display in 10 character field )
+    POP-XY          ( restore display cursor )
+    ;
 
-: -> \ ( ... -- ) record depth and contents of stack.
-   DEPTH DUP ACTUAL-DEPTH ! \ record depth
-   START-DEPTH @ > IF       \ if there is something on the stack
-     DEPTH START-DEPTH @ - 0 DO \ save them
-       ACTUAL-RESULTS I CELLS + !
-     LOOP
-   THEN ;
+( ONE SECOND TICK HANDLER )
+: HANDLE-TICK-SEC
+    COMPUTE-SECONDS ( update the seconds count )
+    DISPLAY-SECONDS ( display the seconds count)
+    ;
 
-: }T \ ( ... -- ) compare stack (expected) contents with saved
-   \ (actual) contents.
-   DEPTH ACTUAL-DEPTH @ = IF           \ if depths match
-     DEPTH START-DEPTH @ > IF          \ if something on the stack
-       DEPTH START-DEPTH @ - 0 DO      \ for each stack item
-         ACTUAL-RESULTS I CELLS + @    \ compare actual with expected
-         <> IF S" INCORRECT RESULT: " ERROR LEAVE THEN
-       LOOP
-     THEN
-   ELSE                                    \ depth mismatch
-     S" WRONG NUMBER OF RESULTS: " ERROR
-   THEN ;
-
-DECIMAL
-T{ BL -> 32 }T
+( === PERIODIC TIMER STARTS === )
+( Create periodic tick at MSEC-INTERVAL rate)
+1 MSEC-INTERVAL P-TIMER HANDLE-TICK-MSEC
+( Create periodic 1 second tick )
+2 100 P-TIMER HANDLE-TICK-SEC
