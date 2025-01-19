@@ -233,7 +233,8 @@ func save_state(cfg: ConfigFile) -> void:
 
 # load terminal screen ram from config file
 func load_state(cfg: ConfigFile) -> void:
-	_screen_ram = cfg.get_value("Computer", "screen_image")
+	if cfg.has_section_key("Computer", "screen_image"):
+		_screen_ram = cfg.get_value("Computer", "screen_image")
 
 
 func set_power(state: bool) -> void:
