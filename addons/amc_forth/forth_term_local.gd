@@ -202,7 +202,7 @@ func _init_keymaps() -> void:
 ## Initialize (executed automatically by ForthTermLocal.new())
 ##
 func _init(_forth: AMCForth, screen_material: ShaderMaterial) -> void:
-	super(_forth)
+	super(_forth)  # will assign _forth to forth
 	_init_keymaps()
 	_init_handlers()
 	_blank = BL_CHAR.to_ascii_buffer()[0]
@@ -224,6 +224,16 @@ func _init(_forth: AMCForth, screen_material: ShaderMaterial) -> void:
 	# now safe to receive output
 	connect_forth_output()
 	forth.ClientConnected()
+
+
+# save/load terminal screen ram
+func save_state(cfg: ConfigFile) -> void:
+	cfg.set_value("Computer", "screen_image", _screen_ram)
+
+
+# load terminal screen ram from config file
+func load_state(cfg: ConfigFile) -> void:
+	_screen_ram = cfg.get_value("Computer", "screen_image")
 
 
 func set_power(state: bool) -> void:
@@ -271,9 +281,11 @@ func _on_forth_output(_text: String) -> void:
 				break
 		# if no special character, display one character
 		if not sp_found:
-			_char_at_cursor(text[0].to_ascii_buffer()[0])
+			# display, but don't update screen yet
+			_char_at_cursor(text[0].to_ascii_buffer()[0], false)
 			_advance_cursor()
 			text = text.substr(1)
+	_set_screen_contents()
 
 
 # Transfer cursor position to the shader
@@ -287,9 +299,10 @@ func _set_screen_contents() -> void:
 
 
 # Display character at cursor, moving cursor
-func _char_at_cursor(ch: int) -> void:
+func _char_at_cursor(ch: int, set_contents: bool = true) -> void:
 	_screen_ram[(_cursor.x - 1) + (_cursor.y - 1) * SCREEN_WIDTH] = ch + _mode
-	_set_screen_contents()
+	if set_contents:
+		_set_screen_contents()
 
 
 # Advance cursor
