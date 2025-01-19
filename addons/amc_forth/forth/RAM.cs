@@ -41,7 +41,10 @@ namespace Forth
         // restore ram state
         public void LoadState(ConfigFile config, string Section, string Key)
         {
-            _Ram = config.GetValue(Section, Key).AsByteArray();
+            if (config.HasSectionKey(Section, Key))
+            {
+                _Ram = config.GetValue(Section, Key).AsByteArray();
+            }
         }
 
         // allocate memory for RAM and a DCELL_SIZE scratchpad

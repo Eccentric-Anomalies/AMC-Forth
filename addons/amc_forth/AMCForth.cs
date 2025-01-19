@@ -189,6 +189,9 @@ public partial class AMCForth : Godot.RefCounted
 
     // Owning Node
     protected Godot.Node _Node;
+    protected bool OwnerNodeIsGdscript;
+    protected string OwnerAddChild;
+    protected string OwnerRemoveChild;
 
     // State file
     protected Godot.ConfigFile _Config;
@@ -269,7 +272,7 @@ public partial class AMCForth : Godot.RefCounted
     {
         RamMutex.Lock(); // no collision with Forth thread
         Files.CloseAllFiles();
-        Ram.SaveState(_Config, Section, Key);
+        Ram.SaveState(Config, Section, Key);
         RamMutex.Unlock();
     }
 
@@ -279,9 +282,7 @@ public partial class AMCForth : Godot.RefCounted
         RamMutex.Lock(); // no collision with Forth thread
         // stop all periodic timers
         RemoveAllTimers();
-        // if a timer comes in, it should see nothing to do
-        _Config.Load(ConfigFileName);
-        Ram.LoadState(_Config, Section, Key);
+        Ram.LoadState(Config, Section, Key);
         // restore shadowed registers
         RestoreDictP();
         RestoreDictTop();
@@ -681,7 +682,7 @@ public partial class AMCForth : Godot.RefCounted
     {
         var timer = PeriodicTimerMap[id].Timer;
         timer.Stop();
-        _Node.RemoveChild(timer);
+        _Node.CallDeferred("remove_child", timer);
     }
 
     // Stop a single timer
@@ -903,6 +904,17 @@ public partial class AMCForth : Godot.RefCounted
 
         InputPortMutex = new();
         RamMutex = new();
+
+        // What kind of node are we living under?
+        OwnerNodeIsGdscript = true;
+        OwnerAddChild = "add_child";
+        OwnerRemoveChild = "remove_child";
+        if (_Node.HasMethod("AddChild"))
+        {
+            OwnerNodeIsGdscript = false;
+            OwnerAddChild = "AddChild";
+            OwnerRemoveChild = "RemoveChild";
+        }
 
         // seed the randomizer
         GD.Randomize();
