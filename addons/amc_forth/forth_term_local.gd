@@ -208,10 +208,10 @@ func _init(_forth: AMCForth, screen_material: ShaderMaterial) -> void:
 	_blank = BL_CHAR.to_ascii_buffer()[0]
 	# shader setup
 	_screen_ram = PackedInt32Array()
-	_screen_ram.resize(SCREEN_WIDTH * SCREEN_HEIGHT)
+	_screen_ram.resize(screen_width * screen_height)
 	_screen_material = screen_material
-	_screen_material.set_shader_parameter("cols", SCREEN_WIDTH)
-	_screen_material.set_shader_parameter("rows", SCREEN_HEIGHT)
+	_screen_material.set_shader_parameter("cols", screen_width)
+	_screen_material.set_shader_parameter("rows", screen_height)
 	_screen_material.set_shader_parameter("display_power", true)
 	set_power(true)  # Turn on the display!
 	_set_screen_contents()
@@ -301,7 +301,7 @@ func _set_screen_contents() -> void:
 
 # Display character at cursor, moving cursor
 func _char_at_cursor(ch: int, set_contents: bool = true) -> void:
-	_screen_ram[(_cursor.x - 1) + (_cursor.y - 1) * SCREEN_WIDTH] = ch + _mode
+	_screen_ram[(_cursor.x - 1) + (_cursor.y - 1) * screen_width] = ch + _mode
 	if set_contents:
 		_set_screen_contents()
 
@@ -309,17 +309,17 @@ func _char_at_cursor(ch: int, set_contents: bool = true) -> void:
 # Advance cursor
 func _advance_cursor() -> void:
 	_cursor.x += 1
-	if _cursor.x > SCREEN_WIDTH:
+	if _cursor.x > screen_width:
 		_cursor.x = 1
 		_cursor.y += 1
-		if _cursor.y > SCREEN_HEIGHT:
-			_cursor.y = SCREEN_HEIGHT
+		if _cursor.y > screen_height:
+			_cursor.y = screen_height
 			_line_feed()
 	_set_screen_cursor()
 
 
 func _line_feed() -> void:
-	_screen_ram = _screen_ram.slice(SCREEN_WIDTH)
+	_screen_ram = _screen_ram.slice(screen_width)
 	_screen_ram.append_array(blank_line)
 	_set_screen_contents()
 	_set_screen_cursor()
@@ -373,7 +373,7 @@ func _do_cr(text: String) -> String:
 
 
 func _do_lf(text: String) -> String:
-	if _cursor.y < SCREEN_HEIGHT:
+	if _cursor.y < screen_height:
 		_cursor.y += 1
 		_set_screen_cursor()
 	else:
@@ -411,7 +411,7 @@ func _do_up(text: String) -> String:
 
 
 func _do_down(text: String) -> String:
-	if _cursor.y < SCREEN_HEIGHT:
+	if _cursor.y < screen_height:
 		_cursor.y += 1
 		_set_screen_cursor()
 	# remove the special character(s)
@@ -419,7 +419,7 @@ func _do_down(text: String) -> String:
 
 
 func _do_right(text: String) -> String:
-	if _cursor.x < SCREEN_WIDTH:
+	if _cursor.x < screen_width:
 		_cursor.x += 1
 		_set_screen_cursor()
 	# remove the special character(s)
@@ -433,8 +433,8 @@ func _do_left(text: String) -> String:
 
 
 func _do_clrline(text: String) -> String:
-	var x = (_cursor.y - 1) * SCREEN_WIDTH
-	for i in SCREEN_WIDTH:
+	var x = (_cursor.y - 1) * screen_width
+	for i in screen_width:
 		_screen_ram[x + i] = _blank
 	_set_screen_contents()
 	# remove the special character(s)

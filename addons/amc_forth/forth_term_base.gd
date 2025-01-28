@@ -34,14 +34,19 @@ const ATXY_START = "\u001B["
 
 var forth: AMCForth
 var blank_line: PackedInt32Array
+var screen_width: int
+var screen_height: int
 
 
 # Create with a reference to AMCForth
-func _init(_forth: AMCForth):
+# Option to override the default WIDTH (80) and HEIGHT (24) of the terminal screen
+func _init(_forth: AMCForth, width: int = SCREEN_WIDTH, height: int = SCREEN_HEIGHT):
 	forth = _forth
+	screen_width = width
+	screen_height = height
 	# create a blank line
 	blank_line = PackedInt32Array()
-	blank_line.resize(SCREEN_WIDTH)
+	blank_line.resize(screen_width)
 	blank_line.fill(" ".to_ascii_buffer()[0])
 
 

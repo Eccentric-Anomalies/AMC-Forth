@@ -1,0 +1,12 @@
+{
+    "folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"godotTools.editorPath.godot4": "c:\\playground\\Godot_v4.3-stable_mono_win64\\Godot_v4.3-stable_mono_win64.exe",
+		"godotTools.lsp.serverPort": 6005,
+		"godotFormatterAndLinter.lintSeverityLevel": "Warning"
+	}
+}
