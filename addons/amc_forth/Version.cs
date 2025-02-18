@@ -6,6 +6,6 @@ namespace Forth
     [GlobalClass]
     public partial class Version : Godot.RefCounted
     {
-        public const string Ver = "0.0.6";
+        public const string Ver = "1.0.0";
     }
 }
