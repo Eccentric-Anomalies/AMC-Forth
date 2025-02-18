@@ -38,12 +38,16 @@ namespace Forth
             config.SetValue(Section, Key, _Ram);
         }
 
-        // restore ram state
+        // restore ram state or clear if no saved state available
         public void LoadState(ConfigFile config, string Section, string Key)
         {
             if (config.HasSectionKey(Section, Key))
             {
                 _Ram = config.GetValue(Section, Key).AsByteArray();
+            }
+            else
+            {
+                System.Array.Fill<byte>(_Ram, 0);
             }
         }
 
