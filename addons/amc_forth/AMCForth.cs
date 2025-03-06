@@ -1040,7 +1040,14 @@ public partial class AMCForth : Godot.RefCounted
             {
                 // no input events, text available on input
                 _OutputDone = false;
-                InterpretTerminalLine();
+                try
+                {
+                    InterpretTerminalLine();
+                }
+                catch (Exception e)
+                {
+                    Util.RprintTerm($"{e.GetType().Name} : {e.Message}");
+                }
                 _OutputDone = true;
             }
             // Release RAM Mutex
