@@ -1,4 +1,4 @@
-# AMC Forth Built-In Words (Ver. 1.0.0)
+# AMC Forth Built-In Words (Ver. 1.0.1)
 ## AMC EXT
 ### <a name="BlinkV"></a>[BLINKV](BlinkV.md)
 
@@ -280,7 +280,7 @@
 
 ### <a name="Then"></a>[THEN](Then.md)
 
-### <a name="Type"></a>[TYPE](Type.md)
+### <a name="TypeF"></a>[TYPE](TypeF.md)
 
 ### <a name="UDot"></a>[U.](UDot.md)
 
