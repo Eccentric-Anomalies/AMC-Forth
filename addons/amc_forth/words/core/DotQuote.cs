@@ -47,7 +47,7 @@ namespace Forth.Core
             Stack.Push(l);
             // length of the string
             // send to the terminal
-            Forth.CoreWords.Type.Call();
+            Forth.CoreWords.TypeF.Call();
             // moves to string cell for l in 0..3, then one cell past for l in 4..7, etc.
             Forth.DictIp += ((l / RAM.CellSize) + 1) * RAM.CellSize;
         }

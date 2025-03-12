@@ -38,7 +38,7 @@ namespace Forth.Tools
                         col = 0;
                     }
                     col += word_len + 1;
-                    Forth.CoreWords.Type.Call(); // emit the dictionary entry name
+                    Forth.CoreWords.TypeF.Call(); // emit the dictionary entry name
                     Forth.Util.PrintTerm(" ");
                     p = Forth.Ram.GetInt(p); // drill down to the next entry
                 }

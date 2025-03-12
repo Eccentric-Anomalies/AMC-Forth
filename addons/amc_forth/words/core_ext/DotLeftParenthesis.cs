@@ -19,7 +19,7 @@ namespace Forth.CoreExt
         {
             Stack.Push(")".ToAsciiBuffer()[0]);
             Forth.CoreExtWords.Parse.Call();
-            Forth.CoreWords.Type.Call();
+            Forth.CoreWords.TypeF.Call();
         }
     }
 }

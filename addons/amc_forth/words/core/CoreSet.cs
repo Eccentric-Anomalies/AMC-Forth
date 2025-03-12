@@ -123,7 +123,7 @@ namespace Forth.Core
         public TwoStar TwoStar;
         public TwoStore TwoStore;
         public TwoSwap TwoSwap;
-        public Core.Type Type;
+        public Core.TypeF TypeF;
         public UDot UDot;
         public UmSlashMod UmSlashMod;
         public UmStar UmStar;
@@ -249,7 +249,7 @@ namespace Forth.Core
             TwoStar = new(_forth, Wordset);
             TwoStore = new(_forth, Wordset);
             TwoSwap = new(_forth, Wordset);
-            Type = new(_forth, Wordset);
+            TypeF = new(_forth, Wordset);
             UDot = new(_forth, Wordset);
             UmSlashMod = new(_forth, Wordset);
             UmStar = new(_forth, Wordset);

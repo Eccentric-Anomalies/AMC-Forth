@@ -3,9 +3,9 @@ using Godot;
 namespace Forth.Core
 {
     [GlobalClass]
-    public partial class Type : Forth.Words
+    public partial class TypeF : Forth.Words
     {
-        public Type(AMCForth forth, string wordset)
+        public TypeF(AMCForth forth, string wordset)
             : base(forth, wordset)
         {
             Name = "TYPE";
