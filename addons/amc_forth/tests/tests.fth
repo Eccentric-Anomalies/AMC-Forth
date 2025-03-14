@@ -1102,7 +1102,15 @@ T{ parse-name-test abcde abcde
 T{ parse-name-test abcde abcde  
     -> 0 }T    \ line with white space 
 
-.( PICK IS NOT TESTED) CR
+
+.( PICK --> OK IF BLANK \/ ) CR
+T{ 1 2 3 2 PICK -> 1 2 3 1 }T
+T{ 1 2 3 0 PICK -> 1 2 3 3 }T
+.( PICK --> ERROR CASES ) CR
+T{ 1 2 3 3 PICK -> 1 2 3 }T
+T{ 1 2 3 -1 PICK -> 1 2 3  }T
+
+
 .( SOURCE-ID IS NOT TESTED) CR
 
 .( TRUE --> OK IF BLANK \/) CR

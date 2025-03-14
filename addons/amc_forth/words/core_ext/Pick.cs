@@ -18,13 +18,13 @@ namespace Forth.CoreExt
         public override void Call()
         {
             var n = Stack.Pop();
-            if (n >= Stack.DataStackSize - Stack.DsP)
+            if (n < 0 || n >= Stack.DataStackSize - Stack.DsP)
             {
                 Forth.Util.RprintTerm(" PICK outside data stack");
             }
             else
             {
-                Stack.Push(Stack.DataStack[-n - 1]);
+                Stack.Push(Stack.DataStack[Stack.DsP + n]);
             }
         }
     }
