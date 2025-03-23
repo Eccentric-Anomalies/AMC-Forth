@@ -1015,7 +1015,14 @@ public partial class AMCForth : Godot.RefCounted
                 {
                     Stack.Push(evt.Value); // store the value
                     Stack.Push(xt); // store the execution token
-                    CoreWords.Execute.Call(); // execute the token
+                    try
+                    {
+                        CoreWords.Execute.Call();
+                    }
+                    catch (Exception e)
+                    {
+                        Util.RprintTerm($" {e.GetType().Name} : {e.Message}");
+                    }
                 }
             }
             // followed by timer timeouts
@@ -1028,7 +1035,16 @@ public partial class AMCForth : Godot.RefCounted
                 if (xt != 0)
                 {
                     Stack.Push(xt);
-                    CoreWords.Execute.Call();
+                    try
+                    {
+                        CoreWords.Execute.Call();
+                    }
+                    catch (Exception e)
+                    {
+                        Util.RprintTerm($" {e.GetType().Name} : {e.Message}");
+                        // Avoid spamming the terminal with exceptions
+                        CallDeferred("RemoveTimer", id);
+                    }
                 }
                 else
                 {
@@ -1046,7 +1062,7 @@ public partial class AMCForth : Godot.RefCounted
                 }
                 catch (Exception e)
                 {
-                    Util.RprintTerm($"{e.GetType().Name} : {e.Message}");
+                    Util.RprintTerm($" {e.GetType().Name} : {e.Message}");
                 }
                 _OutputDone = true;
             }
