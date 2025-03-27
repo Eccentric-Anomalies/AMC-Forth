@@ -16,52 +16,21 @@ namespace Forth.AMCExt
                 + "is in use. Usage: <id> <msec> P-TIMER <name>. Note: Timeouts "
                 + "less than 50 msec will suffer from long-term timing drift. Each timeout "
                 + "50 msec or greater may be slightly inaccurate, but will average to "
-                + "the correct period with no long-term drift.";
+                + "the correct period with no long-term drift. P-TIMER should not be used "
+                + "inside a colon definition, unless <name> is provided following the "
+                + "invocation of the definition.";
             StackEffect = "( 'name' i n - )";
         }
 
         public override void Call()
         {
-            Forth.CoreWords.Swap.Call();
-            // ( i n - n i )
-            Forth.CoreWords.Dup.Call();
-            // ( n i - n i i )
-            var id = Stack.Pop();
-            // ( n i i - n i )
-            GetTimerAddress();
-            // ( n i - n addr )
             Forth.CoreWords.Tick.Call();
-            // ( n addr - n addr xt )
-            var xt = Stack.Pop();
-            var addr = Stack.Pop();
-            var ms = Stack.Pop();
-            // ( - )
-            try
-            {
-                if ((ms != 0) && (Forth.Ram.GetInt(addr) == 0))
-                {
-                    // only if non-zero and nothing already there
-                    Forth.Ram.SetInt(addr, ms);
-                    Forth.Ram.SetInt(addr + RAM.CellSize, xt);
-                    Forth.StartPeriodicTimer(id, ms, xt);
-                }
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-                Forth.Util.RprintTerm($" Timer ID out of range (maximum {Map.PeriodicTimerQty}).");
-            }
-        }
-
-        public void GetTimerAddress()
-        {
-            // Utility to accept timer id and leave the start address of
-            // its msec, xt pair
-            // ( id - addr )
-            Stack.Push(RAM.CellSize);
-            Forth.CoreWords.TwoStar.Call();
-            Forth.CoreWords.Star.Call();
-            Stack.Push(Map.PeriodicStart);
-            Forth.CoreWords.Plus.Call();
+            // ( i n - i n xt )
+            Forth.CoreWords.Rot.Call();
+            // ( i n xt - n xt i )
+            Forth.CoreWords.Rot.Call();
+            // ( n xt i - xt i n )
+            Forth.AMCExtWords.PTimerX.Call();
         }
     }
 }

@@ -1,4 +1,4 @@
-# AMC Forth Built-In Words (Ver. 1.0.3)
+# AMC Forth Built-In Words (Ver. 1.0.4)
 ## AMC EXT
 ### <a name="BlinkV"></a>[BLINKV](BlinkV.md)
 
@@ -18,6 +18,8 @@
 
 ### <a name="Listen"></a>[LISTEN](Listen.md)
 
+### <a name="ListenX"></a>[LISTENX](ListenX.md)
+
 ### <a name="LoadSnap"></a>[LOAD-SNAP](LoadSnap.md)
 
 ### <a name="LowV"></a>[LOWV](LowV.md)
@@ -31,6 +33,8 @@
 ### <a name="PStop"></a>[P-STOP](PStop.md)
 
 ### <a name="PTimer"></a>[P-TIMER](PTimer.md)
+
+### <a name="PTimerX"></a>[P-TIMERX](PTimerX.md)
 
 ### <a name="PopXY"></a>[POP-XY](PopXY.md)
 

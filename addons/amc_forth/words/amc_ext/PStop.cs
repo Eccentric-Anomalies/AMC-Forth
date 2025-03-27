@@ -15,7 +15,7 @@ namespace Forth.AMCExt
 
         public override void Call()
         {
-            Forth.AMCExtWords.PTimer.GetTimerAddress();
+            Forth.AMCExtWords.PTimerX.GetTimerAddress();
             // ( i - addr )
             var addr = Stack.Pop();
             // ( addr - )
