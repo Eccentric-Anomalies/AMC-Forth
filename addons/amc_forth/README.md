@@ -164,7 +164,7 @@ With this, every time you `OUT` a value to port 99 from inside AMCForth, it will
 AMCForth also includes custom words for creating and stopping periodic timers. For example, [P-TIMER](docs/PTimer.md) creates a periodic timer and associates it with a built-in or custom word:
 
 ```forth
-: TICK " tick" ;      \ A word that displays 'tick' to the Forth terminal.
+: TICK ." tick" ;     \ A word that displays 'tick' to the Forth terminal.
 5 1000 P-TIMER TICK   \ Create timer with ID=5, that prints 'tick' once per second.
 ```
 
