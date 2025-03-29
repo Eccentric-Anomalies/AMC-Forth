@@ -121,8 +121,8 @@ The Queue Mode is an integer value 0, 1, or 2, which controls how the incoming e
 
 
 ```forth
-: PRINTEVENT . ;  ( define PRINTEVENT to just print an integer on the terminal.)
-100 0 LISTEN PRINTEVENT   ( values on input #100 will always be queued and printed to the terminal.)
+: PRINTEVENT . ;          \ Define PRINTEVENT to just print an integer on the terminal.
+100 0 LISTEN PRINTEVENT   \ Values on input #100 will always be queued and printed to the terminal.
 ```
 
 With this, every time you send an integer on `my_input_signal`, the value will be displayed on the AMC Forth terminal.
@@ -154,7 +154,7 @@ Then when AMCForth code sends an integer to output port 99, the value is printed
 In your Forth code, you can send data to an output port using the custom AMC Forth word: [OUT](docs/Out.md) 
 
 ```forth
-123 99 OUT  ( Sends the value 123 to port 99)
+123 99 OUT  \ Sends the value 123 to port 99
 ```
 
 With this, every time you `OUT` a value to port 99 from inside AMCForth, it will print to the Godot console.
@@ -164,14 +164,14 @@ With this, every time you `OUT` a value to port 99 from inside AMCForth, it will
 AMCForth also includes custom words for creating and stopping periodic timers. For example, [P-TIMER](docs/PTimer.md) creates a periodic timer and associates it with a built-in or custom word:
 
 ```forth
-: TICK S" tick" TYPE ;   ( a word that displays 'tick' to the Forth terminal.)
-5 1000 P-TIMER TICK   ( Create timer with ID=5, that prints 'tick' once per second.)
+: TICK " tick" ;      \ A word that displays 'tick' to the Forth terminal.
+5 1000 P-TIMER TICK   \ Create timer with ID=5, that prints 'tick' once per second.
 ```
 
 To cancel a timer, use the custom word: [P-STOP](docs/PStop.md)
 
 ```forth
-5 P-STOP  ( stops the timer with ID=5)
+5 P-STOP  \ Stops the timer with ID=5
 ```
 
 ## Saving and Restoring Runtime State
