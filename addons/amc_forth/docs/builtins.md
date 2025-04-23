@@ -4,6 +4,10 @@
 
 ### <a name="BoldV"></a>[BOLDV](BoldV.md)
 
+### <a name="CursorHide"></a>[CURSOR-HIDE](CursorHide.md)
+
+### <a name="CursorShow"></a>[CURSOR-SHOW](CursorShow.md)
+
 ### <a name="Help"></a>[HELP](Help.md)
 
 ### <a name="HelpS"></a>[HELPS](HelpS.md)
