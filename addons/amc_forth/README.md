@@ -104,7 +104,11 @@ Then when you have data to send to AMCForth, emit the signal:
 my_input_signal.emit(<32-bit integer>)
 ```
 
-In your Forth code, you can register input ports and route them to custom handlers using the custom AMC Forth word: [LISTEN](docs/Listen.md). There are three input parameters for LISTEN (in the order they appear or are pushed on the stack):
+In your Forth code, you can register input ports and route them to custom handlers using the two custom AMC Forth words: [LISTEN](docs/Listen.md) and [LISTENX](docs/ListenX.md). 
+
+#### Using LISTEN outside of colon definitions
+
+Use LISTEN when you want to establish input port routing at the time your Forth code is parsed. In other words, *outside* of a colon definition. There are three input parameters for LISTEN (in the order they appear or are pushed on the stack):
 
 1. The input port (0-128) that will generate events when data is received.
 2. The Queue Mode determines how received data are enqueued.
@@ -126,6 +130,32 @@ The Queue Mode is an integer value 0, 1, or 2, which controls how the incoming e
 ```
 
 With this, every time you send an integer on `my_input_signal`, the value will be displayed on the AMC Forth terminal.
+
+#### Using LISTENX inside of colon definitions
+
+If you need to establish an import routing from *inside* a colon definition, then you should use LISTENX. There are three input parameters for LISTENX (in the order they are pushed on the stack):
+
+1. The *execution token* of the word that will execute when a data value is received.
+2. The input port (0-128) that will generate events when data is received.
+3. The Queue Mode determines how received data are enqueued (see the description for LISTEN, above).
+
+The previous example using LISTENX:
+
+```forth
+\ Define PRINTEVENT to just print an integer on the terminal.
+: PRINTEVENT . ;   
+
+\ Some definition in which input #100 must be connected to PRINTEVENT
+: EXAMPLE-DEFINITION
+  ['] PRINTEVENT 100 0 LISTENX
+;
+```
+Note that you can also use LISTENX *outside* of colon definitions:
+
+```forth
+: PRINTEVENT . ;    \ Define PRINTEVENT to just print an integer on the terminal.
+' PRINTEVENT 100 0 LISTENX  \ Values on input #100 will route to PRINTEVENT
+```
 
 ### Receiving Input Data Without Listening
 
@@ -161,17 +191,41 @@ With this, every time you `OUT` a value to port 99 from inside AMCForth, it will
 
 ## Timers
 
-AMCForth also includes custom words for creating and stopping periodic timers. For example, [P-TIMER](docs/PTimer.md) creates a periodic timer and associates it with a built-in or custom word:
+AMCForth also includes custom words for creating and stopping periodic timers. For example, [P-TIMER](docs/PTimer.md) is used *outside* of a colon definition, creates a periodic timer and associates it with a built-in or custom word:
 
 ```forth
 : TICK ." tick" ;     \ A word that displays 'tick' to the Forth terminal.
 5 1000 P-TIMER TICK   \ Create timer with ID=5, that prints 'tick' once per second.
 ```
 
+To do the same thing from *inside* a colon definition, use [P-TIMERX](docs/PTimerX.md):
+
+```forth
+: TICK ." tick" ;     \ A word that displays 'tick' to the Forth terminal.
+\ Some definition in which timer ID=5 will execute TICK once per second
+: EXAMPLE-DEFINITION
+  ['] TICK 5 1000 P-TIMERX
+;
+```
+
 To cancel a timer, use the custom word: [P-STOP](docs/PStop.md)
 
 ```forth
 5 P-STOP  \ Stops the timer with ID=5
+```
+
+### One-Shot Timers
+
+If you need a timer that only works once, just cancel it inside the handler function:
+
+```forth
+: ONE-SHOT 
+  5 P-STOP
+  ." time is up!" 
+;     
+
+\ Create timer with ID=5, that execute once after a 1-sec. delay.
+5 1000 P-TIMER ONE-SHOT   
 ```
 
 ## Saving and Restoring Runtime State
