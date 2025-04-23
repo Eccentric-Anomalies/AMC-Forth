@@ -108,7 +108,7 @@ In your Forth code, you can register input ports and route them to custom handle
 
 #### Using LISTEN outside of colon definitions
 
-Use LISTEN when you want to establish input port routing at the time your Forth code is parsed. In other words, *outside* of a colon definition. There are three input parameters for LISTEN (in the order they appear or are pushed on the stack):
+Use LISTEN when you want to establish input port routing at the time your Forth code is parsed. In other words, use it *outside* of a colon definition. There are three input parameters for LISTEN (in the order they appear or are pushed on the stack):
 
 1. The input port (0-128) that will generate events when data is received.
 2. The Queue Mode determines how received data are enqueued.
@@ -133,7 +133,7 @@ With this, every time you send an integer on `my_input_signal`, the value will b
 
 #### Using LISTENX inside of colon definitions
 
-If you need to establish an import routing from *inside* a colon definition, then you should use LISTENX. There are three input parameters for LISTENX (in the order they are pushed on the stack):
+If you need to establish an input connection from *inside* a colon definition, then you should use LISTENX. There are three input parameters for LISTENX (in the order they are pushed on the stack):
 
 1. The *execution token* of the word that will execute when a data value is received.
 2. The input port (0-128) that will generate events when data is received.
