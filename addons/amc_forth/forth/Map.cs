@@ -6,32 +6,10 @@ namespace Forth
     public partial class Map : Godot.RefCounted
     {
         // Memory Map
-        public const int RamSize = 0x20000; // Total memory space in bytes
-
-        // IO SPACE - permanently placed at the top of memory space
-        // IO Ports - cell-sized ports identified by port # ranging from 0 to 255
-        public const int IoOutPortQty = 0x0100;
-        public const int IoOutTop = RamSize;
-        public const int IoOutStart = IoOutTop - IoOutPortQty * RAM.CellSize;
-        public const int IoInPortQty = 0x0100;
-        public const int IoInTop = IoOutStart;
-        public const int IoInStart = IoInTop - IoInPortQty * RAM.CellSize;
-        public const int IoInMapTop = IoInStart;
-
-        // (xt, QueueMode) for every port that is being listened on (double cell entries)
-        public const int IoInMapStart = IoInMapTop - IoInPortQty * 2 * RAM.CellSize;
-
-        // PERIODIC TIMER SPACE
-        public const int PeriodicTimerQty = 0x080;
-
-        // Timer IDs 0-127, stored as @addr: msec, xt
-        public const int PeriodicTop = IoInStart;
-
-        public const int PeriodicStart = PeriodicTop - PeriodicTimerQty * RAM.CellSize * 2;
 
         // DICTIONARY SPACE
+        public const int DictSize = 0x020000; // total RAM allocated to the Forth machine (128k)
         public const int DictStart = 0x0100; // Start of dictionary memory
-        public const int DictSize = 0x08000; // total space allocated to the dictionary
         public const int DictTop = DictStart + DictSize; // top of the dictionary space
 
         // Dictionary scratch space
@@ -74,5 +52,35 @@ namespace Forth
         // TOP OF ALLOCATED RAM for dictionary and assorted buffers (update as necessary)
         // PeriodicStart must be greater than TopOfAllocatedRam
         public const int TopOfAllocatedRam = NumFormatBuffer + NumFormatBuffSize;
+
+        // Dedicated IO Port and Timer data follows RAM
+
+        // IO SPACE - permanently placed at the top of memory space
+        // IO Ports - cell-sized ports identified by port # ranging from 0 to 255
+
+        // Timer IDs 0-127, stored as @addr: msec, xt
+
+        // PERIODIC TIMER SPACE
+        public const int PeriodicTimerQty = 0x080;
+
+        // Arrange to place the following on a page boundary
+        public const int PeriodicStart = (int)(((uint)TopOfAllocatedRam + 0x100) & 0xFFFFFF00);
+        public const int PeriodicTop = PeriodicStart + PeriodicTimerQty * RAM.CellSize * 2;
+
+        // INPUT PORT SPACE
+        public const int IoInPortQty = 0x0100;
+        public const int IoInStart = PeriodicTop;
+        public const int IoInTop = IoInStart + IoInPortQty * RAM.CellSize;
+
+        // (xt, QueueMode) for every port that is being listened on (double cell entries)
+        public const int IoInMapStart = IoInTop;
+        public const int IoInMapTop = IoInMapStart + IoInPortQty * 2 * RAM.CellSize;
+
+        // OUTPUT PORT SPACE
+        public const int IoOutPortQty = 0x0100;
+        public const int IoOutStart = IoInMapTop;
+        public const int IoOutTop = IoOutStart + IoOutPortQty * RAM.CellSize;
+
+        public const int RamSize = IoOutTop; // Total memory space in bytes
     }
 }
