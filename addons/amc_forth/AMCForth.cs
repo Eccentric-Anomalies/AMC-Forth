@@ -1013,8 +1013,17 @@ public partial class AMCForth : Godot.RefCounted
                 int xt = Ram.GetInt(Map.IoInMapStart + evt.Port * 2 * RAM.CellSize);
                 if (xt != 0)
                 {
-                    Stack.Push(evt.Value); // store the value
-                    Stack.Push(xt); // store the execution token
+                    try
+                    {
+                        Stack.Push(evt.Value); // store the value
+                        Stack.Push(xt); // store the execution token
+                    }
+                    catch (Exception e)
+                    {
+                        Util.RprintTerm(
+                            $" While posting an input port signal, {e.GetType().Name} : {e.Message}"
+                        );
+                    }
                     try
                     {
                         CoreWords.Execute.Call();
@@ -1034,7 +1043,16 @@ public partial class AMCForth : Godot.RefCounted
                 var xt = Ram.GetInt(Map.PeriodicStart + (id * 2 + 1) * RAM.CellSize);
                 if (xt != 0)
                 {
-                    Stack.Push(xt);
+                    try
+                    {
+                        Stack.Push(xt);
+                    }
+                    catch (Exception e)
+                    {
+                        Util.RprintTerm(
+                            $" While posting an expired timer, {e.GetType().Name} : {e.Message}"
+                        );
+                    }
                     try
                     {
                         CoreWords.Execute.Call();
