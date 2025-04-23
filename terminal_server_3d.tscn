@@ -29,10 +29,16 @@ shader = ExtResource("2_pia5v")
 shader_parameter/ram = null
 shader_parameter/cols = 80
 shader_parameter/rows = 24
+shader_parameter/pixel_size = Vector2(0.7, 0.7)
+shader_parameter/border_size = Vector2(-0.1, -0.1)
+shader_parameter/emission_energy = 3.0
+shader_parameter/off_intensity = 0.0
+shader_parameter/specular = 0.0
 shader_parameter/cursor_position = Vector2i(1, 1)
+shader_parameter/cursor_visible = true
 shader_parameter/cursor_state = true
 shader_parameter/blink_state = null
-shader_parameter/display_power = null
+shader_parameter/display_power = true
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_y3dcw"]
 material = SubResource("ShaderMaterial_4tkqo")

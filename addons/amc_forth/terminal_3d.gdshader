@@ -1,4 +1,5 @@
 shader_type spatial;
+render_mode blend_mix,depth_draw_opaque,cull_back,diffuse_burley,specular_schlick_ggx;
 
 // https://www.pcjs.org/machines/dec/vt100/rom/
 const lowp int char_rom[2048] = lowp int[2048] (
@@ -158,10 +159,44 @@ uniform int cols = 80;	// screen width in chars
 uniform int rows = 24;	// screen height in chars
 
 /**
+ * Set parameter pixel_size to the width, height of a pixel where
+ * (1.0, 1.0) would be full size, (0.5, 0.5) half, etc.
+ */
+uniform vec2 pixel_size = vec2(0.7,0.7);  
+
+/**
+ * Set parameter border_size to the width, height of a pixel border where
+ * (0.0, 0.0) would be no border , (0.1, 0.1) would be a 1/10 size strip
+ * of black around each pixel.  
+ * requires that border_size * 2 + pixel_size <= vec2(1.0, 1.0)
+ */
+uniform vec2 border_size = vec2(0.1, 0.1);  
+
+/**
+ * Set emission energy when ON.
+ */
+uniform float emission_energy = 1.0;
+
+/**
+ * Set intensity of "off" pixel (0 -> 1.0) 
+ */
+uniform float off_intensity = 0.0;
+
+/**
+ * Specular setting.
+ */
+uniform float specular = 0.0;
+
+/**
  * Set parameter "cursor_position" to a column, row position.
  * Position (1, 1) is the extreme upper left position on the screen.
  */
 uniform ivec2 cursor_position = ivec2(1,1);	// col, row
+
+/**
+ * Set the visibility of cursor (on=visible, off=false)
+ */
+uniform bool cursor_visible = true;
 
 /**
  * Set state of cursor (on=true, off=false)
@@ -196,18 +231,47 @@ const int CHARH = 10;	// char height in pixels
 
 const vec3 default_color = vec3(0.906, 0.375, 0.0);
 
-bool pixel_on(vec2 uv, ivec2 res, int col, int row, int char) {
-	int pix_column = int(uv.x * float(res.x)) - col*CHARW;
-	int pix_row = int(uv.y * float(res.y)) - row*CHARH;
+float sub_pixel_intensity(float pos, float border, float size) {
+	// return pos;
+	if (pos < border) {
+		return 0.0;
+	}
+	if (pos < 0.5 - size/2.0) {
+		return sqrt(2.0*(pos - border)/(1.0 - size - 2.0 * border));
+	}
+	if (pos < 0.5 + size/2.0) {
+		return 1.0;
+	}
+	if (pos < 1.0 - border) {
+		return sqrt(2.0*(pos + border - 1.0)/(2.0 * border + size - 1.0));
+	}
+	return 0.0;
+}
+
+float pixel_intensity(vec2 uv, ivec2 res, int col, int row, int char) {
+	vec2 screen_pix_coord = uv * vec2(res);
+	int pix_column = int(screen_pix_coord.x) - col*CHARW;
+	int pix_row = int(screen_pix_coord.y) - row*CHARH;
 	int cellrow = char_rom[(char & 0x07f) * 16 + pix_row] << 2; // two blank bits padding on the right
-	bool cursoron = col + 1 == cursor_position.x && row + 1 == cursor_position.y && cursor_state;
+	bool cursoron = col + 1 == cursor_position.x && 
+		row + 1 == cursor_position.y && 
+		cursor_state && 
+		cursor_visible;
 	bool pixel_state = false;
 	if ((cellrow & (0x0200 >> pix_column)) != 0 || cursoron) {pixel_state = true;}
 	if ((char & REVERSE) != 0) {pixel_state = !pixel_state;}
 	if (((char & BLINK) != 0) && !blink_state) {pixel_state = false;}
 	if ((char & INVISIBLE) != 0) {pixel_state = false;}
 	if (pix_row == 8 && ((char & UNDERLINE) !=0)) {pixel_state = !pixel_state;}
-	return pixel_state;
+	vec2 sub_pixel_coord = fract(screen_pix_coord);
+	float pixel_intensity = sqrt(
+		sub_pixel_intensity(sub_pixel_coord.x, border_size.x, pixel_size.x) *
+		sub_pixel_intensity(sub_pixel_coord.y, border_size.y, pixel_size.y)
+		);
+	if (pixel_state == true) {
+		return pixel_intensity;
+	}
+	return pixel_intensity * off_intensity;
 }
 
 void fragment() {
@@ -227,15 +291,13 @@ void fragment() {
 		on_color = default_color * 1.2;
 	}
 
-	float intensity = pixel_on(UV, res, col, row, char) ? 1.0 : 0.0;
-	if (intensity < 0.15) {
-		intensity = 0.15;
-	}
+	float intensity = pixel_intensity(UV, res, col, row, char);
 	if (!display_power) {
 		intensity = 0.0;
 	}
-	EMISSION = on_color * intensity;
+	EMISSION = on_color * intensity * emission_energy;
 	ALBEDO = vec3(0.0);
+	SPECULAR = specular;
 }
 
 //void light() {
