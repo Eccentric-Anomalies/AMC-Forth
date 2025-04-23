@@ -30,6 +30,8 @@ const UNDERLINE = "\u001B[4m"
 const BLINK = "\u001B[5m"
 const REVERSE = "\u001B[7m"
 const INVISIBLE = "\u001B[8m"
+const CURSORHIDE = "\u001B[?25l"
+const CURSORSHOW = "\u001B[?25h"
 const ATXY_START = "\u001B["
 
 var forth: AMCForth

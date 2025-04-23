@@ -164,6 +164,11 @@ uniform int rows = 24;	// screen height in chars
 uniform ivec2 cursor_position = ivec2(1,1);	// col, row
 
 /**
+ * Set the visibility of cursor (on=visible, off=false)
+ */
+uniform bool cursor_visible = true;
+
+/**
  * Set state of cursor (on=true, off=false)
  */
 uniform bool cursor_state;
@@ -198,7 +203,10 @@ bool pixel_on(vec2 uv, ivec2 res, int col, int row, int char) {
 	int pix_column = int(uv.x * float(res.x)) - col*CHARW;
 	int pix_row = int(uv.y * float(res.y)) - row*CHARH;
 	int cellrow = char_rom[(char & 0x07f) * 16 + pix_row] << 2; // two blank bits padding on the right
-	bool cursoron = col + 1 == cursor_position.x && row + 1 == cursor_position.y && cursor_state;
+	bool cursoron = col + 1 == cursor_position.x && 
+		row + 1 == cursor_position.y && 
+		cursor_state &&
+		cursor_visible;
 	bool pixel_state = false;
 	if ((cellrow & (0x0200 >> pix_column)) != 0 || cursoron) {pixel_state = true;}
 	if ((char & REVERSE) != 0) {pixel_state = !pixel_state;}

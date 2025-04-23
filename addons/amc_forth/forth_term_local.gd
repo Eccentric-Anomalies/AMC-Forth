@@ -62,6 +62,8 @@ func _init_handlers() -> void:
 		BLINK: _do_blink,
 		REVERSE: _do_reverse,
 		INVISIBLE: _do_invisible,
+		CURSORHIDE: _do_cursor_hide,
+		CURSORSHOW: _do_cursor_show,
 		ATXY_START: _do_atxy_start,
 	}
 
@@ -202,7 +204,7 @@ func _init_keymaps() -> void:
 ## Initialize (executed automatically by ForthTermLocal.new())
 ##
 func _init(_forth: AMCForth, screen_material: ShaderMaterial) -> void:
-	super(_forth)  # will assign _forth to forth
+	super (_forth) # will assign _forth to forth
 	_init_keymaps()
 	_init_handlers()
 	_blank = BL_CHAR.to_ascii_buffer()[0]
@@ -213,11 +215,11 @@ func _init(_forth: AMCForth, screen_material: ShaderMaterial) -> void:
 	_screen_material.set_shader_parameter("cols", screen_width)
 	_screen_material.set_shader_parameter("rows", screen_height)
 	_screen_material.set_shader_parameter("display_power", true)
-	set_power(true)  # Turn on the display!
+	set_power(true) # Turn on the display!
 	_set_screen_contents()
 	_go_home()
 	_last_msec = Time.get_ticks_msec()
-	_last_msec -= _last_msec % (CURSOR_PERIOD_MSEC / 2)  # round to half a cursor cycle
+	_last_msec -= _last_msec % (CURSOR_PERIOD_MSEC / 2) # round to half a cursor cycle
 	# Sort the special characters list
 	_sp_chars_keys = _sp_chars.keys()
 	_sp_chars_keys.sort_custom(_key_sort_func)
@@ -274,7 +276,7 @@ func _on_forth_output(_text: String) -> void:
 	while text.length():
 		# look for a special character(s)
 		var sp_found: bool = false
-		for sch in _sp_chars_keys:  # look for longest special chars first!
+		for sch in _sp_chars_keys: # look for longest special chars first!
 			if text.find(sch) == 0:
 				# do the thing
 				text = _sp_chars[sch].call(text)
@@ -344,7 +346,7 @@ func _move_left() -> void:
 func _do_atxy_start(_text: String) -> String:
 	var h_pos := _text.find("H")
 	if h_pos != -1:
-		var ret := _text.substr(h_pos + 1)  # get everything past H
+		var ret := _text.substr(h_pos + 1) # get everything past H
 		var text := _text.substr(ATXY_START.length())
 		var semi_pos := text.find(";")
 		var col := text.substr(0, semi_pos).to_int()
@@ -357,7 +359,7 @@ func _do_atxy_start(_text: String) -> String:
 	return _text.substr(ATXY_START.length())
 
 
-func _do_bsp(text: String) -> String:  # is this different from left cursor?
+func _do_bsp(text: String) -> String: # is this different from left cursor?
 	if _cursor.x > 1:
 		_cursor.x -= 1
 		_set_screen_cursor()
@@ -383,7 +385,7 @@ func _do_lf(text: String) -> String:
 
 
 func _do_esc(text: String) -> String:
-	_char_at_cursor(1)  # display a diamond
+	_char_at_cursor(1) # display a diamond
 	_advance_cursor()
 	# remove the special character(s)
 	return text.substr(ESC.length())
@@ -509,3 +511,15 @@ func _do_invisible(text: String) -> String:
 	_mode |= INVISIBLE_MASK
 	# remove the special character(s)
 	return text.substr(INVISIBLE.length())
+
+
+func _do_cursor_hide(text: String) -> String:
+	_screen_material.set_shader_parameter("cursor_visible", false)
+	# remove the special character(s)
+	return text.substr(CURSORHIDE.length())
+
+
+func _do_cursor_show(text: String) -> String:
+	_screen_material.set_shader_parameter("cursor_visible", true)
+	# remove the special character(s)
+	return text.substr(CURSORHIDE.length())

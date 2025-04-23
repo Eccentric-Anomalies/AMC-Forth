@@ -13,6 +13,8 @@ namespace Forth.AMCExt
     {
         public BlinkV BlinkV;
         public BoldV BoldV;
+        public CursorHide CursorHide;
+        public CursorShow CursorShow;
         public Help Help;
         public HelpS HelpS;
         public HelpWS HelpWS;
@@ -41,6 +43,8 @@ namespace Forth.AMCExt
         {
             BlinkV = new(_forth, Wordset);
             BoldV = new(_forth, Wordset);
+            CursorHide = new(_forth, Wordset);
+            CursorShow = new(_forth, Wordset);
             Help = new(_forth, Wordset);
             HelpS = new(_forth, Wordset);
             HelpWS = new(_forth, Wordset);

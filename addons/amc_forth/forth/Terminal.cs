@@ -30,6 +30,8 @@ namespace Forth
         public const string BLINK = "\u001B[5m";
         public const string REVERSE = "\u001B[7m";
         public const string INVISIBLE = "\u001B[8m";
+        public const string CURSORHIDE = "\u001B[?25l";
+        public const string CURSORSHOW = "\u001B[?25h";
         public const int COLUMNS = 80;
         public const int ROWS = 24;
     }
