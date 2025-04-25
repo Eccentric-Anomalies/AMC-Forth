@@ -43,7 +43,7 @@ namespace Forth.AMCExt
                     // only if non-zero and nothing already there
                     Forth.Ram.SetInt(addr, ms);
                     Forth.Ram.SetInt(addr + RAM.CellSize, xt);
-                    Forth.StartPeriodicTimer(id, ms, xt);
+                    Forth.CallDeferred("StartPeriodicTimer", id, ms, xt);
                 }
             }
             catch (ArgumentOutOfRangeException)

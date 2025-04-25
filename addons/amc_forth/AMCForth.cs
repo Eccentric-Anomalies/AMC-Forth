@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Forth;
+using Forth.Core;
 using Godot;
 
 [GlobalClass]
@@ -627,10 +628,9 @@ public partial class AMCForth : Godot.RefCounted
     // This is only called from within Forth code!
     public void StartPeriodicTimer(int id, int msec, int xt)
     {
-        void signalReceiver() => HandleTimeout(id);
-
         // save info
         var timer = new Timer();
+        void signalReceiver() => HandleTimeout(id, timer);
         PeriodicTimerMap[id] = new(msec, xt, timer);
         timer.WaitTime = msec / 1000.0;
         timer.Autostart = true;
@@ -639,42 +639,49 @@ public partial class AMCForth : Godot.RefCounted
     }
 
     // Utility function to service periodic timer expirations
-    protected void HandleTimeout(int id)
+    protected void HandleTimeout(int id, Timer timer)
     {
         // Timer events are enqueued, even if there are previous unhandled
         // events on the stack.
         // Check accuracy of timeout and tweak timeout as needed
-        var PeriodicTimer = PeriodicTimerMap[id];
-        // Only adjust timeout for periods greater than 50 msec
-        // See: https://docs.godotengine.org/en/stable/classes/class_timer.html#class-timer-property-wait-time
-        if (PeriodicTimer.MSec >= 50)
+        if (PeriodicTimerMap.TryGetValue(id, out TimerStruct PeriodicTimer))
         {
-            var TimerError = (Time.GetTicksMsec() - PeriodicTimer.Start) % PeriodicTimer.MSec;
-            if (TimerError != 0)
+            // Only adjust timeout for periods greater than 50 msec
+            // See: https://docs.godotengine.org/en/stable/classes/class_timer.html#class-timer-property-wait-time
+            if (PeriodicTimer.MSec >= 50)
             {
-                if (TimerError <= PeriodicTimer.MSec / 2) // clock was slow
+                var TimerError = (Time.GetTicksMsec() - PeriodicTimer.Start) % PeriodicTimer.MSec;
+                if (TimerError != 0)
                 {
-                    PeriodicTimer.Correction -= 1; // use a shorter timeout next time
+                    if (TimerError <= PeriodicTimer.MSec / 2) // clock was slow
+                    {
+                        PeriodicTimer.Correction -= 1; // use a shorter timeout next time
+                    }
+                    else
+                    {
+                        PeriodicTimer.Correction += 1; // use a longer timeout next time
+                    }
                 }
-                else
+                var CorrectedTimeout = PeriodicTimer.MSec;
+                // only correct timer if the resulting timeout is > 0 and
+                // correcting will result in a positive timeout value
+                if (
+                    PeriodicTimer.Correction != 0
+                    && (long)PeriodicTimer.MSec + PeriodicTimer.Correction > 0
+                )
                 {
-                    PeriodicTimer.Correction += 1; // use a longer timeout next time
+                    CorrectedTimeout = (uint)((int)PeriodicTimer.MSec + PeriodicTimer.Correction);
                 }
+                PeriodicTimer.Timer.WaitTime = CorrectedTimeout / 1000.0;
             }
-            var CorrectedTimeout = PeriodicTimer.MSec;
-            // only correct timer if the resulting timeout is > 0 and
-            // correcting will result in a positive timeout value
-            if (
-                PeriodicTimer.Correction != 0
-                && (long)PeriodicTimer.MSec + PeriodicTimer.Correction > 0
-            )
-            {
-                CorrectedTimeout = (uint)((int)PeriodicTimer.MSec + PeriodicTimer.Correction);
-            }
-            PeriodicTimer.Timer.WaitTime = CorrectedTimeout / 1000.0;
+            TimerEvents.Enqueue(id);
+            _InputReady.Post(); // Notify the event thread
         }
-        TimerEvents.Enqueue(id);
-        _InputReady.Post(); // Notify the event thread
+        else // id is not found in PeriodicTimerMap - kill the timer
+        {
+            timer.Stop();
+            _Node.CallDeferred("remove_child", timer);
+        }
     }
 
     // Stop a timer without erasing the map entry
@@ -955,7 +962,6 @@ public partial class AMCForth : Godot.RefCounted
         CoreWords.Decimal.Call();
 
         // initialize dictionary pointers and save them to RAM
-        // FIXME note these have to be initialized when re-loading state
         DictP = Map.DictStart;
         // position of last link
         SaveDictP();
