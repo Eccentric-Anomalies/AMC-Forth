@@ -83,6 +83,7 @@ public partial class AMCForth : Godot.RefCounted
     public Util Util;
     public Stack Stack;
     public Files Files;
+    public int MapVersion;
 
     // Forth Word Classes
     public Forth.AMCExt.AMCExtSet AMCExtWords;
@@ -938,6 +939,7 @@ public partial class AMCForth : Godot.RefCounted
         Stack.Initialize(this);
         Files = new();
         Files.Initialize(this);
+        MapVersion = Map.Version;
         // Instantiate Forth word definitions
         CommonUseWords = new(this);
         CoreWords = new(this);

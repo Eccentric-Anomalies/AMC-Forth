@@ -7,6 +7,9 @@ namespace Forth
     {
         // Memory Map
 
+        // Memory Map Version - increment for incompatible changes!
+        public const int Version = 1;
+
         // DICTIONARY SPACE
         public const int DictSize = 0x020000; // total RAM allocated to the Forth machine (128k)
         public const int DictStart = 0x0100; // Start of dictionary memory
