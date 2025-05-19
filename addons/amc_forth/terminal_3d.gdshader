@@ -159,18 +159,10 @@ uniform int cols = 80;	// screen width in chars
 uniform int rows = 24;	// screen height in chars
 
 /**
- * Set parameter pixel_size to the width, height of a pixel where
- * (1.0, 1.0) would be full size, (0.5, 0.5) half, etc.
+ * Set anti-aliasing factor
  */
-uniform vec2 pixel_size = vec2(0.7,0.7);  
+uniform float anti_aliasing: hint_range(1.0, 10.0) = 5.0;
 
-/**
- * Set parameter border_size to the width, height of a pixel border where
- * (0.0, 0.0) would be no border , (0.1, 0.1) would be a 1/10 size strip
- * of black around each pixel.  
- * requires that border_size * 2 + pixel_size <= vec2(1.0, 1.0)
- */
-uniform vec2 border_size = vec2(0.1, 0.1);  
 
 /**
  * Set emission energy when ON.
@@ -231,22 +223,6 @@ const int CHARH = 10;	// char height in pixels
 
 const vec3 default_color = vec3(0.906, 0.375, 0.0);
 
-float sub_pixel_intensity(float pos, float border, float size) {
-	// return pos;
-	if (pos < -border) {
-		return 0.0;
-	}
-	if (pos < 0.5 - size/2.0) {
-		return sqrt(2.0*(pos + border)/(2.0 * border - size + 1.0));
-	}
-	if (pos < 0.5 + size/2.0) {
-		return 1.0;
-	}
-	if (pos < 1.0 + border) {
-		return sqrt(2.0*(1.0 + border - pos)/(2.0 * border - size + 1.0));
-	}
-	return 0.0;
-}
 
 float pixel_intensity(vec2 uv, ivec2 res, int col, int row, int char) {
 	vec2 screen_pix_coord = uv * vec2(res);
@@ -263,16 +239,10 @@ float pixel_intensity(vec2 uv, ivec2 res, int col, int row, int char) {
 	if (((char & BLINK) != 0) && !blink_state) {pixel_state = false;}
 	if ((char & INVISIBLE) != 0) {pixel_state = false;}
 	if (pix_row == 8 && ((char & UNDERLINE) !=0)) {pixel_state = !pixel_state;}
-	vec2 sub_pixel_coord = fract(screen_pix_coord);
-	float pixel_intensity = 0.0;
-	pixel_intensity = clamp(
-		sqrt(sub_pixel_intensity(sub_pixel_coord.x, border_size.x, pixel_size.x) *
-		sub_pixel_intensity(sub_pixel_coord.y, border_size.y, pixel_size.y)),
-		0.0, 1.0);	
 	if (pixel_state == true) {
-		return pixel_intensity;
+		return 1.0;
 	}
-	return pixel_intensity * off_intensity;
+	return off_intensity;
 }
 
 void fragment() {
@@ -298,14 +268,14 @@ void fragment() {
 	}
 	vec3 on_color = default_color;
 	if ((char & LOWINTENSITY) != 0) {
-		on_color = default_color * 0.9;
+		on_color = default_color * 0.6;
 	} else if ((char & BOLD) != 0) {
-		on_color = default_color * 1.2;
+		on_color = default_color * 1.5;
 	}
 
 	float intensity = 0.0;
-	float dx = 1.0/(float(cols) * 5.0 * float(CHARW));
-	float dy = 1.0/(float(rows) * 5.0 * float(CHARH));
+	float dx = 1.0/(float(cols) * anti_aliasing * float(CHARW));
+	float dy = 1.0/(float(rows) * anti_aliasing * float(CHARH));
 	for (float x = -dx; x < dx + 0.00001; x += dx){
 		for (float y = -dy; y < dy + 0.00001; y += dy){
 			intensity += pixel_intensity(uvx + vec2(x,y), res, col, row, char);
