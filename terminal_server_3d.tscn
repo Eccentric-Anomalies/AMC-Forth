@@ -26,12 +26,12 @@ size = Vector3(0.52, 0.32, 0.02)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4tkqo"]
 render_priority = 0
 shader = ExtResource("2_pia5v")
-shader_parameter/ram = null
+shader_parameter/ram = PackedInt32Array(77, 78, 79)
 shader_parameter/cols = 80
 shader_parameter/rows = 24
-shader_parameter/pixel_size = Vector2(0.7, 0.7)
-shader_parameter/border_size = Vector2(-0.1, -0.1)
-shader_parameter/emission_energy = 3.0
+shader_parameter/pixel_size = Vector2(1, 1)
+shader_parameter/border_size = Vector2(1, 1)
+shader_parameter/emission_energy = 1.0
 shader_parameter/off_intensity = 0.0
 shader_parameter/specular = 0.0
 shader_parameter/cursor_position = Vector2i(1, 1)

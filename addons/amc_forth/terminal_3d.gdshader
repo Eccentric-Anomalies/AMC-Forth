@@ -233,17 +233,17 @@ const vec3 default_color = vec3(0.906, 0.375, 0.0);
 
 float sub_pixel_intensity(float pos, float border, float size) {
 	// return pos;
-	if (pos < border) {
+	if (pos < -border) {
 		return 0.0;
 	}
 	if (pos < 0.5 - size/2.0) {
-		return sqrt(2.0*(pos - border)/(1.0 - size - 2.0 * border));
+		return sqrt(2.0*(pos + border)/(2.0 * border - size + 1.0));
 	}
 	if (pos < 0.5 + size/2.0) {
 		return 1.0;
 	}
-	if (pos < 1.0 - border) {
-		return sqrt(2.0*(pos + border - 1.0)/(2.0 * border + size - 1.0));
+	if (pos < 1.0 + border) {
+		return sqrt(2.0*(1.0 + border - pos)/(2.0 * border - size + 1.0));
 	}
 	return 0.0;
 }
@@ -264,10 +264,11 @@ float pixel_intensity(vec2 uv, ivec2 res, int col, int row, int char) {
 	if ((char & INVISIBLE) != 0) {pixel_state = false;}
 	if (pix_row == 8 && ((char & UNDERLINE) !=0)) {pixel_state = !pixel_state;}
 	vec2 sub_pixel_coord = fract(screen_pix_coord);
-	float pixel_intensity = sqrt(
-		sub_pixel_intensity(sub_pixel_coord.x, border_size.x, pixel_size.x) *
-		sub_pixel_intensity(sub_pixel_coord.y, border_size.y, pixel_size.y)
-		);
+	float pixel_intensity = 0.0;
+	pixel_intensity = clamp(
+		sqrt(sub_pixel_intensity(sub_pixel_coord.x, border_size.x, pixel_size.x) *
+		sub_pixel_intensity(sub_pixel_coord.y, border_size.y, pixel_size.y)),
+		0.0, 1.0);	
 	if (pixel_state == true) {
 		return pixel_intensity;
 	}
@@ -281,9 +282,20 @@ void fragment() {
 	//int yres = rows*CHARH;	// screen pixel height
 	// Called for every pixel the material is visible on.
 	// COLOR = vec4(0.1, 0.1, 0.1, 1.0);
-	int col = int(trunc(UV.x * float(cols)));
-	int row = int(trunc(UV.y * float(rows)));
-	int char = ram[col + row*cols];		// character from video ram
+	float cols_border = 1.0/(float(cols));
+	float rows_border = 1.0/(float(rows));
+	vec2 uvx = vec2(
+		(UV.x * (1.0 + cols_border)) - cols_border/2.0, 
+		(UV.y * (1.0 + rows_border)) - rows_border/2.0
+	);
+	// int col = int(floor(( * float(cols)));
+	// int row = int(floor(() * float(rows)));
+	int col = int(floor(uvx.x * float(cols)));
+	int row = int(floor(uvx.y * float(rows)));
+	int char = 32;
+	if (col >= 0 && col < cols && row >= 0 && row < rows){
+		char = ram[col + row*cols];		// character from video ram
+	}
 	vec3 on_color = default_color;
 	if ((char & LOWINTENSITY) != 0) {
 		on_color = default_color * 0.9;
@@ -291,7 +303,15 @@ void fragment() {
 		on_color = default_color * 1.2;
 	}
 
-	float intensity = pixel_intensity(UV, res, col, row, char);
+	float intensity = 0.0;
+	float dx = 1.0/(float(cols) * 5.0 * float(CHARW));
+	float dy = 1.0/(float(rows) * 5.0 * float(CHARH));
+	for (float x = -dx; x < dx + 0.00001; x += dx){
+		for (float y = -dy; y < dy + 0.00001; y += dy){
+			intensity += pixel_intensity(uvx + vec2(x,y), res, col, row, char);
+		}
+	}
+	intensity /= 9.0;	// nine pixels went in to this 
 	if (!display_power) {
 		intensity = 0.0;
 	}
