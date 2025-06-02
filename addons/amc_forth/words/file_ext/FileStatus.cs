@@ -26,7 +26,7 @@ namespace Forth.FileExt
             if (!fexists)
             {
                 x = 0; // in res://
-                fexists = FileAccess.FileExists("res://" + fname);
+                fexists = FileAccess.FileExists(Forth.ForthSourcesPath + fname);
                 if (!fexists)
                 {
                     ior = 1; // file not found

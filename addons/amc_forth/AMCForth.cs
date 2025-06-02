@@ -31,6 +31,9 @@ public partial class AMCForth : Godot.RefCounted
     public const string Banner = "AMC Forth";
     public const string ConfigFileName = "user://ForthState.cfg";
 
+    // Default secondary Forth sources file path
+    public const string DefaultForthSourcesPath = "res://";
+
     // Add more pointers here
     public const int True = -1;
     public const int False = 0;
@@ -77,6 +80,9 @@ public partial class AMCForth : Godot.RefCounted
 
     // Largest name length
     public const int MaxNameLength = 0x3f;
+
+    // Forth secondary source directory
+    public string ForthSourcesPath;
 
     // Reference to the physical memory and utilities
     public RAM Ram;
@@ -904,11 +910,20 @@ public partial class AMCForth : Godot.RefCounted
         _CfPush(temp);
     }
 
+    // Set (override) the default secondary forth source file path (normally "res://")
+    public void SetSecondarySourceDirectory(string forthSourcesPath)
+    {
+        ForthSourcesPath = forthSourcesPath;
+    }
+
     // This will cascade instantiation of all the Forth implementation classes
     public void Initialize(Godot.Node node)
     {
         // save the instantiating node
         _Node = node;
+
+        // save the default secondary forth source file path
+        ForthSourcesPath = DefaultForthSourcesPath;
 
         InputPortMutex = new();
         RamMutex = new();

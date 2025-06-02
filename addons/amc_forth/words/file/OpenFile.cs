@@ -24,7 +24,7 @@ namespace Forth.File
             var fileid = 0;
             var fname = Forth.Util.StrFromAddrN(Stack.Pop(), u);
             var file = FileAccess.Open("user://" + fname, (FileAccess.ModeFlags)fam);
-            file ??= FileAccess.Open("res://" + fname, (FileAccess.ModeFlags)fam);
+            file ??= FileAccess.Open(Forth.ForthSourcesPath + fname, (FileAccess.ModeFlags)fam);
             if (file != null)
             {
                 fileid = Files.AssignFileId(file, fam);
