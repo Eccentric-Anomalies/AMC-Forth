@@ -15,6 +15,7 @@ namespace Forth.AMCExt
         public BoldV BoldV;
         public CursorHide CursorHide;
         public CursorShow CursorShow;
+        public DotDebugQuote DotDebugQuote;
         public Help Help;
         public HelpS HelpS;
         public HelpWS HelpWS;
@@ -45,6 +46,7 @@ namespace Forth.AMCExt
             BoldV = new(_forth, Wordset);
             CursorHide = new(_forth, Wordset);
             CursorShow = new(_forth, Wordset);
+            DotDebugQuote = new(_forth, Wordset);
             Help = new(_forth, Wordset);
             HelpS = new(_forth, Wordset);
             HelpWS = new(_forth, Wordset);
