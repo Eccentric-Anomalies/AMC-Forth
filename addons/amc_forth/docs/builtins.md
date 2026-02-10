@@ -1,4 +1,4 @@
-# AMC Forth Built-In Words (Ver. 1.1.2)
+# AMC Forth Built-In Words (Ver. 1.2.0)
 ## AMC EXT
 ### <a name="DotDebugQuote"></a>[.D&quot;](DotDebugQuote.md)
 
