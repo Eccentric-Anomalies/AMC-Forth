@@ -688,6 +688,7 @@ public partial class AMCForth : Godot.RefCounted
         {
             timer.Stop();
             _Node.CallDeferred("remove_child", timer);
+            timer.QueueFree();
         }
     }
 
@@ -697,6 +698,7 @@ public partial class AMCForth : Godot.RefCounted
         var timer = PeriodicTimerMap[id].Timer;
         timer.Stop();
         _Node.CallDeferred("remove_child", timer);
+        timer.QueueFree();
     }
 
     // Stop a single timer
