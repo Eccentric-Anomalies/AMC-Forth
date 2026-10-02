@@ -27,19 +27,23 @@ namespace Forth.AMCExt
             // copy value
             var value = Stack.Pop();
             Forth.CoreWords.Store.Call();
+			Forth.OutputPortMutex.Lock();
             if (Forth.OutputPortMap.ContainsKey(port))
             {
                 CallDeferred("OutputEmitter", port, value);
             }
+			Forth.OutputPortMutex.Unlock();
         }
 
         public void OutputEmitter(int port, int value)
         {
             // generate an output signal for every registered listener
+			Forth.OutputPortMutex.Lock();
             foreach (AMCForth.OutputPortSignal signal in Forth.OutputPortMap[port])
             {
-                signal.Owner.EmitSignal(signal.Signal, value);
+                signal.Owner.CallDeferred("emit_signal", signal.Signal, value);
             }
+			Forth.OutputPortMutex.Unlock();
         }
     }
 }

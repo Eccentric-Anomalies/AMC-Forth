@@ -23,7 +23,7 @@ namespace Forth
         //# Send a newline character to the terminal out
         public void EmitNewline()
         {
-            _Forth.EmitSignal("TerminalOut", Forth.Terminal.CR + Forth.Terminal.LF);
+			PrintTerm(Forth.Terminal.CR + Forth.Terminal.LF);
         }
 
         //# Send text to the terminal out, with a following newline
@@ -36,7 +36,7 @@ namespace Forth
         //# Send text to the terminal out
         public void PrintTerm(string text)
         {
-            _Forth.EmitSignal("TerminalOut", text);
+            _Forth.CallDeferred("emit_signal", "TerminalOut", text);
         }
 
         //# Report an unrecognized Forth word
