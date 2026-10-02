@@ -167,7 +167,9 @@ public partial class AMCForth : Godot.RefCounted
     // Input event list of incoming PortEvent data
     public List<PortEvent> InputPortEvents = new();
     private Mutex InputPortMutex; // Protect access to input port structures in RAM
+	public Mutex OutputPortMutex; // Protect access to output port structures
     private Mutex RamMutex; // Protect external access to RAM image
+	private Mutex TerminalMutex; // Protect the terminal input buffer
 
     public struct TimerStruct
     {
@@ -210,6 +212,7 @@ public partial class AMCForth : Godot.RefCounted
     protected string _TerminalPad = "";
     protected int _PadPosition = 0;
     protected int _ParsePointer = 0;
+	protected Queue<string> _TerminalPadQueue = new();
     protected List<string> _TerminalBuffer = new();
     protected int _BufferIndex = 0;
 
@@ -250,7 +253,7 @@ public partial class AMCForth : Godot.RefCounted
     {
         if (_ClientConnections == 0)
         {
-            EmitSignal("TerminalOut", GetBanner() + Forth.Terminal.CRLF);
+			Util.PrintTerm(GetBanner() + Forth.Terminal.CRLF);
             _ClientConnections += 1;
         }
     }
@@ -305,6 +308,7 @@ public partial class AMCForth : Godot.RefCounted
         var in_str = text;
         var echo_text = "";
         var buffer_size = _TerminalBuffer.Count;
+		TerminalMutex.Lock();
         while (in_str.Length > 0)
         {
             if (in_str.Find(Forth.Terminal.DEL_LEFT) == 0)
@@ -407,8 +411,11 @@ public partial class AMCForth : Godot.RefCounted
                 _BufferIndex = _TerminalBuffer.Count;
                 // refresh the line in the terminal
                 _PadPosition = _TerminalPad.Length;
-                EmitSignal("TerminalOut", RefreshEditText());
+				Util.PrintTerm(RefreshEditText());
                 // text is ready for the Forth interpreter
+				_TerminalPadQueue.Enqueue(new string(_TerminalPad));
+				_TerminalPad = "";
+				_PadPosition = 0;
                 _InputReady.Post();
                 in_str = in_str.Substring(Forth.Terminal.CR.Length);
             }
@@ -430,8 +437,9 @@ public partial class AMCForth : Godot.RefCounted
                 }
                 _PadPosition += 1;
             }
-            EmitSignal("TerminalOut", echo_text);
+			Util.PrintTerm(echo_text);
         }
+		TerminalMutex.Unlock();
     }
 
     public readonly struct DictResult
@@ -571,11 +579,13 @@ public partial class AMCForth : Godot.RefCounted
     // Multiple signals may be registered to the same output port
     public void AddOutputSignal(int port, Signal s)
     {
+		OutputPortMutex.Lock();
         if (!OutputPortMap.ContainsKey(port))
         {
             OutputPortMap[port] = new List<OutputPortSignal>();
         }
         OutputPortMap[port].Add(new OutputPortSignal(s.Owner, s.Name));
+		OutputPortMutex.Unlock();
     }
 
     // Utility function to add an input event to the queue
@@ -928,7 +938,9 @@ public partial class AMCForth : Godot.RefCounted
         ForthSourcesPath = DefaultForthSourcesPath;
 
         InputPortMutex = new();
+		OutputPortMutex = new();
         RamMutex = new();
+		TerminalMutex = new();
 
         // What kind of node are we living under?
         OwnerNodeIsGdscript = true;
@@ -1095,9 +1107,9 @@ public partial class AMCForth : Godot.RefCounted
                     CallDeferred("RemoveTimer", id);
                 }
             }
-            else
+            else if (_TerminalPadQueue.Count != 0)
             {
-                // no input events, text available on input
+                // text available on input
                 _OutputDone = false;
                 try
                 {
@@ -1118,9 +1130,10 @@ public partial class AMCForth : Godot.RefCounted
     protected void InterpretTerminalLine()
     {
         // null terminate the string and convert to byte[]
-        var bytes_input = (_TerminalPad + "\u0000").ToAsciiBuffer();
-        _TerminalPad = "";
-        _PadPosition = 0;
+		TerminalMutex.Lock();
+		string terminal_pad  = _TerminalPadQueue.Dequeue();
+        var bytes_input = (terminal_pad + "\u0000").ToAsciiBuffer();
+		TerminalMutex.Unlock();
         // transfer to the RAM-based input buffer (accessible to the engine)
         for (int i = 0; i < bytes_input.Length; i++)
         {
@@ -1132,17 +1145,19 @@ public partial class AMCForth : Godot.RefCounted
     }
 
     // return echo text that refreshes the current edit
+	// Note: this is only called from within TerminalMutex.Lock()!
     protected string RefreshEditText()
     {
         var echo = Forth.Terminal.CLRLINE + Forth.Terminal.CR + _TerminalPad + Forth.Terminal.CR;
-
+	
         foreach (int i in GD.Range(_PadPosition))
         {
             echo += Forth.Terminal.RIGHT;
         }
-        return echo;
+    	return echo;
     }
 
+	// Note: this is only called from within TerminalMutex.Lock()!
     protected string SelectBufferedCommand()
     {
         var selected_index = _BufferIndex;

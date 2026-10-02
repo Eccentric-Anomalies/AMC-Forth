@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using Godot;
 
 // Utility for running Forth test suite and saving output
@@ -8,9 +9,12 @@ namespace Forth
     [GlobalClass]
     public partial class Test : Node
     {
+        private const string header_text = "WORDS TESTED FOR AMCFORTH";
         private FileAccess outFile;
         private AMCForth _Forth;
         private SceneTreeTimer timer;
+        private StringBuilder buffer;
+        private bool header_found;
 
         public override void _Ready()
         {
@@ -20,6 +24,8 @@ namespace Forth
 
         public void RunTests()
         {
+            buffer = new();
+            header_found = false;
             _Forth = new();
             _Forth.Initialize(this);
             outFile = FileAccess.Open(
@@ -40,9 +46,19 @@ namespace Forth
 
         protected void OutputHandler(string outText)
         {
-            outFile.StoreString(outText);
-            timer.Timeout -= TimerExpired;
-            StartTimer();
+            buffer.Append(outText);
+            if (! header_found && buffer.ToString().EndsWith(header_text))
+            {
+                header_found = true;
+                buffer = new(header_text);
+            }
+            if (header_found)
+            {
+                outFile.StoreString(buffer.ToString());
+                timer.Timeout -= TimerExpired;
+                StartTimer();
+                buffer.Clear();                
+            }
         }
 
         protected void TimerExpired()
